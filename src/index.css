@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cetadmi-cream text-cetadmi-navy font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+/* Brutalist Custom Styles */
+.brutalist-border {
+  @apply border-2 border-cetadmi-navy rounded-none;
+}
+
+.brutalist-button {
+  @apply bg-cetadmi-navy text-cetadmi-cream px-6 py-2 brutalist-border hover:bg-cetadmi-blue transition-colors active:translate-y-0.5;
+}
+
+.brutalist-card {
+  @apply bg-white brutalist-border p-6 shadow-[4px_4px_0px_0px_theme(colors.cetadmi.navy)];
+}
