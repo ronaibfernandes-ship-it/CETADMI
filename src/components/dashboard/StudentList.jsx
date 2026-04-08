@@ -79,6 +79,7 @@ const StudentList = ({ event, onBack }) => {
   const [pendingAction, setPendingAction] = useState(null)
   const [actionLoading, setActionLoading] = useState(false)
   const [certificates, setCertificates] = useState([])
+  const [certificateCode, setCertificateCode] = useState('')
 
   const fetchRegistrations = async () => {
     try {
@@ -148,6 +149,13 @@ const StudentList = ({ event, onBack }) => {
     if (!existingCertificate?.code) return
 
     window.open(certificateService.buildPublicCertificateUrl(window.location.origin, existingCertificate.code), '_blank', 'noopener,noreferrer')
+  }
+
+  const handleValidateCertificate = (event) => {
+    event.preventDefault()
+    if (!certificateCode.trim()) return
+
+    window.open(certificateService.buildPublicCertificateUrl(window.location.origin, certificateCode.trim().toUpperCase()), '_blank', 'noopener,noreferrer')
   }
 
   const handleIssueCertificate = async (registration) => {
@@ -254,14 +262,32 @@ const StudentList = ({ event, onBack }) => {
           </div>
         </div>
 
-        <button 
-          onClick={handleExport}
-          disabled={registrations.length === 0}
-          className="brutalist-button px-6 py-3 flex items-center justify-center gap-3 text-xs bg-white text-cetadmi-navy hover:bg-cetadmi-cream disabled:opacity-30"
-        >
-          <Download className="w-4 h-4" />
-          EXPORTAR CSV
-        </button>
+        <div className="flex w-full flex-col gap-3 md:w-auto md:min-w-[420px]">
+          <form onSubmit={handleValidateCertificate} className="flex flex-col gap-3 md:flex-row">
+            <div className="relative flex-1">
+              <Award className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-cetadmi-navy/40" />
+              <input
+                type="text"
+                value={certificateCode}
+                onChange={(e) => setCertificateCode(e.target.value)}
+                placeholder="VALIDAR CERTIFICADO..."
+                className="w-full bg-white brutalist-border p-4 pl-12 text-xs font-bold uppercase tracking-wider focus:outline-none focus:shadow-[4px_4px_0px_0px_theme(colors.cetadmi.navy)]"
+              />
+            </div>
+            <button type="submit" className="brutalist-button px-6 py-3 text-xs">
+              VALIDAR
+            </button>
+          </form>
+
+          <button 
+            onClick={handleExport}
+            disabled={registrations.length === 0}
+            className="brutalist-button px-6 py-3 flex items-center justify-center gap-3 text-xs bg-white text-cetadmi-navy hover:bg-cetadmi-cream disabled:opacity-30"
+          >
+            <Download className="w-4 h-4" />
+            EXPORTAR CSV
+          </button>
+        </div>
       </div>
 
       {/* Resumo de Status (Brutalista) */}

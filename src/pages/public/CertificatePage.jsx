@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { AlertCircle, Loader2, Printer, Search } from 'lucide-react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { AlertCircle, Loader2, Printer } from 'lucide-react'
 import { certificateService } from '../../services/certificateService'
 
 const certificateDefaults = {
@@ -99,11 +99,9 @@ const buildCertificateData = (searchParams, issuedCertificate) => {
 const CertificatePage = () => {
   const [searchParams] = useSearchParams()
   const { code } = useParams()
-  const navigate = useNavigate()
   const recipientRef = useRef(null)
   const [recipientName, setRecipientName] = useState(certificateDefaults.nome)
   const [recipientStyle, setRecipientStyle] = useState({ fontSize: '29pt', lineHeight: 1.18, letterSpacing: '0.015em' })
-  const [lookupCode, setLookupCode] = useState(code || '')
   const [issuedCertificate, setIssuedCertificate] = useState(null)
   const [loading, setLoading] = useState(Boolean(code))
   const [error, setError] = useState(null)
@@ -201,47 +199,11 @@ const CertificatePage = () => {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#2b3546,_#171d27_60%)] px-4 py-6 text-slate-700 print:bg-white print:p-0">
-      <div className={`mx-auto max-w-5xl rounded-[1.75rem] border border-white/10 bg-white/10 text-white backdrop-blur print:hidden ${isPublicCertificate ? 'mb-4 p-4' : 'mb-2 p-2.5'}`}>
-        <div className={`flex flex-col ${isPublicCertificate ? 'gap-4 lg:flex-row lg:items-center lg:justify-between' : 'gap-2 lg:flex-row lg:items-center lg:justify-between'}`}>
-          <div>
-            <p className={`font-semibold uppercase text-white/70 ${isPublicCertificate ? 'text-xs tracking-[0.14em]' : 'text-[10px] tracking-[0.12em]'}`}>Validacao e emissao</p>
-            <h1 className={`font-serif font-black text-white ${isPublicCertificate ? 'mt-2 text-2xl' : 'mt-0.5 text-lg leading-none'}`}>Certificado CETADMI</h1>
-            {isPublicCertificate && <p className="mt-2 text-sm text-white/70">Use um codigo emitido pelo sistema ou abra o modelo manual para personalizacao pontual.</p>}
-          </div>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault()
-              if (lookupCode.trim()) {
-                navigate(`/certificado/${lookupCode.trim().toUpperCase()}`)
-              }
-            }}
-            className={`flex w-full flex-col gap-3 md:flex-row ${isPublicCertificate ? 'md:max-w-xl' : 'md:max-w-[720px] md:items-center md:justify-end'}`}
-          >
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                value={lookupCode}
-                onChange={(event) => setLookupCode(event.target.value)}
-                placeholder="Codigo do certificado..."
-                className={`w-full rounded-2xl border border-white/10 bg-white/95 pl-12 pr-4 text-sm font-semibold uppercase tracking-[0.12em] text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${isPublicCertificate ? 'py-4' : 'py-3'}`}
-              />
-            </div>
-            <button type="submit" className={`inline-flex items-center justify-center gap-3 rounded-2xl bg-[#b9934b] px-5 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c7a15a] ${isPublicCertificate ? 'py-4' : 'py-3'}`}>
-              Validar
-            </button>
-            <Link to="/certificado" className={`inline-flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-5 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/15 ${isPublicCertificate ? 'py-4' : 'py-3'}`}>
-              Modelo manual
-            </Link>
-          </form>
+      {isPublicCertificate && (
+        <div className={`mx-auto mb-4 max-w-5xl rounded-[1.75rem] border p-4 text-sm backdrop-blur print:hidden ${error ? 'border-red-200/30 bg-red-500/10 text-red-100' : 'border-emerald-200/30 bg-emerald-500/10 text-emerald-100'}`}>
+          {loading ? 'Validando certificado...' : error || `Certificado validado com sucesso: ${certificateData.registro}`}
         </div>
-
-        {isPublicCertificate && (
-          <div className={`mt-4 rounded-2xl border px-4 py-4 text-sm ${error ? 'border-red-200/30 bg-red-500/10 text-red-100' : 'border-emerald-200/30 bg-emerald-500/10 text-emerald-100'}`}>
-            {loading ? 'Validando certificado...' : error || `Certificado validado com sucesso: ${certificateData.registro}`}
-          </div>
-        )}
-      </div>
+      )}
 
       {!isPublicCertificate && (
         <div className="mx-auto mb-4 max-w-4xl rounded-[1.75rem] border border-white/10 bg-white/10 p-4 text-white backdrop-blur md:hidden print:hidden">
@@ -272,14 +234,6 @@ const CertificatePage = () => {
             <AlertCircle className="mx-auto h-12 w-12 text-red-200" aria-hidden="true" />
             <h2 className="mt-5 text-3xl font-serif font-black">Certificado nao encontrado</h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75">Use o codigo real emitido no painel administrativo. Os novos certificados usam um codigo curto, como <span className="font-bold text-white">C8462F19</span>.</p>
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <button type="button" onClick={() => navigate('/certificado')} className="inline-flex items-center justify-center rounded-2xl bg-[#b9934b] px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c7a15a]">
-                Abrir modelo manual
-              </button>
-              <button type="button" onClick={() => navigate('/login')} className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/10 px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/15">
-                Ir ao painel
-              </button>
-            </div>
           </div>
         ) : (
         <div className="relative h-[109.2mm] w-[154.44mm] sm:h-[142.8mm] sm:w-[201.96mm] md:h-[210mm] md:w-[297mm]">
