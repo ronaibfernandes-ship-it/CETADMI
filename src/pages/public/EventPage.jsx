@@ -593,6 +593,22 @@ const EventPage = () => {
         </div>
       </div>
 
+      {!success && !registrationClosed && hasPriceOptions && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-navy/10 bg-white/95 px-4 py-3 shadow-[0_-12px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
+          <div className="mx-auto flex max-w-6xl items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">Inscricao</p>
+              <p className="mt-1 truncate text-sm font-bold text-brand-navy">
+                {selectedOption ? formatPrice(selectedOption.price) : lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'Valores em breve'}
+              </p>
+            </div>
+            <a href="#inscricao" className="inline-flex shrink-0 items-center justify-center rounded-full bg-brand-navy px-5 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
+              Garantir vaga
+            </a>
+          </div>
+        </div>
+      )}
+
       {/* FOOTER */}
       <footer className="bg-white py-16 border-t border-slate-200 text-center relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none select-none">

@@ -41,8 +41,8 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-brand-cream text-slate-800">
       <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-10">
-          <div className="flex items-center gap-4">
+          <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+            <div className="flex items-center gap-4">
             <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="72" height="72" className="h-14 w-14 object-contain" />
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Portal Publico</p>
@@ -50,7 +50,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <nav className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 lg:justify-end lg:gap-3">
+          <nav className="flex flex-wrap items-center justify-center gap-2 rounded-[1.5rem] bg-slate-50/80 p-2 text-[10px] font-black uppercase tracking-widest text-slate-500 lg:justify-end lg:gap-3 lg:bg-transparent lg:p-0">
             <a href="#sobre" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Sobre</a>
             <a href="#eventos" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Eventos</a>
             <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Cursos</a>
@@ -146,7 +146,7 @@ const HomePage = () => {
                 <h3 className="mt-4 text-3xl font-serif font-black text-brand-navy">Eventos e encontros com matricula online.</h3>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-500">A ponte entre os dois mundos fica aqui: o site institucional segue apresentando cursos, e este portal concentra os eventos, congressos, simposios e inscricoes publicas do CETADMI.</p>
               </div>
-              <Link to="/login" className="inline-flex items-center gap-3 rounded-full border border-brand-navy/10 bg-brand-cream px-6 py-4 text-[10px] font-black uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Entrar no painel</Link>
+              <Link to="/login" className="inline-flex items-center justify-center gap-3 rounded-full border border-brand-navy/10 bg-brand-cream px-6 py-4 text-[10px] font-black uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Entrar no painel</Link>
             </div>
 
             {loading ? (
@@ -197,7 +197,7 @@ const HomePage = () => {
                           <div className="flex items-center gap-3"><CheckCircle size={16} className="text-brand-gold" aria-hidden="true" />{lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'Valores em breve'}</div>
                         </div>
 
-                        <Link to={`/evento/${eventService.normalizeSlug(event.slug)}`} className="inline-flex items-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
+                        <Link to={`/evento/${eventService.normalizeSlug(event.slug)}`} className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">
                           Abrir pagina do evento <ArrowRight size={16} aria-hidden="true" />
                         </Link>
                       </div>
@@ -234,9 +234,9 @@ const HomePage = () => {
                 <div className="flex items-start gap-4"><Mail className="mt-0.5 h-5 w-5 text-brand-navy" aria-hidden="true" /><div><p className="font-semibold text-brand-navy">E-mail</p><p className="break-words">{institutionalContent.supportEmail}</p></div></div>
                 <div className="flex items-start gap-4"><Calendar className="mt-0.5 h-5 w-5 text-brand-navy" aria-hidden="true" /><div><p className="font-semibold text-brand-navy">Horario de atendimento</p><p>{institutionalContent.supportHours}</p></div></div>
               </div>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, 'Olá! Gostaria de atendimento do CETADMI.')} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Chamar no WhatsApp</a>
-                <a href="https://cetadmi.eadplataforma.app/contact" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 rounded-full border border-slate-200 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-colors hover:border-brand-navy hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Abrir fale conosco</a>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, 'Olá! Gostaria de atendimento do CETADMI.')} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">Chamar no WhatsApp</a>
+                <a href="https://cetadmi.eadplataforma.app/contact" target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-slate-200 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-colors hover:border-brand-navy hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">Abrir fale conosco</a>
               </div>
             </article>
           </div>
