@@ -109,7 +109,7 @@ const CertificatePage = () => {
       </div>
 
       <div className="mx-auto flex w-full justify-center overflow-auto pt-10 print:overflow-visible print:pt-0">
-        <main className="certificate-page relative h-[210mm] w-[297mm] overflow-hidden bg-[#f8f4ea] shadow-[0_45px_90px_rgba(0,0,0,0.34)] print:shadow-none">
+        <main className="certificate-page relative h-[210mm] w-[297mm] origin-top overflow-hidden bg-[#f8f4ea] shadow-[0_45px_90px_rgba(0,0,0,0.34)] max-md:h-auto max-md:min-h-[210mm] max-md:w-[297mm] max-md:scale-[0.52] print:shadow-none sm:max-md:scale-[0.68]">
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.048] grayscale">
             <img src="/logo-cetadmi.png" alt="Marca d'agua CETADMI" className="w-[130mm]" />
           </div>

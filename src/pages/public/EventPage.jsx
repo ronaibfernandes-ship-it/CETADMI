@@ -356,7 +356,7 @@ const EventPage = () => {
                         </div>
                       )}
                       <div className="space-y-3 p-6">
-                        <span className="inline-flex rounded-full bg-brand-cream px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-brand-navy">
+                        <span className="inline-flex rounded-full bg-brand-cream px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-brand-navy">
                           Convidado
                         </span>
                         <h3 className="text-2xl font-serif font-black text-brand-navy text-balance">{speaker.name}</h3>
@@ -392,7 +392,7 @@ const EventPage = () => {
                   {program.map((item, index) => (
                     <article key={item.id || index} className="grid gap-4 rounded-[2rem] border border-slate-100 bg-white p-6 shadow-sm md:grid-cols-[110px_minmax(0,1fr)] md:items-start">
                       <div className="rounded-2xl bg-brand-navy px-4 py-4 text-center text-brand-gold shadow-lg shadow-brand-navy/10">
-                        <div className="text-[10px] font-black uppercase tracking-[0.25em] text-brand-gold/70">Horario</div>
+                        <div className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold/70">Horario</div>
                         <div className="mt-2 text-2xl font-black">{item.time || '--:--'}</div>
                       </div>
                       <div className="min-w-0">
@@ -564,11 +564,11 @@ const EventPage = () => {
                       <input id="email" type="email" name="email" autoComplete="email" spellCheck={false} value={formData.email} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="seu@email.com…" required />
                     </div>
                     
-                    <button 
-                        type="submit" 
-                        disabled={!canSubmit}
-                        className="mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-brand-navy py-6 text-lg font-black text-white shadow-xl transition-transform hover:bg-brand-navy-light active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
-                    >
+                      <button 
+                         type="submit" 
+                         disabled={!canSubmit}
+                         className="group mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-brand-navy py-6 text-lg font-black text-white shadow-xl transition-transform hover:bg-brand-navy-light active:scale-[0.98] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
+                     >
                       {registering ? <Loader2 className="w-6 h-6 animate-spin" /> : (
                         <>
                             CONCLUIR MATRÍCULA <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform text-brand-gold" />
@@ -582,7 +582,7 @@ const EventPage = () => {
                     </p>
                     {event.pix_key && (
                       <div className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-4 text-left text-sm text-brand-navy">
-                        <span className="block text-[10px] font-black uppercase tracking-[0.25em] text-brand-navy/60">Chave Pix para pagamento</span>
+                        <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-brand-navy/60">Chave Pix para pagamento</span>
                         <span className="mt-2 block break-words font-bold">{event.pix_key}</span>
                       </div>
                     )}
@@ -620,7 +620,7 @@ const EventPage = () => {
             <img src="/logo-cetadmi.png" alt="Logo" className="w-16 h-16 mx-auto mb-6 opacity-30 grayscale" />
             <h4 className="text-xl font-serif font-black text-brand-navy tracking-widest uppercase mb-4">CETADMI</h4>
             <p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-slate-500">{institutionalContent.mission}</p>
-            <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+            <div className="mb-8 grid gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
               <span>{institutionalContent.supportHours}</span>
               <span>{institutionalContent.supportWhatsapp}</span>
               <span>{institutionalContent.supportEmail}</span>
