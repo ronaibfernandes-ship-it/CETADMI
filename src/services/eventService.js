@@ -54,6 +54,37 @@ export const eventService = {
     ].filter(Boolean)))
   },
 
+  pickBestSlugMatch(events, slug) {
+    if (!Array.isArray(events) || events.length === 0) return null
+
+    const rawSlug = String(slug || '')
+    const normalizedSlug = this.normalizeSlug(slug)
+    const scoredEvents = [...events].sort((left, right) => {
+      const leftSlug = this.normalizeSlug(left.slug)
+      const rightSlug = this.normalizeSlug(right.slug)
+      const leftScore = (left.slug === rawSlug ? 4 : 0) + (leftSlug === normalizedSlug ? 2 : 0)
+      const rightScore = (right.slug === rawSlug ? 4 : 0) + (rightSlug === normalizedSlug ? 2 : 0)
+
+      if (leftScore !== rightScore) {
+        return rightScore - leftScore
+      }
+
+      return new Date(right.updated_at || right.created_at || 0) - new Date(left.updated_at || left.created_at || 0)
+    })
+
+    return scoredEvents[0] || null
+  },
+
+  normalizeRegistrationInput(registrationData) {
+    return {
+      ...registrationData,
+      full_name: String(registrationData.full_name || '').trim().replace(/\s+/g, ' '),
+      email: String(registrationData.email || '').trim().toLowerCase(),
+      phone: this.sanitizeWhatsAppNumber(registrationData.phone),
+      church_name: String(registrationData.church_name || '').trim().replace(/\s+/g, ' '),
+    }
+  },
+
   // --- OPERAÇÕES DE EVENTOS ---
 
   /**
@@ -80,10 +111,13 @@ export const eventService = {
       .from('events')
       .select('*')
       .in('slug', slugCandidates)
-      .maybeSingle()
+      .order('updated_at', { ascending: false })
+      .limit(10)
     
     if (error) throw error
-    return data ? this.normalizeEventMetrics(data) : data
+
+    const matchedEvent = this.pickBestSlugMatch(data, slug)
+    return matchedEvent ? this.normalizeEventMetrics(matchedEvent) : matchedEvent
   },
 
   /**
@@ -185,10 +219,11 @@ export const eventService = {
    */
   async createRegistration(registrationData) {
     const client = this.requireClient()
+    const normalizedPayload = this.normalizeRegistrationInput(registrationData)
     const { data, error } = await client
       .from('registrations')
       .insert([{
-        ...registrationData,
+        ...normalizedPayload,
         status: 'pending_payment'
       }])
       .select()

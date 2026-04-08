@@ -4,6 +4,19 @@ import { ArrowRight, BookOpenText, Calendar, CheckCircle, Loader2, Mail, MapPin,
 import { eventService } from '../../services/eventService'
 import { institutionalContent } from '../../config/institution'
 
+const toSafeDate = (value) => {
+  if (!value) return null
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split('-').map(Number)
+    return new Date(year, month - 1, day)
+  }
+
+  return new Date(value)
+}
+
+const formatPrice = (value) => `R$ ${(Number(value) || 0).toFixed(2)}`
+
 const HomePage = () => {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
@@ -37,7 +50,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <nav className="flex flex-wrap items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-500">
+          <nav className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 lg:justify-end lg:gap-3">
             <a href="#sobre" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Sobre</a>
             <a href="#eventos" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Eventos</a>
             <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Cursos</a>
@@ -50,17 +63,17 @@ const HomePage = () => {
       <main>
         <section className="relative overflow-hidden bg-brand-navy text-white">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(212,175,55,0.25),_transparent_35%)]" />
-          <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[minmax(0,1.1fr)_420px] lg:px-10 lg:py-24">
+          <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-[minmax(0,1.1fr)_420px] lg:px-10 lg:py-24">
             <div className="relative z-10 max-w-4xl">
               <p className="text-[11px] font-black uppercase tracking-[0.35em] text-brand-gold">Centro Educacional e Teologico</p>
-              <h2 className="mt-6 text-5xl font-black uppercase leading-[0.95] text-balance md:text-7xl">Capacitacao, eventos e formacao com identidade CETADMI.</h2>
+              <h2 className="mt-6 text-4xl font-black uppercase leading-[0.95] text-balance md:text-7xl">Capacitacao, eventos e formacao com identidade CETADMI.</h2>
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-white/80 md:text-xl">{institutionalContent.mission}</p>
 
-              <div className="mt-10 flex flex-wrap gap-4">
-                <a href="#eventos" className="inline-flex items-center gap-3 rounded-full bg-brand-gold px-8 py-5 text-sm font-black uppercase tracking-widest text-brand-navy transition-transform hover:scale-[1.02] hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy">
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                <a href="#eventos" className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-gold px-8 py-5 text-sm font-black uppercase tracking-widest text-brand-navy transition-transform hover:scale-[1.02] hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy sm:w-auto">
                   Ver proximos eventos <ArrowRight size={18} aria-hidden="true" />
                 </a>
-                <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-8 py-5 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">
+                <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-white/15 bg-white/10 px-8 py-5 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:w-auto">
                   Conhecer cursos
                 </a>
               </div>
@@ -150,8 +163,9 @@ const HomePage = () => {
             ) : (
               <div className="mt-10 grid gap-8 lg:grid-cols-3">
                 {events.map((event) => {
+                  const eventDate = toSafeDate(event.event_date)
                   const eventDateLabel = event.event_date
-                    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(event.event_date))
+                    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(eventDate)
                     : 'Data a confirmar'
 
                   const lowestPrice = event.price_options?.length
@@ -180,7 +194,7 @@ const HomePage = () => {
                         <div className="grid gap-3 text-sm text-slate-600">
                           <div className="flex items-center gap-3"><Calendar size={16} className="text-brand-gold" aria-hidden="true" />{eventDateLabel}</div>
                           <div className="flex items-center gap-3"><MapPin size={16} className="text-brand-gold" aria-hidden="true" />{event.location || 'Local a confirmar'}</div>
-                          <div className="flex items-center gap-3"><CheckCircle size={16} className="text-brand-gold" aria-hidden="true" />{lowestPrice !== null ? `A partir de R$ ${lowestPrice.toFixed(2)}` : 'Valores em breve'}</div>
+                          <div className="flex items-center gap-3"><CheckCircle size={16} className="text-brand-gold" aria-hidden="true" />{lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'Valores em breve'}</div>
                         </div>
 
                         <Link to={`/evento/${eventService.normalizeSlug(event.slug)}`} className="inline-flex items-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">

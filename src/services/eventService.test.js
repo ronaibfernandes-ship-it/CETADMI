@@ -18,6 +18,30 @@ describe('eventService utilities', () => {
     ])
   })
 
+  it('normalizes registration input before persistence', () => {
+    expect(eventService.normalizeRegistrationInput({
+      full_name: '  Maria  da Silva  ',
+      email: '  TESTE@EMAIL.COM ',
+      phone: '+55 (91) 98189-7040',
+      church_name: '  Assembleia   Central ',
+    })).toEqual({
+      full_name: 'Maria da Silva',
+      email: 'teste@email.com',
+      phone: '5591981897040',
+      church_name: 'Assembleia Central',
+    })
+  })
+
+  it('prefers the best slug match among legacy candidates', () => {
+    expect(eventService.pickBestSlugMatch([
+      { slug: ' 6-simposio-da-ebd', updated_at: '2026-04-08T10:00:00Z' },
+      { slug: '6-simposio-da-ebd', updated_at: '2026-04-07T10:00:00Z' },
+    ], '6-simposio-da-ebd')).toEqual({
+      slug: '6-simposio-da-ebd',
+      updated_at: '2026-04-07T10:00:00Z',
+    })
+  })
+
   it('maps duplicate registration errors', () => {
     expect(eventService.mapRegistrationError({ message: 'DUPLICATE_ACTIVE_REGISTRATION' }))
       .toContain('inscricao ativa')

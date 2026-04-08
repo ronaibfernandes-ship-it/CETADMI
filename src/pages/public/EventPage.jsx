@@ -4,12 +4,18 @@ import { Calendar, MapPin, CheckCircle, ArrowRight, Loader2, AlertCircle, ImageO
 import { eventService } from '../../services/eventService';
 import { institutionalContent } from '../../config/institution';
 
-const toSafeDate = (value) => {
+const toSafeDate = (value, options = {}) => {
   if (!value) return null;
 
   if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     const [year, month, day] = value.split('-').map(Number);
-    return new Date(year, month - 1, day);
+    const localDate = new Date(year, month - 1, day);
+
+    if (options.endOfDay) {
+      localDate.setHours(23, 59, 59, 999);
+    }
+
+    return localDate;
   }
 
   return new Date(value);
@@ -71,7 +77,14 @@ const EventPage = () => {
       setValidationError('Preencha nome completo, WhatsApp e e-mail para continuar.');
       return;
     }
-    
+
+    const normalizedRegistrant = eventService.normalizeRegistrationInput(formData);
+
+    if (!normalizedRegistrant.phone) {
+      setValidationError('Informe um WhatsApp valido para continuar.');
+      return;
+    }
+     
     setRegistering(true);
     setError(null);
     setValidationError(null);
@@ -79,7 +92,7 @@ const EventPage = () => {
     try {
       const registrationPayload = {
         event_id: event.id,
-        ...formData,
+        ...normalizedRegistrant,
         selected_price_id: selectedOption.id,
         selected_price_label: selectedOption.label,
         amount_due: selectedOption.price,
@@ -102,7 +115,7 @@ const EventPage = () => {
 
       const whatsappMsg = `Olá! Concluí minha matrícula no evento *${event.title}* via portal administrativo.\n\n` +
                           `*DADOS DA MATRÍCULA:* \n` +
-                          `- Aluno: ${formData.full_name}\n` +
+                          `- Aluno: ${normalizedRegistrant.full_name}\n` +
                           `- Categoria: ${selectedOption.label}\n` +
                           `- Investimento: ${formatPrice(selectedOption.price)}\n\n` +
                           `Estarei enviando o comprovante do PIX por aqui para confirmação definitiva da minha vaga.`;
@@ -120,12 +133,14 @@ const EventPage = () => {
     }
   };
 
-  const registrationDeadline = toSafeDate(event?.registration_deadline);
+  const registrationDeadline = toSafeDate(event?.registration_deadline, { endOfDay: true });
   const registrationClosed = registrationDeadline ? registrationDeadline < new Date() : false;
   const hasPriceOptions = (event?.price_options?.length || 0) > 0;
   const canSubmit = !registering && !registrationClosed && hasPriceOptions;
   const hasBanner = Boolean(event?.banner_url) && !bannerFailed;
   const eventDate = toSafeDate(event?.event_date);
+  const organizationWhatsApp = eventService.sanitizeWhatsAppNumber(event?.whatsapp_number);
+  const hasValidOrganizationWhatsApp = Boolean(organizationWhatsApp);
   const eventDateLabel = event?.event_date
     ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(eventDate)
     : 'Data a confirmar';
@@ -167,7 +182,7 @@ const EventPage = () => {
             </div>
           </Link>
 
-          <nav className="flex flex-wrap items-center gap-3 text-[10px] font-black uppercase tracking-widest text-white/75">
+          <nav className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/75 lg:justify-end lg:gap-3">
             <Link to="/" className="rounded-full px-4 py-2 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Inicio</Link>
             <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Cursos</a>
             <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, 'Olá! Gostaria de atendimento do CETADMI.')} target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Contato</a>
@@ -225,8 +240,8 @@ const EventPage = () => {
               </span>
             </div>
 
-            <div className="mt-12 flex flex-wrap items-center gap-4">
-              <a href="#inscricao" className="inline-flex items-center gap-3 rounded-full bg-brand-gold px-10 py-5 text-lg font-black uppercase tracking-tight text-brand-navy shadow-xl transition-transform hover:scale-[1.02] hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy">
+            <div className="mt-12 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+              <a href="#inscricao" className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-gold px-8 py-5 text-base font-black uppercase tracking-tight text-brand-navy shadow-xl transition-transform hover:scale-[1.02] hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy sm:w-auto sm:px-10 sm:text-lg">
                 Garantir minha vaga agora <ArrowRight size={22} aria-hidden="true" />
               </a>
               <div className="rounded-full border border-white/10 bg-white/10 px-5 py-3 text-sm font-medium text-white/80 backdrop-blur-sm">
@@ -282,7 +297,7 @@ const EventPage = () => {
       </section>
 
       {/* MAIN CONTENT */}
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-20 lg:-mt-2">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-16 lg:-mt-2 lg:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           
           {/* LEFT COLUMN: Details */}
@@ -440,7 +455,7 @@ const EventPage = () => {
 
           {/* RIGHT COLUMN: Registration Form (Sticky) */}
           <div id="inscricao" className="lg:col-span-5 relative">
-            <div className="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl border border-slate-100 sticky top-10">
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 shadow-2xl md:p-12 lg:sticky lg:top-10 lg:rounded-[3rem]">
               
               {success ? (
                 <div className="py-12 text-center space-y-8 animate-in zoom-in duration-500">
@@ -452,15 +467,19 @@ const EventPage = () => {
                         <div className="h-1 w-12 bg-brand-gold mx-auto rounded-full"></div>
                     </div>
                     <p className="text-sm text-slate-500 leading-relaxed px-4">
-                        {event.whatsapp_number
+                        {hasValidOrganizationWhatsApp
                           ? 'Estamos redirecionando voce para o WhatsApp oficial para envio do comprovante e confirmacao final.'
-                          : 'Sua inscricao foi registrada com sucesso. O WhatsApp oficial deste evento ainda nao foi configurado.'}
+                          : 'Sua inscricao foi registrada com sucesso. O WhatsApp oficial deste evento ainda nao foi configurado corretamente.'}
                     </p>
-                    {event.whatsapp_number && (
+                    {hasValidOrganizationWhatsApp ? (
                       <div className="flex flex-col items-center gap-4 opacity-50 pt-4">
                           <Loader2 className="w-6 h-6 animate-spin text-brand-navy" />
                           <span className="text-[10px] font-black tracking-widest uppercase">Redirecionando...</span>
                       </div>
+                    ) : (
+                      <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, `Olá! Minha inscrição no evento ${event.title} foi registrada e preciso enviar o comprovante.`)} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
+                        Falar com o suporte
+                      </a>
                     )}
                 </div>
               ) : (
@@ -498,9 +517,9 @@ const EventPage = () => {
                            <MessageCircleHeart className="h-5 w-5" aria-hidden="true" />
                            <span className="text-[10px] font-black uppercase tracking-[0.25em]">Atendimento</span>
                          </div>
-                         <p className="mt-3 text-sm font-bold text-brand-navy break-words">{event.whatsapp_number || 'WhatsApp em configuracao'}</p>
-                       </div>
-                     </div>
+                          <p className="mt-3 text-sm font-bold text-brand-navy break-words">{hasValidOrganizationWhatsApp ? event.whatsapp_number : institutionalContent.supportWhatsapp}</p>
+                        </div>
+                      </div>
                    </div>
 
                   <form className="space-y-6" onSubmit={handleRegister}>
@@ -532,14 +551,14 @@ const EventPage = () => {
 
                     <div className="space-y-2">
                       <label htmlFor="full_name" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome Completo</label>
-                      <input id="full_name" type="text" name="full_name" autoComplete="name" value={formData.full_name} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm uppercase transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="Ex.: Ronaib Fernandes…" required />
+                      <input id="full_name" type="text" name="full_name" autoComplete="name" value={formData.full_name} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="Ex.: Ronaib Fernandes…" required />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="phone" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
-                      <input id="phone" type="tel" name="phone" autoComplete="tel" inputMode="tel" value={formData.phone} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="(00) 00000-0000…" required />
+                      <input id="phone" type="tel" name="phone" autoComplete="tel" inputMode="tel" value={formData.phone} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="(91) 98189-7040" required />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">E-mail Acadêmico</label>
+                      <label htmlFor="email" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">E-mail Academico</label>
                       <input id="email" type="email" name="email" autoComplete="email" spellCheck={false} value={formData.email} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="seu@email.com…" required />
                     </div>
                     
@@ -555,9 +574,9 @@ const EventPage = () => {
                       )}
                     </button>
                     <p className="text-center text-[10px] text-slate-400 mt-4 italic font-medium leading-relaxed">
-                      {event.whatsapp_number
+                      {hasValidOrganizationWhatsApp
                         ? 'Sua inscricao e processada de forma segura e requer confirmacao via WhatsApp.'
-                        : 'Sua inscricao sera registrada, mas o WhatsApp oficial do evento ainda nao foi configurado.'}
+                        : 'Sua inscricao sera registrada e o suporte oficial do CETADMI fara o acompanhamento manual.'}
                     </p>
                     {event.pix_key && (
                       <div className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-4 text-left text-sm text-brand-navy">
