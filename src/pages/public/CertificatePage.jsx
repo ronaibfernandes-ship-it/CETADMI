@@ -41,10 +41,10 @@ const CertificatePage = () => {
   }, [certificateData.nome])
 
   useEffect(() => {
-    if (recipientRef.current && recipientRef.current.textContent !== recipientName) {
-      recipientRef.current.textContent = recipientName
+    if (recipientRef.current && recipientRef.current.textContent !== certificateData.nome) {
+      recipientRef.current.textContent = certificateData.nome
     }
-  }, [recipientName])
+  }, [certificateData.nome])
 
   useEffect(() => {
     const recipient = recipientRef.current
@@ -131,9 +131,7 @@ const CertificatePage = () => {
                 onInput={(event) => setRecipientName(event.currentTarget.textContent || certificateDefaults.nome)}
                 style={recipientStyle}
                 className="recipient mx-auto my-[10mm] max-w-[210mm] min-w-[150mm] border-b border-[#b9934b73] px-[10mm] pb-[4mm] text-center font-serif font-bold text-[#0a192f] outline-none"
-              >
-                {recipientName}
-              </div>
+              />
 
               <p className="m-0 text-[13pt] leading-[1.72] text-slate-700">
                 participou com aproveitamento do <span className="font-bold text-[#0a192f]">{certificateData.evento}</span>, com a tematica{' '}
