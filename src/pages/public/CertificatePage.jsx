@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
-import { AlertCircle, Loader2, Printer } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import { certificateService } from '../../services/certificateService'
 import './certificate.css'
 
@@ -223,7 +223,6 @@ const CertificatePage = () => {
 
       <div className="certificate-toolbar print:hidden">
         <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-3 rounded-full bg-[#b9934b] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white shadow-[0_18px_30px_rgba(0,0,0,0.22)] transition-all hover:-translate-y-px hover:bg-[#c7a15a]">
-          {loading ? <Loader2 size={16} className="animate-spin" /> : <Printer size={16} aria-hidden="true" />}
           Gerar PDF Final
         </button>
       </div>
