@@ -107,7 +107,7 @@ const StudentList = ({ event, onBack }) => {
       setActionLoading(true)
 
       if (pendingAction.action === 'confirmar') {
-        await eventService.confirmRegistrationPayment(pendingAction.id, pendingAction.amountDue, user.id)
+        await eventService.confirmRegistrationPayment(pendingAction.id, user.id)
       } else if (pendingAction.action === 'cancelar') {
         await eventService.cancelRegistration(pendingAction.id)
       } else if (pendingAction.action === 'expirar') {
@@ -118,7 +118,7 @@ const StudentList = ({ event, onBack }) => {
       showToast(`Inscricao ${pendingAction.action === 'confirmar' ? 'confirmada' : pendingAction.action === 'cancelar' ? 'cancelada' : 'expirada'} com sucesso.`)
       fetchRegistrations()
     } catch (err) {
-      setError(`Falha ao ${pendingAction.action} inscricao.`)
+      setError(eventService.mapRegistrationError(err) || `Falha ao ${pendingAction.action} inscricao.`)
     } finally {
       setActionLoading(false)
     }
@@ -128,7 +128,6 @@ const StudentList = ({ event, onBack }) => {
     setPendingAction({
       id: registration.id,
       action,
-      amountDue: registration.amount_due,
       name: registration.full_name,
     })
   }

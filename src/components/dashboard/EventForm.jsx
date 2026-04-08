@@ -255,12 +255,20 @@ const EventForm = ({ event, onClose }) => {
     setError(null)
 
     try {
+      const validPriceOptions = formData.price_options.filter((option) => option.label.trim() && Number(option.price) > 0)
+
+      if (formData.is_published && validPriceOptions.length === 0) {
+        throw new Error('Defina ao menos uma categoria de inscricao valida antes de publicar o evento.')
+      }
+
       const payload = {
         ...formData,
         slug: eventService.normalizeSlug(formData.slug),
+        whatsapp_number: eventService.sanitizeWhatsAppNumber(formData.whatsapp_number),
         capacity: formData.capacity === '' ? null : parseInt(formData.capacity),
         event_date: formData.event_date ? new Date(formData.event_date).toISOString() : null,
-        registration_deadline: formData.registration_deadline ? new Date(formData.registration_deadline).toISOString() : null
+        registration_deadline: formData.registration_deadline ? new Date(formData.registration_deadline).toISOString() : null,
+        price_options: validPriceOptions,
       }
 
       if (event?.id) {

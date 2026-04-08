@@ -101,11 +101,16 @@ const DashboardPage = () => {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const handleCopyLink = (slug) => {
+  const handleCopyLink = async (slug) => {
     const normalizedSlug = eventService.normalizeSlug(slug)
     const fullUrl = `${window.location.origin}/evento/${normalizedSlug}`
-    navigator.clipboard.writeText(fullUrl)
-    showToast("Link de inscrição copiado! ✅")
+
+    try {
+      await navigator.clipboard.writeText(fullUrl)
+      showToast("Link de inscrição copiado! ✅")
+    } catch {
+      setError('Nao foi possivel copiar o link automaticamente. Copie manualmente a URL publica do evento.')
+    }
   }
 
   const handleWhatsappShare = (event) => {

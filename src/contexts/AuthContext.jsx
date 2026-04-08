@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { supabase, supabaseConfigError } from '../config/supabase'
 
 const AuthContext = createContext({
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [adminRole, setAdminRole] = useState(null)
   const [loading, setLoading] = useState(true)
   const [authError, setAuthError] = useState(supabaseConfigError)
+  const adminRequestIdRef = useRef(0)
 
   const withTimeout = async (promise, timeoutMs = 8000) => {
     let timeoutId
@@ -39,9 +40,11 @@ export const AuthProvider = ({ children }) => {
     if (!supabase || !nextSession?.user) {
       setIsAdmin(false)
       setAdminRole(null)
+      setAuthError(null)
       return
     }
 
+    const requestId = ++adminRequestIdRef.current
     const userId = nextSession.user.id
 
     const fetchAdminRole = async () => {
@@ -58,10 +61,14 @@ export const AuthProvider = ({ children }) => {
     try {
       const role = await fetchAdminRole()
 
+      if (requestId !== adminRequestIdRef.current) return
+
       setIsAdmin(Boolean(role))
       setAdminRole(role)
       setAuthError(role ? null : 'Sua conta existe, mas ainda nao foi liberada pela administracao pastoral.')
     } catch (error) {
+      if (requestId !== adminRequestIdRef.current) return
+
       setIsAdmin(false)
       setAdminRole(null)
       setAuthError(
@@ -83,8 +90,11 @@ export const AuthProvider = ({ children }) => {
     const syncSession = async (nextSession) => {
       if (!isMounted) return
 
+      adminRequestIdRef.current += 1
+
       setSession(nextSession)
       setUser(nextSession?.user ?? null)
+      setAuthError(null)
 
       try {
         await withTimeout(resolveAdminAccess(nextSession))
@@ -130,8 +140,10 @@ export const AuthProvider = ({ children }) => {
     if (!supabase) return
 
     await supabase.auth.signOut()
+    adminRequestIdRef.current += 1
     setIsAdmin(false)
     setAdminRole(null)
+    setAuthError(null)
   }
 
   const value = {

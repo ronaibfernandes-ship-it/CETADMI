@@ -233,6 +233,18 @@ export const eventService = {
     return data
   },
 
+  async getRegistrationById(registrationId) {
+    const client = this.requireClient()
+    const { data, error } = await client
+      .from('registrations')
+      .select('*')
+      .eq('id', registrationId)
+      .single()
+
+    if (error) throw error
+    return data
+  },
+
   /**
    * Lista inscritos de um evento específico
    */
@@ -252,18 +264,25 @@ export const eventService = {
    * CONFIRMAR PAGAMENTO
    * Regra: amount_paid = amount_due, status = paid
    */
-  async confirmRegistrationPayment(registrationId, amountDue, adminId) {
+  async confirmRegistrationPayment(registrationId, adminId) {
     const client = this.requireClient()
+    const registration = await this.getRegistrationById(registrationId)
+
+    if (registration.status !== 'pending_payment') {
+      throw new Error('REGISTRATION_STATUS_CHANGED')
+    }
+
     const { data, error } = await client
       .from('registrations')
       .update({
         status: 'paid',
-        amount_paid: amountDue,
+        amount_paid: Number(registration.amount_due || 0),
         paid_at: new Date().toISOString(),
         payment_proof_received: true,
         confirmed_by: adminId
       })
       .eq('id', registrationId)
+      .eq('status', 'pending_payment')
       .select()
       .single()
     
@@ -276,6 +295,12 @@ export const eventService = {
    */
   async cancelRegistration(registrationId) {
     const client = this.requireClient()
+    const registration = await this.getRegistrationById(registrationId)
+
+    if (!['pending_payment', 'paid'].includes(registration.status)) {
+      throw new Error('REGISTRATION_STATUS_CHANGED')
+    }
+
     const { data, error } = await client
       .from('registrations')
       .update({
@@ -283,6 +308,7 @@ export const eventService = {
         cancelled_at: new Date().toISOString()
       })
       .eq('id', registrationId)
+      .in('status', ['pending_payment', 'paid'])
       .select()
       .single()
     
@@ -295,6 +321,12 @@ export const eventService = {
    */
   async expireRegistration(registrationId) {
     const client = this.requireClient()
+    const registration = await this.getRegistrationById(registrationId)
+
+    if (registration.status !== 'pending_payment') {
+      throw new Error('REGISTRATION_STATUS_CHANGED')
+    }
+
     const { data, error } = await client
       .from('registrations')
       .update({
@@ -302,6 +334,7 @@ export const eventService = {
         expired_at: new Date().toISOString()
       })
       .eq('id', registrationId)
+      .eq('status', 'pending_payment')
       .select()
       .single()
     
@@ -350,6 +383,10 @@ export const eventService = {
 
     if (message.includes('DUPLICATE_ACTIVE_REGISTRATION')) {
       return 'Ja existe uma inscricao ativa para este e-mail ou telefone neste evento.'
+    }
+
+    if (message.includes('REGISTRATION_STATUS_CHANGED')) {
+      return 'A inscricao foi alterada por outro administrador. Atualize a lista antes de tentar novamente.'
     }
 
     return 'Falha ao processar sua matricula. Verifique sua conexao e tente novamente.'

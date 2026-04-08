@@ -47,6 +47,11 @@ describe('eventService utilities', () => {
       .toContain('inscricao ativa')
   })
 
+  it('maps registration concurrency errors', () => {
+    expect(eventService.mapRegistrationError({ message: 'REGISTRATION_STATUS_CHANGED' }))
+      .toContain('outro administrador')
+  })
+
   it('maps event full errors', () => {
     expect(eventService.mapRegistrationError({ message: 'EVENT_FULL' }))
       .toContain('vagas')
