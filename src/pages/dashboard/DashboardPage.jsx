@@ -25,7 +25,8 @@ import {
   UsersRound,
   Image as ImageIcon,
   Sparkles,
-  Printer
+  Printer,
+  Award
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
 import { institutionService } from '../../services/institutionService'
@@ -232,6 +233,11 @@ const DashboardPage = () => {
     setMobileNavOpen(false)
   }
 
+  const handleCertificateStandard = () => {
+    window.open(`${window.location.origin}/certificado-padrao.html`, '_blank', 'noopener,noreferrer')
+    setMobileNavOpen(false)
+  }
+
   const handleInviteAdmin = async (e) => {
     e.preventDefault()
 
@@ -323,6 +329,12 @@ const DashboardPage = () => {
             active={view === 'settings'}
             onClick={handleSettingsView}
           />
+          <NavItem 
+            icon={<Award size={20}/>} 
+            label="Certificados" 
+            active={false}
+            onClick={handleCertificateStandard}
+          />
         </nav>
 
         <div className="p-8 border-t border-blue-900/30">
@@ -376,6 +388,7 @@ const DashboardPage = () => {
             <MobileNavChip icon={<UsersRound size={16} />} label="Inscritos" active={view === 'students'} onClick={handleStudentsView} />
             <MobileNavChip icon={<ShieldCheck size={16} />} label="Admins" active={view === 'admins'} onClick={handleAdminsView} />
             <MobileNavChip icon={<Settings size={16} />} label="Config." active={view === 'settings'} onClick={handleSettingsView} />
+            <MobileNavChip icon={<Award size={16} />} label="Certif." active={false} onClick={handleCertificateStandard} />
           </div>
 
           {mobileNavOpen && (
@@ -384,6 +397,7 @@ const DashboardPage = () => {
               <NavItem icon={<Users size={18} />} label="Inscritos" active={view === 'students'} onClick={handleStudentsView} />
               <NavItem icon={<ShieldCheck size={18} />} label="Administradores" active={view === 'admins'} onClick={handleAdminsView} />
               <NavItem icon={<Settings size={18} />} label="Configurações" active={view === 'settings'} onClick={handleSettingsView} />
+              <NavItem icon={<Award size={18} />} label="Certificados" active={false} onClick={handleCertificateStandard} />
             </div>
           )}
         </div>
