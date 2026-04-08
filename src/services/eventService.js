@@ -418,7 +418,7 @@ export const eventService = {
 
     params.set('emissao', this.formatLongDate(new Date().toISOString()))
 
-    return `${baseOrigin}/certificado?${params.toString()}`
+    return `${baseOrigin}/certificado-padrao.html?${params.toString()}`
   },
 
   mapRegistrationError(error) {

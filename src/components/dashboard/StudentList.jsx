@@ -148,7 +148,7 @@ const StudentList = ({ event, onBack }) => {
     const existingCertificate = certificates.find((item) => item.registration_id === registration.id && item.status === 'issued')
     if (!existingCertificate?.code) return
 
-    window.open(certificateService.buildPublicCertificateUrl(window.location.origin, existingCertificate.code), '_blank', 'noopener,noreferrer')
+    window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
   }
 
   const handleValidateCertificate = (event) => {
@@ -164,7 +164,7 @@ const StudentList = ({ event, onBack }) => {
       showToast('Certificado emitido com sucesso.')
       await fetchRegistrations()
       if (issued?.code) {
-        window.open(certificateService.buildPublicCertificateUrl(window.location.origin, issued.code), '_blank', 'noopener,noreferrer')
+        window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
       }
     } catch (err) {
       setError(certificateService.mapCertificateError(err))
