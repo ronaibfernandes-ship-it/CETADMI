@@ -12,7 +12,8 @@ import {
   MessageSquare,
   Clock,
   ArrowRight,
-  X
+  X,
+  Award
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
 import { useAuth } from '../../contexts/AuthContext'
@@ -134,6 +135,11 @@ const StudentList = ({ event, onBack }) => {
 
   const handleExport = () => {
     eventService.exportRegistrationsToCSV(registrations, event.title)
+  }
+
+  const handleOpenCertificate = (registration) => {
+    const certificateUrl = eventService.buildCertificateUrl(window.location.origin, event, registration)
+    window.open(certificateUrl, '_blank', 'noopener,noreferrer')
   }
 
   const normalizeRegistration = (registration) => ({
@@ -394,7 +400,17 @@ const StudentList = ({ event, onBack }) => {
                             <AlertTriangle className="w-3 h-3" /> Marcar Expirado
                           </button>
                         )}
-                        
+
+                        {reg.status === 'paid' && (
+                          <button
+                            type="button"
+                            onClick={() => handleOpenCertificate(reg)}
+                            className="w-full text-left p-1.5 text-[9px] font-black uppercase tracking-widest bg-cetadmi-navy text-cetadmi-cream hover:bg-cetadmi-blue transition-colors flex items-center gap-2"
+                          >
+                            <Award className="w-3 h-3" /> Gerar Certificado
+                          </button>
+                        )}
+                         
                         {(reg.status === 'cancelled' || reg.status === 'expired') && (
                           <span className="text-[9px] font-black opacity-20 uppercase italic text-center py-2">Inscrição Inativa</span>
                         )}

@@ -366,6 +366,45 @@ export const eventService = {
     return `https://api.whatsapp.com/send?${searchParams.toString()}`
   },
 
+  formatLongDate(value) {
+    if (!value) return ''
+
+    return new Date(value).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    })
+  },
+
+  buildCertificateUrl(baseOrigin, event, registration = null) {
+    const params = new URLSearchParams()
+    const eventDate = this.formatLongDate(event?.event_date)
+    const firstSpeaker = Array.isArray(event?.speakers) ? event.speakers.find((speaker) => speaker?.name) : null
+
+    if (registration?.full_name) {
+      params.set('nome', registration.full_name)
+    }
+
+    if (event?.title) {
+      params.set('evento', event.title)
+    }
+
+    if (event?.subtitle) {
+      params.set('tema', event.subtitle)
+    }
+
+    if (eventDate) {
+      params.set('data', eventDate)
+      params.set('cidadeData', `${event?.location || 'Belem - PA'}, ${eventDate}`)
+    }
+
+    if (firstSpeaker?.name) {
+      params.set('preletor', firstSpeaker.name)
+    }
+
+    return `${baseOrigin}/certificado?${params.toString()}`
+  },
+
   mapRegistrationError(error) {
     const message = error?.message || ''
 

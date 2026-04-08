@@ -128,13 +128,7 @@ const DashboardPage = () => {
       return
     }
 
-    const params = new URLSearchParams({
-      evento: event.title || 'Evento CETADMI',
-      data: event.event_date ? new Date(event.event_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '',
-      cidadeData: `${event.location || 'Belem - PA'}, ${event.event_date ? new Date(event.event_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : 'data a definir'}`,
-    })
-
-    window.open(`${baseUrl}?${params.toString()}`, '_blank', 'noopener,noreferrer')
+    window.open(eventService.buildCertificateUrl(window.location.origin, event), '_blank', 'noopener,noreferrer')
   }
 
   const handleCreateNew = () => {
