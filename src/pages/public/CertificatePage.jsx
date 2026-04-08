@@ -283,7 +283,7 @@ const CertificatePage = () => {
                 <p className="mb-[8mm] mt-[11mm] text-center text-[10.5pt] font-semibold uppercase tracking-[0.08em] text-[#0a192fae]">{certificateData.cidadeData}</p>
               </section>
 
-              <footer className="mx-auto mt-[10mm] mb-[1mm] grid w-full max-w-[220mm] grid-cols-[1fr_26mm_1fr] items-end gap-[10mm] pt-[4mm]">
+              <footer className="mx-auto mt-[2mm] mb-[1mm] grid w-full max-w-[220mm] grid-cols-[1fr_26mm_1fr] items-end gap-[10mm] pt-[4mm]">
                 <div className="text-center">
                   <div className="min-h-[16mm] border-t border-[#0a192fb8] pt-[3.5mm]">
                     <p className="m-0 text-[9.6pt] font-bold uppercase tracking-[0.08em] text-[#0a192f]">{certificateData.preletor}</p>
