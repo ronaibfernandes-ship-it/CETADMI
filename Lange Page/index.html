@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conheca a direcao de ensino da CETADMI com o Pr. Alex Vieira e acesse a plataforma de cursos e inscricoes.">
     <title>Pr. Alex Vieira | Diretor de Ensino CETADMI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
@@ -10,16 +11,43 @@
         :root {
             --navy: #0A192F;
             --gold: #C5A059;
+            --gold-text: #8A6A2F;
             --offwhite: #F8FAFC;
         }
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        html { scroll-padding-top: 7rem; }
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(10, 25, 47, 0.12);
+        }
         h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
         
         .bg-navy { background-color: var(--navy); }
         .text-navy { color: var(--navy); }
         .bg-gold { background-color: var(--gold); }
         .text-gold { color: var(--gold); }
+        .text-gold-strong { color: var(--gold-text); }
         .border-gold { border-color: var(--gold); }
+
+        .skip-link {
+            position: absolute;
+            left: 1rem;
+            top: -3rem;
+            background: var(--navy);
+            color: white;
+            padding: 0.75rem 1rem;
+            z-index: 100;
+            border-radius: 0.25rem;
+            transition: top 0.2s ease;
+        }
+        .skip-link:focus {
+            top: 1rem;
+        }
+
+        section[id] {
+            scroll-margin-top: 7rem;
+        }
         
         /* EFEITO DE SELO PREMIUM (O segredo do destaque) */
         .premium-seal {
@@ -30,7 +58,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .premium-seal:hover {
             transform: scale(1.05);
@@ -52,11 +80,16 @@
         }
 
         .btn-premium {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         .btn-premium:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px -5px rgba(10, 25, 47, 0.4);
+        }
+
+        a:focus-visible {
+            outline: 3px solid rgba(197, 160, 89, 0.45);
+            outline-offset: 3px;
         }
 
         .float-animation {
@@ -65,6 +98,18 @@
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html:focus-within {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation: none !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
 
         @media (max-width: 768px) {
@@ -113,23 +158,26 @@
     </style>
 </head>
 <body class="bg-[#FBFBFF] text-slate-900 antialiased">
+    <a href="#conteudo" class="skip-link">Pular para o conteudo</a>
 
     <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100" aria-label="Navegacao principal">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <img src="logo-cetadmi.png" alt="Logo CETADMI" class="h-14 w-auto object-contain">
+                <img src="logo-cetadmi.png" alt="Logo CETADMI" width="174" height="56" class="h-14 w-auto object-contain" fetchpriority="high" decoding="async">
                 <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
                 <span class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-bold hidden sm:block leading-tight">Direção de <br>Ensino</span>
             </div>
             <div class="flex items-center gap-6 md:gap-10 text-[11px] font-bold uppercase tracking-widest text-slate-500">
-                <a href="#sobre" class="hover:text-gold transition-all hidden md:block">Sobre</a>
-                <a href="#atuacao" class="hover:text-gold transition-all hidden md:block">Atuação</a>
-                <a href="#pilares" class="hover:text-gold transition-all hidden md:block">Pilares</a>
-                <a href="https://cetadmi.vercel.app/" class="bg-navy text-white px-6 py-3 rounded-sm hover:bg-slate-800 transition-all shadow-md btn-premium">Inscrições</a>
+                <a href="#sobre" class="hidden md:block transition-colors hover:text-gold">Sobre</a>
+                <a href="#atuacao" class="hidden md:block transition-colors hover:text-gold">Atuação</a>
+                <a href="#pilares" class="hidden md:block transition-colors hover:text-gold">Pilares</a>
+                <a href="https://cetadmi.vercel.app/" class="bg-navy text-white px-6 py-3 rounded-sm hover:bg-slate-800 transition-colors shadow-md btn-premium">Inscrições</a>
             </div>
         </div>
     </nav>
+
+    <main id="conteudo">
 
     <!-- HERO SECTION -->
     <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -139,7 +187,7 @@
             <div class="z-10 order-2 lg:order-1">
                 <div class="flex items-center gap-3 mb-6">
                     <span class="h-px w-8 bg-gold"></span>
-                    <span class="text-gold font-bold tracking-[0.3em] uppercase text-xs">Referência em Ensino</span>
+                    <span class="text-gold-strong font-bold tracking-[0.3em] uppercase text-xs">Referência em Ensino</span>
                 </div>
                 <h1 class="hero-name text-6xl lg:text-8xl text-navy leading-[1.1] mb-8">
                     Pr. Alex Vieira
@@ -149,13 +197,13 @@
                     Liderando a formação teológica com excelência, zelo e compromisso inegociável com a sã doutrina.
                 </p>
                 <div class="flex flex-wrap gap-5">
-                    <a href="https://cetadmi.eadplataforma.app/" class="hero-cta bg-navy text-white px-10 py-5 rounded-sm font-bold hover:bg-slate-800 transition-all flex items-center gap-3 group btn-premium shadow-xl">
+                    <a href="https://cetadmi.eadplataforma.app/" class="hero-cta bg-navy text-white px-10 py-5 rounded-sm font-bold hover:bg-slate-800 transition-colors flex items-center gap-3 group btn-premium shadow-xl">
                         Conhecer Cursos 
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </a>
-                    <a href="https://cetadmi.vercel.app/" class="hero-cta bg-white text-navy border border-slate-200 px-10 py-5 rounded-sm font-bold hover:border-gold transition-all btn-premium shadow-sm text-center">
+                    <a href="https://cetadmi.vercel.app/" class="hero-cta bg-white text-navy border border-slate-200 px-10 py-5 rounded-sm font-bold hover:border-gold transition-colors btn-premium shadow-sm text-center">
                         Plataforma de Inscrição
                     </a>
                 </div>
@@ -165,11 +213,11 @@
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-navy rounded-full opacity-5 blur-3xl"></div>
                 
                 <!-- FOTO RETRATO PNG -->
-                <img src="alex-retrato.png" alt="Pr. Alex Vieira" class="relative z-10 w-full h-auto float-animation drop-shadow-2xl">
+                <img src="alex-retrato.png" alt="Pr. Alex Vieira" width="1200" height="1500" class="relative z-10 w-full h-auto float-animation drop-shadow-2xl" fetchpriority="high" decoding="async">
                 
                 <!-- SELO DE QUALIDADE NO HERO -->
                 <div class="hero-photo-seal absolute -top-10 right-0 premium-seal w-24 h-24 z-20 float-animation" style="animation-delay: 1s;">
-                    <img src="logo-cetadmi.png" alt="Selo CETADMI" class="h-16 w-16 object-contain">
+                    <img src="logo-cetadmi.png" alt="" width="64" height="64" class="h-16 w-16 object-contain" decoding="async">
                 </div>
 
                 <div class="hero-badge-card absolute -bottom-6 -left-6 bg-white p-6 shadow-2xl z-20 max-w-[240px] border-l-8 border-gold">
@@ -195,24 +243,24 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-2 gap-20 items-center">
                 <div class="grid grid-cols-1 gap-8 order-2 lg:order-1">
-                    <div class="group bg-white p-10 rounded-2xl shadow-lg border-l-0 hover:border-l-4 border-gold transition-all duration-300">
+                    <div class="group bg-white p-10 rounded-2xl shadow-lg border-l-0 border-gold transition-[border-width,box-shadow,transform] duration-300 hover:border-l-4">
                         <h3 class="text-2xl text-navy mb-4 font-bold">Rigor Teológico</h3>
                         <p class="text-slate-600 leading-relaxed">Supervisão de cada módulo curricular para garantir total alinhamento com as Escrituras.</p>
                     </div>
-                    <div class="group bg-white p-10 rounded-2xl shadow-lg border-l-0 hover:border-l-4 border-gold transition-all duration-300">
+                    <div class="group bg-white p-10 rounded-2xl shadow-lg border-l-0 border-gold transition-[border-width,box-shadow,transform] duration-300 hover:border-l-4">
                         <h3 class="text-2xl text-navy mb-4 font-bold">Formação de Líderes</h3>
                         <p class="text-slate-600 leading-relaxed">Desenvolvimento de metodologias de ensino focadas na prática ministerial e liderança.</p>
                     </div>
-                    <div class="group bg-white p-10 rounded-2xl shadow-lg border-l-0 hover:border-l-4 border-gold transition-all duration-300">
+                    <div class="group bg-white p-10 rounded-2xl shadow-lg border-l-0 border-gold transition-[border-width,box-shadow,transform] duration-300 hover:border-l-4">
                         <h3 class="text-2xl text-navy mb-4 font-bold">Excelência Acadêmica</h3>
                         <p class="text-slate-600 leading-relaxed">Integração entre a visão institucional da CETADMI e a entrega pedagógica de alto nível.</p>
                     </div>
                 </div>
                 <div class="order-1 lg:order-2">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="h-px w-8 bg-gold"></span>
-                        <span class="text-gold font-bold tracking-widest uppercase text-xs">Direção de Ensino</span>
-                    </div>
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="h-px w-8 bg-gold"></span>
+                    <span class="text-gold-strong font-bold tracking-widest uppercase text-xs">Direção de Ensino</span>
+                </div>
                     <h2 class="text-5xl text-navy leading-tight mb-8">Zelo Pedagógico e <br>Visão Ministerial</h2>
                     <p class="text-lg text-slate-600 leading-relaxed mb-10 font-light">
                         A Direção de Ensino atua como a guardiã da qualidade do conteúdo. O objetivo é prover ferramentas que não apenas informem, mas transformem a vida do aluno através da Palavra de Deus.
@@ -228,7 +276,7 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="relative group">
                 <div class="feature-image-card photo-container h-[650px]">
-                    <img src="alex-simposio.jpg" class="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105" alt="Pr. Alex Vieira no 3º Simpósio de EBD">
+                    <img src="alex-simposio.jpg" class="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105" alt="Pr. Alex Vieira no 3º Simpósio de EBD" width="1600" height="1067" loading="lazy" decoding="async">
                     <div class="absolute inset-0 bg-navy/30"></div>
                     <div class="feature-image-overlay absolute bottom-12 left-12 max-w-xl glass-overlay p-10 rounded-3xl transform transition-transform duration-500 group-hover:-translate-y-2">
                         <div class="flex items-center gap-3 mb-4">
@@ -254,17 +302,17 @@
                 <p class="text-slate-400 font-light text-lg max-w-2xl mx-auto">Os fundamentos que regem a educação na CETADMI.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-10">
-                <div class="p-12 border border-slate-800 rounded-3xl hover:border-gold transition-all duration-500 group bg-white/5">
+                <div class="group rounded-3xl border border-slate-800 bg-white/5 p-12 transition-colors duration-500 hover:border-gold">
                     <div class="text-gold text-4xl font-bold mb-8 inline-block">01</div>
                     <h3 class="text-2xl mb-6 font-bold">Missão</h3>
                     <p class="text-slate-400 font-light leading-relaxed">Equipar a igreja através de um ensino bíblico sólido e relevante para os dias atuais.</p>
                 </div>
-                <div class="p-12 border border-slate-800 rounded-3xl hover:border-gold transition-all duration-500 group bg-white/5">
+                <div class="group rounded-3xl border border-slate-800 bg-white/5 p-12 transition-colors duration-500 hover:border-gold">
                     <div class="text-gold text-4xl font-bold mb-8 inline-block">02</div>
                     <h3 class="text-2xl mb-6 font-bold">Visão</h3>
                     <p class="text-slate-400 font-light leading-relaxed">Ser a principal referência em formação teológica ministerial no ambiente digital.</p>
                 </div>
-                <div class="p-12 border border-slate-800 rounded-3xl hover:border-gold transition-all duration-500 group bg-white/5">
+                <div class="group rounded-3xl border border-slate-800 bg-white/5 p-12 transition-colors duration-500 hover:border-gold">
                     <div class="text-gold text-4xl font-bold mb-8 inline-block">03</div>
                     <h3 class="text-2xl mb-6 font-bold">Compromisso</h3>
                     <p class="text-slate-400 font-light leading-relaxed">Fidelidade absoluta às Escrituras e busca incessante pela excelência no ensino.</p>
@@ -277,7 +325,7 @@
     <section class="py-24 bg-white">
         <div class="max-w-3xl mx-auto px-6 text-center">
             <div class="mb-10 inline-block relative">
-                <img src="alex-retrato.png" class="w-28 h-28 rounded-full border-4 border-white shadow-2xl object-cover mx-auto" alt="Pr. Alex Vieira">
+                <img src="alex-retrato.png" class="w-28 h-28 rounded-full border-4 border-white shadow-2xl object-cover mx-auto" alt="Pr. Alex Vieira" width="112" height="112" loading="lazy" decoding="async">
                 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gold text-white p-2 rounded-full shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19C19.5523 16 20 15.5523 20 15V9C20 8.44772 19.5523 8 19 8H15C14.4477 8 14 8.44772 14 9V12C14 12.5523 13.5523 13 13 13H11C10.4477 13 10 12.5523 10 12V9C10 7.89543 10.8954 7 12 7H16C17.1046 7 18 7.89543 18 9V15C18 16.1046 17.1046 17 16 17H14.017V21Z" />
@@ -300,15 +348,17 @@
                 Una-se aos líderes que estão elevando seu nível de conhecimento sob a direção da CETADMI.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="https://cetadmi.eadplataforma.app/" class="bg-navy text-white px-12 py-5 rounded-sm font-bold hover:bg-slate-800 transition-all btn-premium shadow-xl">
+                <a href="https://cetadmi.eadplataforma.app/" class="bg-navy text-white px-12 py-5 rounded-sm font-bold hover:bg-slate-800 transition-colors btn-premium shadow-xl">
                     Ver Cursos Disponíveis
                 </a>
-                <a href="https://cetadmi.vercel.app/" class="bg-gold text-white px-12 py-5 rounded-sm font-bold hover:bg-yellow-600 transition-all btn-premium shadow-xl">
+                <a href="https://cetadmi.vercel.app/" class="bg-gold text-white px-12 py-5 rounded-sm font-bold hover:bg-yellow-600 transition-colors btn-premium shadow-xl">
                     Fazer Inscrição Agora
                 </a>
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- FOOTER PADRONIZADO COM SELO DE DESTAQUE -->
     <footer class="bg-navy text-white py-20">
@@ -317,7 +367,7 @@
                 <div class="text-center md:text-left flex flex-col md:flex-row items-center gap-8">
                     <!-- LOGO COM EFEITO DE SELO NO RODAPÉ -->
                     <div class="premium-seal w-28 h-28 flex-shrink-0">
-                        <img src="logo-cetadmi.png" alt="Logo CETADMI" class="h-20 w-20 object-contain">
+                        <img src="logo-cetadmi.png" alt="Logo CETADMI" width="80" height="80" class="h-20 w-20 object-contain" loading="lazy" decoding="async">
                     </div>
                     <div>
                         <div class="text-3xl font-bold tracking-tighter mb-3">CETADMI</div>
@@ -326,7 +376,7 @@
                 </div>
                 <div class="flex gap-10 text-xs font-bold uppercase tracking-widest text-slate-400">
                     <a href="https://cetadmi.eadplataforma.app/" class="hover:text-white transition-colors">Portal Institucional</a>
-                    <a href="https://cetadmi.vercel.app/" class="hover:text-white transition-colors">Plataforma de Alunos</a>
+                    <a href="https://cetadmi.vercel.app/" class="hover:text-white transition-colors">Portal de Inscrições</a>
                 </div>
             </div>
             <div class="pt-10 text-center text-slate-500 text-[10px] uppercase tracking-[0.3em]">

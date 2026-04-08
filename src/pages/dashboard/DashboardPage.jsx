@@ -251,8 +251,8 @@ const DashboardPage = () => {
       {/* SIDEBAR - CONTRASTE TOTAL */}
       <aside className="w-72 bg-[#002D5C] text-white hidden xl:flex flex-col sticky top-0 h-screen border-r border-white/10 shadow-2xl z-50">
         <div className="p-10 flex flex-col items-center border-b border-blue-900/30">
-          <div className="bg-white p-3 rounded-2xl mb-6 shadow-2xl">
-             <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="w-16 h-16 object-contain" />
+          <div className="mb-6 flex h-28 w-28 items-center justify-center rounded-full border-4 border-brand-gold bg-white shadow-[0_22px_45px_rgba(0,0,0,0.28)]">
+             <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="h-14 w-14 object-contain" />
           </div>
           <h2 className="text-2xl font-serif font-black tracking-tight text-white mb-1 uppercase">CETADMI</h2>
           <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">Capacitacao e aperfeicoamento ministerial</p>
@@ -324,8 +324,8 @@ const DashboardPage = () => {
                   <p className="text-xs font-bold text-slate-800">{user?.email.split('@')[0]}</p>
                    <p className="text-[10px] text-slate-500 uppercase tracking-tighter">{adminRole === 'owner' ? 'Owner' : 'Admin'}</p>
                 </div>
-               <div className="w-12 h-12 rounded-2xl bg-brand-navy flex items-center justify-center text-white font-black text-lg shadow-lg border-2 border-white ring-2 ring-brand-gold/20">
-                  {user?.email[0].toUpperCase()}
+               <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand-gold bg-white shadow-lg">
+                  <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="h-7 w-7 object-contain" />
                </div>
             </div>
           </div>
