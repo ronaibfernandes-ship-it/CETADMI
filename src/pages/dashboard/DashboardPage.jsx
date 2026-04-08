@@ -30,6 +30,7 @@ import { eventService } from '../../services/eventService'
 import { useAuth } from '../../contexts/AuthContext'
 import EventForm from '../../components/dashboard/EventForm'
 import StudentList from '../../components/dashboard/StudentList'
+import { institutionalContent } from '../../config/institution'
 
 const DashboardPage = () => {
   const [events, setEvents] = useState([])
@@ -101,15 +102,16 @@ const DashboardPage = () => {
   }
 
   const handleCopyLink = (slug) => {
-    const fullUrl = `${window.location.origin}/evento/${slug}`
+    const normalizedSlug = eventService.normalizeSlug(slug)
+    const fullUrl = `${window.location.origin}/evento/${normalizedSlug}`
     navigator.clipboard.writeText(fullUrl)
     showToast("Link de inscrição copiado! ✅")
   }
 
   const handleWhatsappShare = (event) => {
-    const fullUrl = `${window.location.origin}/evento/${event.slug}`
+    const fullUrl = `${window.location.origin}/evento/${eventService.normalizeSlug(event.slug)}`
     const message = `Olá! Convido você a se inscrever no evento *${event.title}* do CETADMI. Inscreva-se aqui: ${fullUrl}`
-    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank')
+    window.open(eventService.buildWhatsAppUrl('', message), '_blank')
   }
 
   const handleCreateNew = () => {
@@ -236,6 +238,7 @@ const DashboardPage = () => {
              <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="w-16 h-16 object-contain" />
           </div>
           <h2 className="text-2xl font-serif font-black tracking-tight text-white mb-1 uppercase">CETADMI</h2>
+          <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">Capacitacao e aperfeicoamento ministerial</p>
           <div className="h-1 w-12 bg-brand-gold mt-2 rounded-full"></div>
         </div>
         
@@ -363,10 +366,10 @@ const DashboardPage = () => {
 
               {/* ACTION BAR */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-200 pb-8">
-                 <div>
+                  <div>
                     <h2 className="text-3xl font-serif font-black text-brand-navy uppercase tracking-tighter">Gerenciar Eventos</h2>
-                    <p className="text-sm text-slate-500 font-medium italic font-serif">Acompanhamento acadêmico e administrativo dos ciclos CETADMI.</p>
-                 </div>
+                    <p className="text-sm text-slate-500 font-medium italic font-serif">{institutionalContent.mission}</p>
+                  </div>
                  <button 
                   onClick={handleCreateNew}
                   className="flex items-center justify-center gap-3 bg-brand-navy text-white px-8 py-5 rounded-2xl font-black text-xs tracking-widest hover:bg-brand-navy-light transition-all duration-500 shadow-xl shadow-brand-navy/10 active:scale-95 group"
@@ -695,25 +698,54 @@ const DashboardPage = () => {
             <div className="animate-in fade-in duration-700 max-w-2xl mx-auto">
                <div className="bg-white p-12 rounded-[2.5rem] border border-slate-100 shadow-xl space-y-10">
                   <div className="text-center pb-8 border-b border-slate-50">
-                     <h2 className="text-3xl font-serif font-black text-brand-navy uppercase tracking-tighter">Configurações Gerais</h2>
-                     <p className="text-[10px] text-slate-400 font-black tracking-widest uppercase mt-2">Identidade e Propriedades do Sistema</p>
-                  </div>
+                     <h2 className="text-3xl font-serif font-black text-brand-navy uppercase tracking-tighter">Identidade Institucional</h2>
+                     <p className="text-[10px] text-slate-400 font-black tracking-widest uppercase mt-2">Conteudo base reaproveitado do ecossistema CETADMI</p>
+                   </div>
 
-                  <div className="space-y-8">
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Nome da Instituição</label>
-                        <input type="text" className="w-full p-5 bg-slate-50 rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-brand-navy transition-all font-bold text-sm" defaultValue="Colégio Teológico CETADMI" />
-                     </div>
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">WhatsApp Oficial de Suporte</label>
-                        <input type="text" className="w-full p-5 bg-slate-50 rounded-2xl border border-slate-100 outline-none focus:ring-2 focus:ring-brand-navy transition-all font-bold text-sm" placeholder="+55 ..." />
-                     </div>
-                     <div className="pt-6">
-                        <button className="w-full bg-brand-navy text-white py-6 rounded-2xl font-black text-[11px] tracking-[0.2em] uppercase hover:bg-brand-navy-light transition-all shadow-xl shadow-brand-navy/10">
-                           SALVAR PREFERÊNCIAS
-                        </button>
-                     </div>
-                  </div>
+                   <div className="space-y-8">
+                     <div className="rounded-[2rem] border border-slate-100 bg-slate-50 p-6 space-y-4">
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Instituicao</p>
+                          <p className="mt-2 text-lg font-bold text-brand-navy">{institutionalContent.fullName}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Missao</p>
+                          <p className="mt-2 text-sm leading-relaxed text-slate-600">{institutionalContent.mission}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Linha Doutrinaria</p>
+                          <p className="mt-2 text-sm leading-relaxed text-slate-600">{institutionalContent.doctrinalLine}</p>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div className="rounded-2xl border border-slate-100 bg-white p-5">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">WhatsApp oficial</p>
+                          <p className="mt-2 text-sm font-bold text-brand-navy">{institutionalContent.supportWhatsapp}</p>
+                          <p className="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Atendimento</p>
+                          <p className="mt-2 text-sm text-slate-600">{institutionalContent.supportHours}</p>
+                        </div>
+                        <div className="rounded-2xl border border-slate-100 bg-white p-5">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Contato por e-mail</p>
+                          <p className="mt-2 text-sm font-bold text-brand-navy break-words">{institutionalContent.supportEmail}</p>
+                          <p className="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Categoria destaque</p>
+                          <p className="mt-2 text-sm text-slate-600">{institutionalContent.categoryHighlight}</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                        {institutionalContent.stats.map((item) => (
+                          <div key={item.label} className="rounded-2xl bg-brand-cream p-5 text-center">
+                            <p className="text-2xl font-black text-brand-navy">{item.value}</p>
+                            <p className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{item.label}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-5 py-4 text-sm text-brand-navy">
+                        Este bloco exibe informacoes institucionais extraidas do site publico para manter consistencia entre eventos, atendimento e identidade do portal.
+                      </div>
+                   </div>
                </div>
             </div>
           )}
@@ -725,8 +757,8 @@ const DashboardPage = () => {
               <img src="/logo-cetadmi.png" alt="" className="w-10 h-10 grayscale" />
               <div className="text-[9px] font-black uppercase tracking-[0.3em]">Gestão Acadêmica Profissional</div>
            </div>
-           <div className="text-[8px] font-black uppercase tracking-widest italic">
-              &copy; {new Date().getFullYear()} Colégio Teológico CETADMI. Todos os direitos reservados.
+            <div className="text-[8px] font-black uppercase tracking-widest italic">
+              &copy; {new Date().getFullYear()} {institutionalContent.legacyName}. Todos os direitos reservados.
            </div>
         </footer>
       </main>

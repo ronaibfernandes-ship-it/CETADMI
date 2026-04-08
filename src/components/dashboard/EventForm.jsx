@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { X, Save, Upload, Plus, Trash2, Loader2, AlertCircle, Mic2, Clock3, Sparkles } from 'lucide-react'
 import { eventService } from '../../services/eventService'
+import { institutionalContent } from '../../config/institution'
 
 const toLocalDateTimeInput = (value) => {
   if (!value) return ''
@@ -32,14 +33,14 @@ const createSpeaker = () => ({ id: crypto.randomUUID(), name: '', role: '', imag
 const createProgramItem = () => ({ id: crypto.randomUUID(), time: '', title: '', desc: '' })
 
 const premiumSymposiumTemplate = {
-  subtitle: 'Formacao biblica, teologica e pedagogica para professores e lideres da Escola Biblica Dominical',
-  location: 'Sede Estadual',
-  description: `O 6º Simposio da EBD e um encontro especial de formacao biblica, teologica e pedagogica voltado para professores, lideres, superintendentes e alunos da Escola Biblica Dominical.
+  subtitle: 'Capacitacao biblica, teologica e ministerial com compromisso doutrinario e excelencia academica',
+  location: 'Sede CETADMI',
+  description: `O 6º Simposio da EBD e um encontro especial promovido pelo ${institutionalContent.shortName}, instituicao dedicada a capacitacao e ao aperfeicoamento de obreiros, lideres, professores e alunos comprometidos com a formacao crista.
 
 Durante esta edicao, teremos exposicoes da Palavra de Deus, orientacoes praticas para o ensino cristao, comunhao entre obreiros e momentos de fortalecimento espiritual.
 
-Nosso proposito e capacitar homens e mulheres para servirem com excelencia no ministerio de ensino, preservando a sa doutrina e fortalecendo a missao da EBD na igreja local.`,
-  whatsapp_number: '5511999999999',
+Nosso proposito e capacitar homens e mulheres para servirem com excelencia no ministerio de ensino, preservando a sã doutrina, fortalecendo a missao da EBD na igreja local e refletindo a identidade pentecostal classica do CETADMI.`,
+  whatsapp_number: institutionalContent.supportWhatsapp.replace(/\D/g, ''),
   speakers: [
     {
       id: crypto.randomUUID(),
@@ -91,17 +92,19 @@ Nosso proposito e capacitar homens e mulheres para servirem com excelencia no mi
 const EventForm = ({ event, onClose }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
   
   // Form State (Official Schema Block 4)
   const [formData, setFormData] = useState(createEmptyFormData())
 
   useEffect(() => {
     if (event) {
+      const normalizedSlug = eventService.normalizeSlug(event.slug)
       setFormData({
         ...createEmptyFormData(),
         title: event.title || '',
         subtitle: event.subtitle || '',
-        slug: event.slug || '',
+        slug: normalizedSlug,
         event_date: toLocalDateTimeInput(event.event_date),
         registration_deadline: toLocalDateTimeInput(event.registration_deadline),
         location: event.location || '',
@@ -115,16 +118,45 @@ const EventForm = ({ event, onClose }) => {
         speakers: event.speakers || [],
         program: event.program || []
       })
+      setSlugManuallyEdited(Boolean(normalizedSlug))
     } else {
       setFormData(createEmptyFormData())
+      setSlugManuallyEdited(false)
     }
   }, [event])
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+
+    if (type === 'checkbox') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: checked,
+      }))
+      return
+    }
+
+    if (name === 'title') {
+      setFormData((prev) => ({
+        ...prev,
+        title: value,
+        slug: slugManuallyEdited ? prev.slug : eventService.normalizeSlug(value),
+      }))
+      return
+    }
+
+    if (name === 'slug') {
+      setSlugManuallyEdited(true)
+      setFormData((prev) => ({
+        ...prev,
+        slug: eventService.normalizeSlug(value),
+      }))
+      return
+    }
+
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }))
   }
 
@@ -225,6 +257,7 @@ const EventForm = ({ event, onClose }) => {
     try {
       const payload = {
         ...formData,
+        slug: eventService.normalizeSlug(formData.slug),
         capacity: formData.capacity === '' ? null : parseInt(formData.capacity),
         event_date: formData.event_date ? new Date(formData.event_date).toISOString() : null,
         registration_deadline: formData.registration_deadline ? new Date(formData.registration_deadline).toISOString() : null
@@ -269,7 +302,7 @@ const EventForm = ({ event, onClose }) => {
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <h3 className="text-sm font-black uppercase tracking-widest">Preenchimento Premium Assistido</h3>
-                <p className="mt-1 text-xs text-cetadmi-navy/60">Aplica um modelo profissional para o 6º Simposio da EBD com descricao, palestrantes e cronograma.</p>
+                 <p className="mt-1 text-xs text-cetadmi-navy/60">Aplica um modelo institucional com identidade CETADMI, descricao, palestrantes e cronograma.</p>
               </div>
               <button
                 type="button"
@@ -306,10 +339,11 @@ const EventForm = ({ event, onClose }) => {
                   <label className="block text-[10px] font-black uppercase tracking-widest">Slug (URL)</label>
                   <input 
                      type="text" name="slug" required value={formData.slug} onChange={handleChange}
-                    className="w-full bg-white border-2 border-cetadmi-navy p-3 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cetadmi-red/30"
-                     placeholder="ex: congresso-2024"
-                   />
-                </div>
+                     className="w-full bg-white border-2 border-cetadmi-navy p-3 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cetadmi-red/30"
+                      placeholder="ex: congresso-2024"
+                    />
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-cetadmi-navy/45">URL publica: /evento/{formData.slug || 'seu-slug'}</p>
+                 </div>
                 <div className="space-y-2">
                   <label className="block text-[10px] font-black uppercase tracking-widest">Data do Evento</label>
                   <input 
@@ -342,7 +376,7 @@ const EventForm = ({ event, onClose }) => {
                   <input 
                      type="text" name="whatsapp_number" value={formData.whatsapp_number} onChange={handleChange}
                     className="w-full bg-white border-2 border-cetadmi-navy p-3 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cetadmi-red/30"
-                     placeholder="5511999999999"
+                      placeholder={institutionalContent.supportWhatsapp.replace(/\D/g, '')}
                    />
                 </div>
                 <div className="space-y-2">
@@ -361,7 +395,7 @@ const EventForm = ({ event, onClose }) => {
                   value={formData.description}
                   onChange={handleChange}
                   rows={7}
-                  placeholder="Descreva objetivos, publico, enfase espiritual e o que o participante pode esperar do evento..."
+                  placeholder={`Descreva objetivos, publico, enfase espiritual e como o evento se conecta a missao do ${institutionalContent.shortName}...`}
                   className="w-full resize-y bg-white border-2 border-cetadmi-navy p-3 text-sm font-medium leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cetadmi-red/30"
                 />
               </div>

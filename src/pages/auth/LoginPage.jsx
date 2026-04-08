@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../../config/supabase'
 import { useAuth } from '../../contexts/AuthContext'
 import { LogIn, Loader2, AlertCircle, ShieldCheck, LockKeyhole, ArrowRight, Eye, EyeOff } from 'lucide-react'
@@ -215,7 +215,16 @@ const LoginPage = () => {
           <div className="mt-8 rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-4 text-sm text-cetadmi-navy">
             Se uma nova pessoa precisar de acesso, o pastor/owner deve liberar primeiro na area <span className="font-black">Administradores</span> do painel.
           </div>
-          
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3 text-[10px] font-black uppercase tracking-widest">
+            <Link to="/" className="rounded-full border border-cetadmi-navy/10 px-4 py-3 text-cetadmi-navy transition-colors hover:bg-cetadmi-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cetadmi-red/20">
+              Voltar ao portal
+            </Link>
+            <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="rounded-full border border-cetadmi-navy/10 px-4 py-3 text-cetadmi-navy transition-colors hover:bg-cetadmi-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cetadmi-red/20">
+              Ver cursos
+            </a>
+          </div>
+           
           <div className="mt-8 pt-6 border-t border-cetadmi-navy/10 text-center">
             <p className="text-[10px] text-cetadmi-navy/50 font-bold italic">
               "Procura apresentar-te a Deus aprovado..." — 2 Timóteo 2:15

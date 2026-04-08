@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Calendar, MapPin, CheckCircle, ArrowRight, Loader2, AlertCircle, ImageOff, Mic2, BookOpenText, ShieldCheck, WalletCards, MessageCircleHeart } from 'lucide-react';
 import { eventService } from '../../services/eventService';
+import { institutionalContent } from '../../config/institution';
+
+const toSafeDate = (value) => {
+  if (!value) return null;
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  return new Date(value);
+};
+
+const formatPrice = (value) => `R$ ${(Number(value) || 0).toFixed(2)}`;
 
 const EventPage = () => {
   const { slug } = useParams();
@@ -11,6 +25,7 @@ const EventPage = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [validationError, setValidationError] = useState(null);
+  const [bannerFailed, setBannerFailed] = useState(false);
 
   // Registration Form State
   const [selectedOption, setSelectedOption] = useState(null);
@@ -24,12 +39,12 @@ const EventPage = () => {
   useEffect(() => {
     async function fetchEvent() {
       try {
+        setBannerFailed(false);
+        setSelectedOption(null);
         const data = await eventService.getEventBySlug(slug);
         if (!data || !data.is_published) throw new Error('Este evento acadêmico não está disponível para inscrições públicas no momento.');
         setEvent(data);
-        if (data.price_options?.length > 0) {
-          setSelectedOption(data.price_options[0]);
-        }
+        setSelectedOption(data.price_options?.[0] ?? null);
       } catch (err) {
         setError(err.message || 'Erro ao carregar os dados do evento.');
       } finally {
@@ -89,10 +104,10 @@ const EventPage = () => {
                           `*DADOS DA MATRÍCULA:* \n` +
                           `- Aluno: ${formData.full_name}\n` +
                           `- Categoria: ${selectedOption.label}\n` +
-                          `- Investimento: R$ ${selectedOption.price.toFixed(2)}\n\n` +
+                          `- Investimento: ${formatPrice(selectedOption.price)}\n\n` +
                           `Estarei enviando o comprovante do PIX por aqui para confirmação definitiva da minha vaga.`;
       
-      const whatsappUrl = `https://wa.me/${sanitizedPhone}?text=${encodeURIComponent(whatsappMsg)}`;
+      const whatsappUrl = eventService.buildWhatsAppUrl(sanitizedPhone, whatsappMsg);
       
       // 4. Redirect com delay
       setTimeout(() => {
@@ -105,13 +120,18 @@ const EventPage = () => {
     }
   };
 
-  const registrationClosed = event?.registration_deadline && new Date(event.registration_deadline) < new Date();
+  const registrationDeadline = toSafeDate(event?.registration_deadline);
+  const registrationClosed = registrationDeadline ? registrationDeadline < new Date() : false;
   const hasPriceOptions = (event?.price_options?.length || 0) > 0;
   const canSubmit = !registering && !registrationClosed && hasPriceOptions;
-  const hasBanner = Boolean(event?.banner_url);
+  const hasBanner = Boolean(event?.banner_url) && !bannerFailed;
+  const eventDate = toSafeDate(event?.event_date);
   const eventDateLabel = event?.event_date
-    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(event.event_date))
+    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(eventDate)
     : 'Data a confirmar';
+  const registrationDeadlineLabel = registrationDeadline
+    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(registrationDeadline)
+    : 'Sem prazo definido';
   const speakers = Array.isArray(event?.speakers) ? event.speakers.filter((speaker) => speaker?.name) : [];
   const program = Array.isArray(event?.program) ? event.program.filter((item) => item?.title || item?.time) : [];
   const lowestPrice = event?.price_options?.length
@@ -137,6 +157,25 @@ const EventPage = () => {
 
   return (
     <div className="min-h-screen bg-brand-cream text-slate-800 font-sans">
+      <header className="border-b border-white/10 bg-brand-navy text-white">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+          <Link to="/" className="flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">
+            <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="64" height="64" className="h-12 w-12 object-contain" />
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Portal Publico</p>
+              <p className="text-xl font-serif font-black uppercase tracking-tight">CETADMI</p>
+            </div>
+          </Link>
+
+          <nav className="flex flex-wrap items-center gap-3 text-[10px] font-black uppercase tracking-widest text-white/75">
+            <Link to="/" className="rounded-full px-4 py-2 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Inicio</Link>
+            <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Cursos</a>
+            <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, 'Olá! Gostaria de atendimento do CETADMI.')} target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Contato</a>
+            <Link to="/login" className="rounded-full bg-white px-5 py-3 text-brand-navy transition-colors hover:bg-brand-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">Painel</Link>
+          </nav>
+        </div>
+      </header>
+
       <section className="relative overflow-hidden bg-brand-navy text-white">
         {hasBanner ? (
           <>
@@ -146,10 +185,11 @@ const EventPage = () => {
               className="absolute inset-0 h-full w-full object-cover"
               width="1600"
               height="900"
-              fetchPriority="high"
+              fetchpriority="high"
+              onError={() => setBannerFailed(true)}
             />
-            <div className="absolute inset-0 bg-brand-navy/75" />
-            <div className="absolute inset-y-0 right-0 w-1/3 bg-brand-gold/10 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-navy via-brand-navy/88 to-brand-navy/70" />
+            <div className="absolute inset-y-0 right-0 w-1/3 bg-brand-gold/10 backdrop-blur-[3px]" />
           </>
         ) : (
           <>
@@ -158,26 +198,30 @@ const EventPage = () => {
           </>
         )}
 
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[minmax(0,1.3fr)_360px] lg:items-end lg:px-10 lg:py-24">
+        <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-[minmax(0,1.25fr)_380px] lg:items-end lg:px-10 lg:py-24">
           <div className="max-w-4xl">
-            <span className="mb-5 inline-flex rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-2 text-[11px] font-black uppercase tracking-[0.35em] text-brand-gold backdrop-blur-sm">
+            <span className="mb-5 inline-flex rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-2 text-[11px] font-black uppercase tracking-[0.35em] text-brand-gold backdrop-blur-sm shadow-lg shadow-brand-navy/20">
               {registrationClosed ? 'Inscricoes Encerradas' : 'Inscricoes Abertas'}
             </span>
-            <h1 className="max-w-5xl text-5xl font-black uppercase leading-[0.95] text-white md:text-7xl text-balance">
+            <h1 className="max-w-5xl text-5xl font-black uppercase leading-[0.95] text-white md:text-7xl text-balance drop-shadow-[0_10px_30px_rgba(8,15,31,0.55)]">
               {event.title}
             </h1>
-            <p className="mt-6 max-w-3xl text-xl italic leading-relaxed text-white/80 md:text-2xl">
+            <p className="mt-6 max-w-3xl text-xl italic leading-relaxed text-white/82 md:text-2xl">
               {event.subtitle || 'Formacao biblica, teologica e pedagogica para uma Escola Dominical forte, fiel e relevante.'}
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4 text-sm font-semibold">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-3 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-3 backdrop-blur-sm shadow-lg shadow-brand-navy/15">
                 <Calendar size={18} className="text-brand-gold" aria-hidden="true" />
                 {eventDateLabel}
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-3 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-3 backdrop-blur-sm shadow-lg shadow-brand-navy/15">
                 <MapPin size={18} className="text-brand-gold" aria-hidden="true" />
                 {event.location || 'Sede Central CETADMI'}
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-5 py-3 backdrop-blur-sm shadow-lg shadow-brand-navy/15">
+                <CheckCircle size={18} className="text-brand-gold" aria-hidden="true" />
+                {registrationDeadline ? `Inscreva-se ate ${registrationDeadlineLabel}` : 'Inscricao com confirmacao organizada'}
               </span>
             </div>
 
@@ -185,13 +229,25 @@ const EventPage = () => {
               <a href="#inscricao" className="inline-flex items-center gap-3 rounded-full bg-brand-gold px-10 py-5 text-lg font-black uppercase tracking-tight text-brand-navy shadow-xl transition-transform hover:scale-[1.02] hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy">
                 Garantir minha vaga agora <ArrowRight size={22} aria-hidden="true" />
               </a>
-              <div className="text-sm font-medium text-white/70">
-                {lowestPrice !== null ? `A partir de R$ ${lowestPrice.toFixed(2)}` : 'Valores em breve'}
+              <div className="rounded-full border border-white/10 bg-white/10 px-5 py-3 text-sm font-medium text-white/80 backdrop-blur-sm">
+                {lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'Valores em breve'}
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-4 lg:max-w-4xl lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)]">
+              <div className="rounded-[1.75rem] border border-white/10 bg-white/10 px-5 py-5 backdrop-blur-sm shadow-2xl shadow-brand-navy/15">
+                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Sobre o CETADMI</p>
+                <p className="mt-3 text-sm leading-relaxed text-white/80">{institutionalContent.mission}</p>
+              </div>
+              <div className="rounded-[1.75rem] border border-white/10 bg-brand-gold/10 px-5 py-5 backdrop-blur-sm shadow-2xl shadow-brand-navy/15">
+                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Atendimento oficial</p>
+                <p className="mt-3 text-sm font-bold text-white break-words">{event.whatsapp_number || institutionalContent.supportWhatsapp}</p>
+                <p className="mt-2 text-xs text-white/65">Suporte para inscricao, comprovante e confirmacao.</p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md shadow-2xl lg:p-8">
+          <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 backdrop-blur-md shadow-2xl shadow-brand-navy/20 lg:p-8 lg:-mb-10">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Painel do Evento</p>
@@ -215,7 +271,7 @@ const EventPage = () => {
               </div>
               <div className="flex items-start justify-between gap-4">
                 <span className="font-black uppercase tracking-widest text-white/45">Investimento</span>
-                <span className="text-right font-semibold">{lowestPrice !== null ? `A partir de R$ ${lowestPrice.toFixed(2)}` : 'A confirmar'}</span>
+                <span className="text-right font-semibold">{lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'A confirmar'}</span>
               </div>
               <div className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-4 text-brand-gold">
                 O formulario de inscricao completa e a confirmacao financeira ficam logo abaixo.
@@ -226,7 +282,7 @@ const EventPage = () => {
       </section>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-20 lg:-mt-2">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           
           {/* LEFT COLUMN: Details */}
@@ -347,6 +403,39 @@ const EventPage = () => {
                 </div>
               )}
             </section>
+
+            <section>
+              <h2 className="text-3xl font-bold text-brand-navy font-serif mb-6 flex items-center gap-3">
+                <div className="w-8 h-1 bg-brand-gold"></div> Sobre o CETADMI
+              </h2>
+              <div className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-sm space-y-8">
+                <div className="space-y-3">
+                  <p className="text-lg leading-relaxed text-slate-600">{institutionalContent.fullName} atua na capacitacao e no aperfeicoamento de vocacionados, liderancas e alunos comprometidos com a formacao crista.</p>
+                  <p className="text-sm leading-relaxed text-slate-500">{institutionalContent.doctrinalLine}</p>
+                  <p className="text-sm leading-relaxed text-slate-500">{institutionalContent.audience}</p>
+                  <p className="text-sm font-semibold text-brand-navy">{institutionalContent.leadership}</p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                  {institutionalContent.stats.map((item) => (
+                    <div key={item.label} className="rounded-2xl bg-brand-cream px-5 py-5">
+                      <p className="text-3xl font-black text-brand-navy">{item.value}</p>
+                      <p className="mt-2 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500">{item.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="rounded-2xl border border-slate-100 bg-slate-50 px-5 py-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">Formacao em destaque</p>
+                  <p className="mt-3 text-sm font-semibold text-slate-600">Categoria principal: {institutionalContent.categoryHighlight}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500">Disciplinas publicadas no ecossistema CETADMI: {institutionalContent.featuredCourses.join(', ')}.</p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <Link to="/" className="inline-flex items-center gap-2 rounded-full bg-brand-navy px-4 py-3 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Voltar ao portal</Link>
+                    <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-colors hover:border-brand-navy hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Explorar cursos</a>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
 
           {/* RIGHT COLUMN: Registration Form (Sticky) */}
@@ -395,15 +484,15 @@ const EventPage = () => {
                      </div>
 
                      <div className="mt-4 grid gap-3 text-left md:grid-cols-2">
-                       <div className="rounded-2xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
-                         <div className="flex items-center gap-3 text-brand-navy">
-                           <WalletCards className="h-5 w-5" aria-hidden="true" />
-                           <span className="text-[10px] font-black uppercase tracking-[0.25em]">Investimento</span>
-                         </div>
-                         <p className="mt-3 text-lg font-black text-brand-navy">
-                           {selectedOption ? `R$ ${Number(selectedOption.price).toFixed(2)}` : lowestPrice !== null ? `A partir de R$ ${lowestPrice.toFixed(2)}` : 'A confirmar'}
-                         </p>
-                       </div>
+                        <div className="rounded-2xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
+                          <div className="flex items-center gap-3 text-brand-navy">
+                            <WalletCards className="h-5 w-5" aria-hidden="true" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.25em]">Investimento</span>
+                          </div>
+                          <p className="mt-3 text-lg font-black text-brand-navy">
+                            {selectedOption ? formatPrice(selectedOption.price) : lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'A confirmar'}
+                          </p>
+                        </div>
                        <div className="rounded-2xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
                          <div className="flex items-center gap-3 text-brand-navy">
                            <MessageCircleHeart className="h-5 w-5" aria-hidden="true" />
@@ -434,7 +523,7 @@ const EventPage = () => {
                                 >
                                     <span className="font-bold text-xs uppercase tracking-tight">{opt.label}</span>
                                     <span className={`font-black text-sm ${selectedOption?.id === opt.id ? 'text-brand-gold' : 'text-brand-navy'}`}>
-                                        R$ {opt.price.toFixed(2)}
+                                        {formatPrice(opt.price)}
                                     </span>
                                 </button>
                             ))}
@@ -442,16 +531,16 @@ const EventPage = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome Completo</label>
-                      <input type="text" name="full_name" autoComplete="name" value={formData.full_name} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm uppercase transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="Ex.: Ronaib Fernandes…" required />
+                      <label htmlFor="full_name" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome Completo</label>
+                      <input id="full_name" type="text" name="full_name" autoComplete="name" value={formData.full_name} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm uppercase transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="Ex.: Ronaib Fernandes…" required />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
-                      <input type="tel" name="phone" autoComplete="tel" inputMode="tel" value={formData.phone} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="(00) 00000-0000…" required />
+                      <label htmlFor="phone" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
+                      <input id="phone" type="tel" name="phone" autoComplete="tel" inputMode="tel" value={formData.phone} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="(00) 00000-0000…" required />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">E-mail Acadêmico</label>
-                      <input type="email" name="email" autoComplete="email" spellCheck={false} value={formData.email} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="seu@email.com…" required />
+                      <label htmlFor="email" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">E-mail Acadêmico</label>
+                      <input id="email" type="email" name="email" autoComplete="email" spellCheck={false} value={formData.email} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="seu@email.com…" required />
                     </div>
                     
                     <button 
@@ -493,13 +582,19 @@ const EventPage = () => {
         <div className="relative z-10">
             <img src="/logo-cetadmi.png" alt="Logo" className="w-16 h-16 mx-auto mb-6 opacity-30 grayscale" />
             <h4 className="text-xl font-serif font-black text-brand-navy tracking-widest uppercase mb-4">CETADMI</h4>
+            <p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-slate-500">{institutionalContent.mission}</p>
+            <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+              <span>{institutionalContent.supportHours}</span>
+              <span>{institutionalContent.supportWhatsapp}</span>
+              <span>{institutionalContent.supportEmail}</span>
+            </div>
             <div className="flex justify-center gap-4 mb-8">
                 <span className="w-4 h-1 bg-brand-gold rounded-full"></span>
                 <span className="w-4 h-1 bg-brand-navy rounded-full"></span>
                 <span className="w-4 h-1 bg-brand-gold rounded-full"></span>
             </div>
             <p className="text-[10px] text-slate-400 uppercase tracking-[0.4em] font-black italic">
-                &copy; 1994 - {new Date().getFullYear()} Colégio Teológico CETADMI — Excelência e Verdade.
+                &copy; 1994 - {new Date().getFullYear()} {institutionalContent.legacyName}.
             </p>
         </div>
       </footer>

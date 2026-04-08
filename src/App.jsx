@@ -7,12 +7,17 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import LoginPage from './pages/auth/LoginPage'
 import DashboardPage from './pages/dashboard/DashboardPage'
 import EventPage from './pages/public/EventPage'
+import HomePage from './pages/public/HomePage'
 
 function App() {
   return (
     <AuthProvider>
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
+          {/* Portal Publico */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/evento" element={<Navigate to="/" replace />} />
+
           {/* Rota Pública do Evento */}
           <Route path="/evento/:slug" element={<EventPage />} />
           
@@ -30,7 +35,6 @@ function App() {
           />
 
           {/* Redirecionamento Padrão */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>

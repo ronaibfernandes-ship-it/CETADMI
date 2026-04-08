@@ -6,6 +6,18 @@ describe('eventService utilities', () => {
     expect(eventService.sanitizeWhatsAppNumber('+55 (11) 99876-5432')).toBe('5511998765432')
   })
 
+  it('normalizes event slugs before use', () => {
+    expect(eventService.normalizeSlug(' 6-simposio-da-ebd ')).toBe('6-simposio-da-ebd')
+  })
+
+  it('builds slug lookup candidates for legacy records', () => {
+    expect(eventService.buildSlugLookupCandidates('6-simposio-da-ebd')).toEqual([
+      '6-simposio-da-ebd',
+      ' 6-simposio-da-ebd',
+      '6-simposio-da-ebd ',
+    ])
+  })
+
   it('maps duplicate registration errors', () => {
     expect(eventService.mapRegistrationError({ message: 'DUPLICATE_ACTIVE_REGISTRATION' }))
       .toContain('inscricao ativa')
@@ -28,6 +40,7 @@ describe('eventService utilities', () => {
 
     expect(normalized.total_registrations).toBe(3)
     expect(normalized.occupied_slots).toBe(2)
+    expect(normalized.slug).toBe('')
   })
 
   it('maps admin policy errors', () => {

@@ -22,12 +22,36 @@ export const eventService = {
 
     return {
       ...event,
+      slug: this.normalizeSlug(event.slug),
       speakers: Array.isArray(event.speakers) ? event.speakers : [],
       program: Array.isArray(event.program) ? event.program : [],
       price_options: Array.isArray(event.price_options) ? event.price_options : [],
       occupied_slots: event.occupied_slots ?? occupiedSlots,
       total_registrations: event.total_registrations ?? registrations.length,
     }
+  },
+
+  normalizeSlug(value) {
+    if (!value) return ''
+
+    return String(value)
+      .trim()
+      .replace(/^\/+|\/+$/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .toLowerCase()
+  },
+
+  buildSlugLookupCandidates(value) {
+    const rawSlug = String(value || '')
+    const normalizedSlug = this.normalizeSlug(value)
+
+    return Array.from(new Set([
+      rawSlug,
+      normalizedSlug,
+      ` ${normalizedSlug}`,
+      `${normalizedSlug} `,
+    ].filter(Boolean)))
   },
 
   // --- OPERAÇÕES DE EVENTOS ---
@@ -51,10 +75,11 @@ export const eventService = {
    */
   async getEventBySlug(slug) {
     const client = this.requireClient()
+    const slugCandidates = this.buildSlugLookupCandidates(slug)
     const { data, error } = await client
       .from('events')
       .select('*')
-      .eq('slug', slug)
+      .in('slug', slugCandidates)
       .maybeSingle()
     
     if (error) throw error
@@ -66,9 +91,13 @@ export const eventService = {
    */
   async createEvent(eventData) {
     const client = this.requireClient()
+    const normalizedPayload = {
+      ...eventData,
+      slug: this.normalizeSlug(eventData.slug),
+    }
     const { data, error } = await client
       .from('events')
-      .insert([eventData])
+      .insert([normalizedPayload])
       .select()
       .single()
     
@@ -81,9 +110,13 @@ export const eventService = {
    */
   async updateEvent(id, updateData) {
     const client = this.requireClient()
+    const normalizedPayload = {
+      ...updateData,
+      slug: this.normalizeSlug(updateData.slug),
+    }
     const { data, error } = await client
       .from('events')
-      .update(updateData)
+      .update(normalizedPayload)
       .eq('id', id)
       .select()
       .single()
@@ -248,6 +281,21 @@ export const eventService = {
   sanitizeWhatsAppNumber(number) {
     if (!number) return ''
     return number.replace(/\D/g, '')
+  },
+
+  buildWhatsAppUrl(number, text = '') {
+    const sanitizedNumber = this.sanitizeWhatsAppNumber(number)
+    const searchParams = new URLSearchParams()
+
+    if (sanitizedNumber) {
+      searchParams.set('phone', sanitizedNumber)
+    }
+
+    if (text) {
+      searchParams.set('text', text)
+    }
+
+    return `https://api.whatsapp.com/send?${searchParams.toString()}`
   },
 
   mapRegistrationError(error) {
