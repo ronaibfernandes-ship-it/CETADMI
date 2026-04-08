@@ -468,17 +468,17 @@ const DashboardPage = () => {
                            )}
 
                            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 via-transparent to-transparent" />
-                           <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-[10px] font-black uppercase tracking-[0.3em] text-white backdrop-blur-sm">
-                             <Sparkles size={12} aria-hidden="true" className="text-brand-gold" />
-                             Portal Premium
-                           </div>
+                            <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                              <Sparkles size={12} aria-hidden="true" className="text-brand-gold" />
+                              Evento Publico
+                            </div>
                          </div>
 
                           <div className="p-8 flex-1 flex flex-col">
                              <div className="flex justify-between items-start mb-6">
-                                <span className={`text-[10px] uppercase font-bold px-3 py-1 rounded-lg ${event.is_published ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}`}>
-                                   {event.is_published ? 'Publicado' : 'Rascunho'}
-                                </span>
+                                 <span className={`rounded-lg px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] ${event.is_published ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}`}>
+                                    {event.is_published ? 'Publicado' : 'Rascunho'}
+                                 </span>
                                 <div className="text-right">
                                    <p className="text-xs font-bold text-slate-800">{event.occupied_slots || 0}/{event.capacity || 'Livre'} Vagas</p>
                                    <div className="w-24 h-1.5 bg-slate-100 rounded-full mt-1 overflow-hidden">
@@ -512,40 +512,40 @@ const DashboardPage = () => {
                                </div>
                             </div>
 
-                             <div className="flex gap-3 pt-6 border-t border-slate-50 mt-auto">
-                                <button 
+                              <div className="mt-auto grid grid-cols-2 gap-3 border-t border-slate-50 pt-6 xl:grid-cols-3">
+                                 <button 
                                     onClick={(e) => { e.stopPropagation(); handleCopyLink(event.slug); }}
-                                   aria-label={`Copiar link do evento ${event.title}`}
-                                   className="flex-1 flex items-center justify-center gap-2 rounded-2xl border border-slate-100 bg-slate-50 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
-                                 >
+                                    aria-label={`Copiar link do evento ${event.title}`}
+                                    className="flex items-center justify-center gap-2 rounded-2xl border border-slate-100 bg-slate-50 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
+                                  >
                                    <Copy size={16} aria-hidden="true" /> Link
                                </button>
                                 <button 
                                    onClick={(e) => { e.stopPropagation(); handleWhatsappShare(event); }}
                                    aria-label={`Compartilhar evento ${event.title} no WhatsApp`}
-                                   className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-green-600 py-3 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg shadow-green-100 transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
-                                 >
+                                    className="flex items-center justify-center gap-2 rounded-2xl bg-green-600 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-white shadow-lg shadow-green-100 transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
+                                  >
                                     <MessageCircle size={16} aria-hidden="true" /> WhatsApp
                                  </button>
                                  <button
                                    type="button"
                                    onClick={(e) => { e.stopPropagation(); handleOpenCertificate(event) }}
-                                   className="flex-1 rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
-                                 >
+                                   className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
+                                  >
                                    Certificado
                                  </button>
                                  <button
                                    type="button"
                                    onClick={() => handleOpenStudents(event)}
-                                  className="flex-1 rounded-2xl border border-brand-navy/10 bg-brand-cream px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
-                                >
+                                   className="rounded-2xl border border-brand-navy/10 bg-brand-cream px-4 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
+                                 >
                                   Inscritos
                                 </button>
                                 <button 
                                    onClick={(e) => handleEdit(event, e)}
                                    aria-label={`Editar evento ${event.title}`}
-                                   className="rounded-xl border border-slate-100 bg-slate-50 p-3 text-slate-400 transition-all hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
-                                 >
+                                   className="col-span-2 rounded-xl border border-slate-100 bg-slate-50 p-3 text-slate-400 transition-all hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 xl:col-span-1"
+                                  >
                                    <Edit3 size={18} aria-hidden="true" />
                                 </button>
                              </div>
@@ -646,8 +646,8 @@ const DashboardPage = () => {
                  )}
               </div>
 
-              <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-                <table className="w-full text-left">
+               <div className="overflow-x-auto rounded-[2.5rem] border border-slate-100 bg-white shadow-sm">
+                 <table className="w-full min-w-[760px] text-left">
                   <thead>
                     <tr className="bg-slate-50 border-b border-slate-100">
                       <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Administrador</th>

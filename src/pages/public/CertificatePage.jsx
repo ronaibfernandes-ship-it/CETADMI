@@ -84,6 +84,19 @@ const CertificatePage = () => {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#2b3546,_#171d27_60%)] px-4 py-6 text-slate-700 print:bg-white print:p-0">
+      <div className="mx-auto mb-4 max-w-4xl rounded-[1.75rem] border border-white/10 bg-white/10 p-4 text-white backdrop-blur md:hidden print:hidden">
+        <label htmlFor="recipient-name" className="block text-xs font-semibold uppercase tracking-[0.14em] text-white/70">Nome no certificado</label>
+        <input
+          id="recipient-name"
+          type="text"
+          value={recipientName}
+          onChange={(event) => setRecipientName(event.target.value || certificateDefaults.nome)}
+          className="mt-3 w-full rounded-2xl border border-white/10 bg-white/95 px-4 py-4 text-base font-semibold text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          placeholder="Digite o nome completo…"
+          autoComplete="off"
+          spellCheck={false}
+        />
+      </div>
       <div className="fixed right-5 top-5 z-20 print:hidden">
         <button
           type="button"
@@ -126,6 +139,8 @@ const CertificatePage = () => {
               <div
                 ref={recipientRef}
                 contentEditable
+                role="textbox"
+                aria-label="Nome do participante no certificado"
                 suppressContentEditableWarning
                 spellCheck={false}
                 onInput={(event) => setRecipientName(event.currentTarget.textContent || certificateDefaults.nome)}

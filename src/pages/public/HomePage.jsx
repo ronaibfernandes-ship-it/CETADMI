@@ -45,12 +45,12 @@ const HomePage = () => {
             <div className="flex items-center gap-4">
             <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="72" height="72" className="h-14 w-14 object-contain" />
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Portal Publico</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Portal Publico</p>
               <h1 className="text-2xl font-serif font-black uppercase tracking-tight text-brand-navy">CETADMI</h1>
             </div>
           </div>
 
-          <nav className="flex flex-wrap items-center justify-center gap-2 rounded-[1.5rem] bg-slate-50/80 p-2 text-[10px] font-black uppercase tracking-widest text-slate-500 lg:justify-end lg:gap-3 lg:bg-transparent lg:p-0">
+          <nav className="flex flex-wrap items-center justify-center gap-2 rounded-[1.5rem] bg-slate-50/80 p-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 lg:justify-end lg:gap-3 lg:bg-transparent lg:p-0">
             <a href="#sobre" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Sobre</a>
             <a href="#eventos" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Eventos</a>
             <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="rounded-full px-4 py-2 transition-colors hover:bg-brand-navy hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Cursos</a>
@@ -65,7 +65,7 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(212,175,55,0.25),_transparent_35%)]" />
           <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-[minmax(0,1.1fr)_420px] lg:px-10 lg:py-24">
             <div className="relative z-10 max-w-4xl">
-              <p className="text-[11px] font-black uppercase tracking-[0.35em] text-brand-gold">Centro Educacional e Teologico</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Centro Educacional e Teologico</p>
               <h2 className="mt-6 text-4xl font-black uppercase leading-[0.95] text-balance md:text-7xl">Capacitacao, eventos e formacao com identidade CETADMI.</h2>
               <p className="mt-6 max-w-3xl text-lg leading-relaxed text-white/80 md:text-xl">{institutionalContent.mission}</p>
 
@@ -82,14 +82,14 @@ const HomePage = () => {
                 {institutionalContent.stats.map((item) => (
                   <div key={item.label} className="rounded-[1.5rem] border border-white/10 bg-white/10 px-5 py-5 backdrop-blur-sm">
                     <p className="text-3xl font-black text-white">{item.value}</p>
-                    <p className="mt-2 text-[10px] font-black uppercase tracking-[0.25em] text-white/60">{item.label}</p>
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/60">{item.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             <aside className="relative z-10 rounded-[2rem] border border-white/10 bg-white/10 p-8 backdrop-blur-md shadow-2xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Essencia do CETADMI</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Essencia do CETADMI</p>
               <div className="mt-6 space-y-5 text-sm text-white/80">
                 <div className="flex gap-4">
                   <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-gold" aria-hidden="true" />
@@ -106,7 +106,7 @@ const HomePage = () => {
               </div>
 
               <div className="mt-8 rounded-[1.5rem] border border-brand-gold/20 bg-brand-gold/10 px-5 py-5 text-brand-gold">
-                <p className="text-[10px] font-black uppercase tracking-[0.25em]">Contato oficial</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em]">Contato oficial</p>
                 <p className="mt-3 text-sm font-semibold text-white">{institutionalContent.supportWhatsapp}</p>
                 <p className="mt-2 text-sm text-white/70">{institutionalContent.supportHours}</p>
               </div>
@@ -117,21 +117,21 @@ const HomePage = () => {
         <section id="sobre" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
             <article className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-sm">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Sobre o CETADMI</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Sobre o CETADMI</p>
               <h3 className="mt-5 text-3xl font-serif font-black text-brand-navy">Formacao que acolhe, orienta e equipa.</h3>
               <p className="mt-5 text-base leading-relaxed text-slate-600">{institutionalContent.fullName} existe para servir a igreja com capacitacao biblica, teologica e ministerial, preservando responsabilidade doutrinaria e clareza na formacao crista.</p>
               <p className="mt-4 text-base leading-relaxed text-slate-600">{institutionalContent.leadership}</p>
             </article>
 
             <article className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-sm">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Cursos e trilhas</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Cursos e trilhas</p>
               <h3 className="mt-5 text-2xl font-serif font-black text-brand-navy">Base institucional ja ativa no ambiente EAD.</h3>
               <div className="mt-6 flex flex-wrap gap-3">
                 {institutionalContent.featuredCourses.map((course) => (
-                  <span key={course} className="rounded-full bg-brand-cream px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-brand-navy">{course}</span>
+                  <span key={course} className="rounded-full bg-brand-cream px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-brand-navy">{course}</span>
                 ))}
               </div>
-              <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
+              <a href="https://cetadmi.eadplataforma.app/courses" target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
                 Abrir catalogo de cursos <ArrowRight size={16} aria-hidden="true" />
               </a>
             </article>
@@ -142,11 +142,11 @@ const HomePage = () => {
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Inscricoes publicas</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Inscricoes publicas</p>
                 <h3 className="mt-4 text-3xl font-serif font-black text-brand-navy">Eventos e encontros com matricula online.</h3>
                 <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-500">A ponte entre os dois mundos fica aqui: o site institucional segue apresentando cursos, e este portal concentra os eventos, congressos, simposios e inscricoes publicas do CETADMI.</p>
               </div>
-              <Link to="/login" className="inline-flex items-center justify-center gap-3 rounded-full border border-brand-navy/10 bg-brand-cream px-6 py-4 text-[10px] font-black uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Entrar no painel</Link>
+              <Link to="/login" className="inline-flex items-center justify-center gap-3 rounded-full border border-brand-navy/10 bg-brand-cream px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-brand-navy transition-colors hover:bg-brand-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">Entrar no painel</Link>
             </div>
 
             {loading ? (
@@ -179,7 +179,7 @@ const HomePage = () => {
                       ) : (
                         <div className="flex h-52 items-center justify-center bg-brand-navy px-6 text-center text-white">
                           <div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-gold">Evento CETADMI</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-gold">Evento CETADMI</p>
                             <p className="mt-4 text-2xl font-black uppercase leading-tight text-balance">{event.title}</p>
                           </div>
                         </div>
@@ -197,7 +197,7 @@ const HomePage = () => {
                           <div className="flex items-center gap-3"><CheckCircle size={16} className="text-brand-gold" aria-hidden="true" />{lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'Valores em breve'}</div>
                         </div>
 
-                        <Link to={`/evento/${eventService.normalizeSlug(event.slug)}`} className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">
+                        <Link to={`/evento/${eventService.normalizeSlug(event.slug)}`} className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">
                           Abrir pagina do evento <ArrowRight size={16} aria-hidden="true" />
                         </Link>
                       </div>
@@ -212,22 +212,22 @@ const HomePage = () => {
         <section className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
             <article className="rounded-[2rem] bg-brand-navy p-8 text-white shadow-2xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Prova social</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Prova social</p>
               <h3 className="mt-5 text-3xl font-serif font-black">A mesma instituicao que oferece cursos tambem sustenta este portal de eventos.</h3>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
                   <p className="text-sm font-semibold text-white/75">"Excelente e com uma linguagem de facil compreensao. Uma bencao."</p>
-                  <p className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-brand-gold">Aluno CETADMI</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold">Aluno CETADMI</p>
                 </div>
                 <div className="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
                   <p className="text-sm font-semibold text-white/75">"Muito bom. Formacao acessivel, clara e edificante."</p>
-                  <p className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-brand-gold">Comunidade academica</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.14em] text-brand-gold">Comunidade academica</p>
                 </div>
               </div>
             </article>
 
             <article className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-sm">
-              <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Fale conosco</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Fale conosco</p>
               <h3 className="mt-5 text-3xl font-serif font-black text-brand-navy">Suporte para cursos, inscricoes e orientacao.</h3>
               <div className="mt-8 space-y-5 text-sm text-slate-600">
                 <div className="flex items-start gap-4"><MessageCircleHeart className="mt-0.5 h-5 w-5 text-brand-navy" aria-hidden="true" /><div><p className="font-semibold text-brand-navy">WhatsApp oficial</p><p>{institutionalContent.supportWhatsapp}</p></div></div>
@@ -235,8 +235,8 @@ const HomePage = () => {
                 <div className="flex items-start gap-4"><Calendar className="mt-0.5 h-5 w-5 text-brand-navy" aria-hidden="true" /><div><p className="font-semibold text-brand-navy">Horario de atendimento</p><p>{institutionalContent.supportHours}</p></div></div>
               </div>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-                <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, 'Olá! Gostaria de atendimento do CETADMI.')} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">Chamar no WhatsApp</a>
-                <a href="https://cetadmi.eadplataforma.app/contact" target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-slate-200 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-colors hover:border-brand-navy hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">Abrir fale conosco</a>
+                <a href={eventService.buildWhatsAppUrl(institutionalContent.supportWhatsapp, 'Olá! Gostaria de atendimento do CETADMI.')} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-navy px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">Chamar no WhatsApp</a>
+                <a href="https://cetadmi.eadplataforma.app/contact" target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-slate-200 px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600 transition-colors hover:border-brand-navy hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20 sm:w-auto">Abrir fale conosco</a>
               </div>
             </article>
           </div>

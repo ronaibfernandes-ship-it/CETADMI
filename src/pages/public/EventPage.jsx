@@ -297,7 +297,7 @@ const EventPage = () => {
       </section>
 
       {/* MAIN CONTENT */}
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-16 lg:-mt-2 lg:py-20">
+      <div className={`relative z-10 mx-auto max-w-6xl px-6 py-16 lg:-mt-2 lg:py-20 ${!success && !registrationClosed && hasPriceOptions ? 'pb-32 lg:pb-20' : ''}`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           
           {/* LEFT COLUMN: Details */}
@@ -531,13 +531,15 @@ const EventPage = () => {
 
                     {/* Categoria Selection */}
                     <div className="space-y-3">
-                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Categoria de Acesso</label>
-                        <div className="grid gap-3">
+                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-[0.14em]">Categoria de Acesso</label>
+                        <div className="grid gap-3" role="radiogroup" aria-label="Categoria de Acesso">
                             {event.price_options?.map((opt) => (
                                 <button
                                     key={opt.id}
                                     type="button"
                                     onClick={() => setSelectedOption(opt)}
+                                    role="radio"
+                                    aria-checked={selectedOption?.id === opt.id}
                                     className={`w-full p-4 border-2 transition-all flex justify-between items-center rounded-2xl ${selectedOption?.id === opt.id ? 'bg-brand-navy text-white border-brand-navy shadow-lg shadow-brand-navy/10' : 'bg-slate-50 border-transparent hover:bg-slate-100 text-slate-700'}`}
                                 >
                                     <span className="font-bold text-xs uppercase tracking-tight">{opt.label}</span>
@@ -550,15 +552,15 @@ const EventPage = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <label htmlFor="full_name" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nome Completo</label>
+                      <label htmlFor="full_name" className="ml-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Nome Completo</label>
                       <input id="full_name" type="text" name="full_name" autoComplete="name" value={formData.full_name} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="Ex.: Ronaib Fernandes…" required />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="phone" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">WhatsApp</label>
+                      <label htmlFor="phone" className="ml-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">WhatsApp</label>
                       <input id="phone" type="tel" name="phone" autoComplete="tel" inputMode="tel" value={formData.phone} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="(91) 98189-7040" required />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email" className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">E-mail Academico</label>
+                      <label htmlFor="email" className="ml-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">E-mail Academico</label>
                       <input id="email" type="email" name="email" autoComplete="email" spellCheck={false} value={formData.email} onChange={handleInputChange} className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-4 font-bold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50" placeholder="seu@email.com…" required />
                     </div>
                     
@@ -573,7 +575,7 @@ const EventPage = () => {
                         </>
                       )}
                     </button>
-                    <p className="text-center text-[10px] text-slate-400 mt-4 italic font-medium leading-relaxed">
+                    <p className="mt-4 text-center text-xs italic font-medium leading-relaxed text-slate-400">
                       {hasValidOrganizationWhatsApp
                         ? 'Sua inscricao e processada de forma segura e requer confirmacao via WhatsApp.'
                         : 'Sua inscricao sera registrada e o suporte oficial do CETADMI fara o acompanhamento manual.'}
@@ -595,14 +597,14 @@ const EventPage = () => {
 
       {!success && !registrationClosed && hasPriceOptions && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-navy/10 bg-white/95 px-4 py-3 shadow-[0_-12px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
-          <div className="mx-auto flex max-w-6xl items-center gap-3">
+          <div className="mx-auto flex max-w-6xl items-center gap-3 pb-[env(safe-area-inset-bottom)]">
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">Inscricao</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">Inscricao</p>
               <p className="mt-1 truncate text-sm font-bold text-brand-navy">
                 {selectedOption ? formatPrice(selectedOption.price) : lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'Valores em breve'}
               </p>
             </div>
-            <a href="#inscricao" className="inline-flex shrink-0 items-center justify-center rounded-full bg-brand-navy px-5 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
+            <a href="#inscricao" className="inline-flex shrink-0 items-center justify-center rounded-full bg-brand-navy px-5 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
               Garantir vaga
             </a>
           </div>
