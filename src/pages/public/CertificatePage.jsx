@@ -245,7 +245,7 @@ const CertificatePage = () => {
             <div className="pointer-events-none absolute inset-[8mm] border-[3.2mm] border-[#0a192f]" />
             <div className="pointer-events-none absolute inset-[13mm] border-[0.9mm] border-[#b9934be6]" />
 
-            <section className="relative z-10 flex h-full flex-col px-[24mm] pb-[24mm] pt-[20mm]">
+            <section className="relative z-10 flex h-full flex-col px-[24mm] pb-[18mm] pt-[20mm]">
               <header>
                 <div className="flex items-center justify-center gap-[10mm] text-center">
                   <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="h-[19mm] w-[19mm] object-contain" />
@@ -283,32 +283,27 @@ const CertificatePage = () => {
                 <p className="mb-[8mm] mt-[11mm] text-center text-[10.5pt] font-semibold uppercase tracking-[0.08em] text-[#0a192fae]">{certificateData.cidadeData}</p>
               </section>
 
-              <footer className="mx-auto mt-[2mm] mb-[1mm] grid w-full max-w-[220mm] grid-cols-[1fr_26mm_1fr] items-end gap-[10mm] pt-[4mm]">
+              <footer className="mt-auto grid grid-cols-[1fr_30mm_1fr] items-end gap-[12mm] pt-[6mm]">
                 <div className="text-center">
-                  <div className="min-h-[16mm] border-t border-[#0a192fb8] pt-[3.5mm]">
+                  <div className="min-h-[18mm] border-t border-[#0a192fb8] pt-[4mm]">
                     <p className="m-0 text-[9.6pt] font-bold uppercase tracking-[0.08em] text-[#0a192f]">{certificateData.preletor}</p>
                     <p className="m-0 mt-1 text-[7.1pt] font-semibold uppercase tracking-[0.1em] text-[#0a192f94]">Preletor do Evento</p>
                   </div>
                 </div>
 
-                <div className="flex justify-center pb-[1.5mm]">
-                  <div className="flex h-[24mm] w-[24mm] items-center justify-center rounded-full border border-[#b9934b8c] bg-white/60 shadow-[inset_0_0_0_0.5mm_rgba(10,25,47,0.05)]">
-                    <img src="/logo-cetadmi.png" alt="Selo CETADMI" className="h-[14mm] w-[14mm] object-contain" />
+                <div className="flex justify-center pb-[2mm]">
+                  <div className="flex h-[26mm] w-[26mm] items-center justify-center rounded-full border border-[#b9934b8c] bg-white/60 shadow-[inset_0_0_0_0.5mm_rgba(10,25,47,0.05)]">
+                    <img src="/logo-cetadmi.png" alt="Selo CETADMI" className="h-[15.5mm] w-[15.5mm] object-contain" />
                   </div>
                 </div>
 
                 <div className="text-center">
-                  <div className="min-h-[16mm] border-t border-[#0a192fb8] pt-[3.5mm]">
+                  <div className="min-h-[18mm] border-t border-[#0a192fb8] pt-[4mm]">
                     <p className="m-0 text-[9.6pt] font-bold uppercase tracking-[0.08em] text-[#0a192f]">{certificateData.diretor}</p>
                     <p className="m-0 mt-1 text-[7.1pt] font-semibold uppercase tracking-[0.1em] text-[#0a192f94]">{certificateData.diretorCargo}<br />CETADMI</p>
                   </div>
                 </div>
               </footer>
-
-              <div className="mt-auto flex items-center justify-between pt-[6mm] text-[7.2pt] font-semibold uppercase tracking-[0.14em] text-[#0a192f8f]">
-                <span>Registro: {certificateData.registro}</span>
-                <span>Emissao: {certificateData.emissao}</span>
-              </div>
             </section>
           </main>
         </div>
