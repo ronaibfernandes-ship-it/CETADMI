@@ -16,7 +16,6 @@ import {
   Award
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
-import { certificateService } from '../../services/certificateService'
 import { useAuth } from '../../contexts/AuthContext'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -78,18 +77,13 @@ const StudentList = ({ event, onBack }) => {
   const [statusFilter, setStatusFilter] = useState('all')
   const [pendingAction, setPendingAction] = useState(null)
   const [actionLoading, setActionLoading] = useState(false)
-  const [certificates, setCertificates] = useState([])
   const [certificateCode, setCertificateCode] = useState('')
 
   const fetchRegistrations = async () => {
     try {
       setLoading(true)
-      const [data, issuedCertificates] = await Promise.all([
-        eventService.getRegistrationsByEvent(event.id),
-        certificateService.getCertificatesByEvent(event.id),
-      ])
+      const data = await eventService.getRegistrationsByEvent(event.id)
       setRegistrations(data)
-      setCertificates(issuedCertificates)
       setError(null)
     } catch (err) {
       setError('Erro ao carregar lista de inscritos.')
@@ -145,9 +139,6 @@ const StudentList = ({ event, onBack }) => {
   }
 
   const handleOpenCertificate = (registration) => {
-    const existingCertificate = certificates.find((item) => item.registration_id === registration.id && item.status === 'issued')
-    if (!existingCertificate?.code) return
-
     window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
   }
 
@@ -156,50 +147,19 @@ const StudentList = ({ event, onBack }) => {
     if (!certificateCode.trim()) return
 
     const normalizedCode = certificateCode.trim().toUpperCase()
-    const matchingCertificate = certificates.find((item) => item.code === normalizedCode && item.status === 'issued')
-
-    if (!matchingCertificate?.registration_id) {
-      setError('Nenhum certificado emitido foi encontrado com esse codigo.')
-      return
-    }
-
-    const matchingRegistration = normalizedRegistrations.find((registration) => registration.id === matchingCertificate.registration_id)
+    const matchingRegistration = normalizedRegistrations.find((registration) => String(registration.id).replace(/-/g, '').slice(0, 8).toUpperCase() === normalizedCode)
 
     if (!matchingRegistration) {
-      setError('O inscrito vinculado a esse certificado nao foi encontrado nesta lista.')
+      setError('Nenhum inscrito desta lista foi encontrado com esse codigo.')
       return
     }
 
     window.open(eventService.buildCertificateUrl(window.location.origin, event, matchingRegistration), '_blank', 'noopener,noreferrer')
   }
 
-  const handleIssueCertificate = async (registration) => {
-    try {
-      const issued = await certificateService.issueCertificate(registration.id)
-      showToast('Certificado emitido com sucesso.')
-      await fetchRegistrations()
-      if (issued?.code) {
-        window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
-      }
-    } catch (err) {
-      setError(certificateService.mapCertificateError(err))
-    }
-  }
-
-  const handleRevokeCertificate = async (registration) => {
-    const existingCertificate = certificates.find((item) => item.registration_id === registration.id && item.status === 'issued')
-    if (!existingCertificate?.id) return
-
-    const shouldRevoke = window.confirm(`Revogar o certificado de ${registration.full_name}?`)
-    if (!shouldRevoke) return
-
-    try {
-      await certificateService.revokeCertificate(existingCertificate.id, 'Revogado manualmente pelo painel administrativo.')
-      showToast('Certificado revogado com sucesso.')
-      await fetchRegistrations()
-    } catch (err) {
-      setError(certificateService.mapCertificateError(err))
-    }
+  const handleIssueCertificate = (registration) => {
+    showToast('Abrindo certificado padrao preenchido.')
+    window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
   }
 
   const normalizeRegistration = (registration) => ({
@@ -233,8 +193,6 @@ const StudentList = ({ event, onBack }) => {
     pending: normalizedRegistrations.filter(r => r.status === 'pending_payment').length,
     others: normalizedRegistrations.filter(r => r.status === 'cancelled' || r.status === 'expired').length
   }
-
-  const certificateByRegistrationId = new Map(certificates.map((certificate) => [certificate.registration_id, certificate]))
 
   if (!event?.id) {
     return (
@@ -385,7 +343,7 @@ const StudentList = ({ event, onBack }) => {
                 </tr>
               ) : (
                 filteredRegistrations.map((reg) => {
-                  const registrationCertificate = certificateByRegistrationId.get(reg.id)
+                  const shortCertificateCode = String(reg.id).replace(/-/g, '').slice(0, 8).toUpperCase()
 
                   return (
                   <tr key={reg.id} className="hover:bg-cetadmi-cream/30 transition-colors">
@@ -445,9 +403,9 @@ const StudentList = ({ event, onBack }) => {
                              CONF. EM {new Date(reg.paid_at).toLocaleDateString()}
                           </div>
                         )}
-                        {registrationCertificate?.code && (
-                          <div className={`text-[9px] font-bold uppercase tracking-tighter text-right ${registrationCertificate.status === 'revoked' ? 'text-cetadmi-red' : 'text-cetadmi-blue'}`}>
-                            CERT. {registrationCertificate.status === 'revoked' ? 'REVOGADO' : registrationCertificate.code}
+                        {reg.status === 'paid' && (
+                          <div className="text-[9px] font-bold uppercase tracking-tighter text-right text-cetadmi-blue">
+                            CERT. {shortCertificateCode}
                           </div>
                         )}
                         {reg.status === 'pending_payment' && reg.expires_at && (
@@ -489,42 +447,13 @@ const StudentList = ({ event, onBack }) => {
                           </button>
                         )}
 
-                        {reg.status === 'paid' && !registrationCertificate && (
+                        {reg.status === 'paid' && (
                           <button
                             type="button"
-                            onClick={() => handleIssueCertificate(reg)}
+                            onClick={() => handleOpenCertificate(reg)}
                             className="w-full text-left p-1.5 text-[9px] font-black uppercase tracking-widest bg-cetadmi-navy text-cetadmi-cream hover:bg-cetadmi-blue transition-colors flex items-center gap-2"
                           >
-                            <Award className="w-3 h-3" /> Emitir Certificado
-                          </button>
-                        )}
-
-                        {reg.status === 'paid' && registrationCertificate?.status === 'issued' && (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => handleOpenCertificate(reg)}
-                              className="w-full text-left p-1.5 text-[9px] font-black uppercase tracking-widest bg-cetadmi-navy text-cetadmi-cream hover:bg-cetadmi-blue transition-colors flex items-center gap-2"
-                            >
-                              <Award className="w-3 h-3" /> Abrir Certificado
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleRevokeCertificate(reg)}
-                              className="w-full text-left p-1.5 text-[9px] font-black uppercase tracking-widest text-cetadmi-red hover:bg-cetadmi-red hover:text-white transition-colors flex items-center gap-2 brutalist-border"
-                            >
-                              <XCircle className="w-3 h-3" /> Revogar Certificado
-                            </button>
-                          </>
-                        )}
-
-                        {reg.status === 'paid' && registrationCertificate?.status === 'revoked' && (
-                          <button
-                            type="button"
-                            onClick={() => handleIssueCertificate(reg)}
-                            className="w-full text-left p-1.5 text-[9px] font-black uppercase tracking-widest bg-cetadmi-navy text-cetadmi-cream hover:bg-cetadmi-blue transition-colors flex items-center gap-2"
-                          >
-                            <Award className="w-3 h-3" /> Reemitir Certificado
+                            <Award className="w-3 h-3" /> Gerar Certificado
                           </button>
                         )}
                          
