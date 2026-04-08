@@ -10,12 +10,19 @@ const certificateDefaults = {
   preletor: 'Pr. Douglas Baptista',
   diretor: 'Pr. Alex Vieira',
   cidadeData: 'Belem - PA, 11 de abril de 2026',
+  registro: 'CET-2026-00000000',
+  emissao: '11 de abril de 2026',
 }
 
 const CertificatePage = () => {
   const [searchParams] = useSearchParams()
   const recipientRef = useRef(null)
   const [recipientName, setRecipientName] = useState(certificateDefaults.nome)
+  const [recipientStyle, setRecipientStyle] = useState({
+    fontSize: '29pt',
+    lineHeight: 1.18,
+    letterSpacing: '0.015em',
+  })
 
   const certificateData = useMemo(() => ({
     nome: searchParams.get('nome') || certificateDefaults.nome,
@@ -25,6 +32,8 @@ const CertificatePage = () => {
     preletor: searchParams.get('preletor') || certificateDefaults.preletor,
     diretor: searchParams.get('diretor') || certificateDefaults.diretor,
     cidadeData: searchParams.get('cidadeData') || certificateDefaults.cidadeData,
+    registro: searchParams.get('registro') || certificateDefaults.registro,
+    emissao: searchParams.get('emissao') || certificateDefaults.emissao,
   }), [searchParams])
 
   useEffect(() => {
@@ -32,30 +41,45 @@ const CertificatePage = () => {
   }, [certificateData.nome])
 
   useEffect(() => {
+    if (recipientRef.current && recipientRef.current.textContent !== recipientName) {
+      recipientRef.current.textContent = recipientName
+    }
+  }, [recipientName])
+
+  useEffect(() => {
     const recipient = recipientRef.current
     if (!recipient) return
 
-    recipient.style.fontSize = '29pt'
-    recipient.style.lineHeight = '1.18'
-    recipient.classList.remove('compact', 'tight')
-
     const normalizedText = recipient.textContent.replace(/\s+/g, ' ').trim()
+    let fontSize = 29
+    let lineHeight = 1.18
+    let letterSpacing = 0.015
 
     if (normalizedText.length > 32) {
-      recipient.classList.add('compact')
+      letterSpacing = 0.008
     }
 
     if (normalizedText.length > 42) {
-      recipient.classList.add('tight')
+      letterSpacing = 0
+      lineHeight = 1.08
     }
 
-    while (recipient.scrollWidth > recipient.clientWidth && parseFloat(recipient.style.fontSize) > 18) {
-      recipient.style.fontSize = `${parseFloat(recipient.style.fontSize) - 1}pt`
+    recipient.style.fontSize = `${fontSize}pt`
+
+    while (recipient.scrollWidth > recipient.clientWidth && fontSize > 18) {
+      fontSize -= 1
+      recipient.style.fontSize = `${fontSize}pt`
     }
 
     if (normalizedText.length > 42 || recipient.scrollHeight > recipient.clientHeight * 1.8) {
-      recipient.style.lineHeight = '1.08'
+      lineHeight = 1.08
     }
+
+    setRecipientStyle({
+      fontSize: `${fontSize}pt`,
+      lineHeight,
+      letterSpacing: `${letterSpacing}em`,
+    })
   }, [recipientName])
 
   return (
@@ -105,7 +129,8 @@ const CertificatePage = () => {
                 suppressContentEditableWarning
                 spellCheck={false}
                 onInput={(event) => setRecipientName(event.currentTarget.textContent || certificateDefaults.nome)}
-                className="recipient mx-auto my-[10mm] max-w-[210mm] min-w-[150mm] border-b border-[#b9934b73] px-[10mm] pb-[4mm] text-center font-serif text-[29pt] font-bold tracking-[0.015em] text-[#0a192f] outline-none"
+                style={recipientStyle}
+                className="recipient mx-auto my-[10mm] max-w-[210mm] min-w-[150mm] border-b border-[#b9934b73] px-[10mm] pb-[4mm] text-center font-serif font-bold text-[#0a192f] outline-none"
               >
                 {recipientName}
               </div>
@@ -142,6 +167,11 @@ const CertificatePage = () => {
                 </div>
               </div>
             </footer>
+
+            <div className="mt-[7mm] flex items-center justify-between text-[7.2pt] font-semibold uppercase tracking-[0.14em] text-[#0a192f8f]">
+              <span>Registro: {certificateData.registro}</span>
+              <span>Emissao: {certificateData.emissao}</span>
+            </div>
           </section>
         </main>
       </div>

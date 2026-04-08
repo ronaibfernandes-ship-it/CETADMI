@@ -369,6 +369,15 @@ export const eventService = {
   formatLongDate(value) {
     if (!value) return ''
 
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      const [year, month, day] = value.split('-').map(Number)
+      return new Date(year, month - 1, day).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      })
+    }
+
     return new Date(value).toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
@@ -380,6 +389,7 @@ export const eventService = {
     const params = new URLSearchParams()
     const eventDate = this.formatLongDate(event?.event_date)
     const firstSpeaker = Array.isArray(event?.speakers) ? event.speakers.find((speaker) => speaker?.name) : null
+    const registrationCode = registration?.id ? String(registration.id).slice(0, 8).toUpperCase() : ''
 
     if (registration?.full_name) {
       params.set('nome', registration.full_name)
@@ -401,6 +411,12 @@ export const eventService = {
     if (firstSpeaker?.name) {
       params.set('preletor', firstSpeaker.name)
     }
+
+    if (registrationCode) {
+      params.set('registro', `CET-${new Date().getFullYear()}-${registrationCode}`)
+    }
+
+    params.set('emissao', this.formatLongDate(new Date().toISOString()))
 
     return `${baseOrigin}/certificado?${params.toString()}`
   },
