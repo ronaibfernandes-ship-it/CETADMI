@@ -155,7 +155,22 @@ const StudentList = ({ event, onBack }) => {
     event.preventDefault()
     if (!certificateCode.trim()) return
 
-    window.open(certificateService.buildPublicCertificateUrl(window.location.origin, certificateCode.trim().toUpperCase()), '_blank', 'noopener,noreferrer')
+    const normalizedCode = certificateCode.trim().toUpperCase()
+    const matchingCertificate = certificates.find((item) => item.code === normalizedCode && item.status === 'issued')
+
+    if (!matchingCertificate?.registration_id) {
+      setError('Nenhum certificado emitido foi encontrado com esse codigo.')
+      return
+    }
+
+    const matchingRegistration = normalizedRegistrations.find((registration) => registration.id === matchingCertificate.registration_id)
+
+    if (!matchingRegistration) {
+      setError('O inscrito vinculado a esse certificado nao foi encontrado nesta lista.')
+      return
+    }
+
+    window.open(eventService.buildCertificateUrl(window.location.origin, event, matchingRegistration), '_blank', 'noopener,noreferrer')
   }
 
   const handleIssueCertificate = async (registration) => {
