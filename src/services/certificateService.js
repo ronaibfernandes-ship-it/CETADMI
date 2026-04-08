@@ -93,7 +93,7 @@ export const certificateService = {
       return 'A inscricao informada nao foi encontrada.'
     }
 
-    if (message.includes('42501')) {
+    if (error?.code === '42501' || message.includes('42501')) {
       return 'Voce nao tem permissao para emitir ou revogar certificados.'
     }
 

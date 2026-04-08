@@ -389,7 +389,7 @@ export const eventService = {
     const params = new URLSearchParams()
     const eventDate = this.formatLongDate(event?.event_date)
     const firstSpeaker = Array.isArray(event?.speakers) ? event.speakers.find((speaker) => speaker?.name) : null
-    const registrationCode = registration?.id ? String(registration.id).slice(0, 8).toUpperCase() : ''
+    const registrationCode = registration?.id ? String(registration.id).replace(/-/g, '').slice(0, 8).toUpperCase() : ''
 
     if (registration?.full_name) {
       params.set('nome', registration.full_name)
@@ -413,7 +413,7 @@ export const eventService = {
     }
 
     if (registrationCode) {
-      params.set('registro', `CET-${new Date().getFullYear()}-${registrationCode}`)
+      params.set('registro', registrationCode)
     }
 
     params.set('emissao', this.formatLongDate(new Date().toISOString()))

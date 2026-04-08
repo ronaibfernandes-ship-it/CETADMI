@@ -217,6 +217,21 @@ const CertificatePage = () => {
       </div>
 
       <div className="mx-auto flex w-full justify-center overflow-auto pt-10 print:overflow-visible print:pt-0">
+        {isPublicCertificate && !loading && !issuedCertificate?.code ? (
+          <div className="w-full max-w-4xl rounded-[2.5rem] border border-white/10 bg-white/10 p-10 text-center text-white backdrop-blur">
+            <AlertCircle className="mx-auto h-12 w-12 text-red-200" aria-hidden="true" />
+            <h2 className="mt-5 text-3xl font-serif font-black">Certificado nao encontrado</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75">Use o codigo real emitido no painel administrativo. Os novos certificados usam um codigo curto, como <span className="font-bold text-white">C8462F19</span>.</p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <button type="button" onClick={() => navigate('/certificado')} className="inline-flex items-center justify-center rounded-2xl bg-[#b9934b] px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c7a15a]">
+                Abrir modelo manual
+              </button>
+              <button type="button" onClick={() => navigate('/login')} className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/10 px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/15">
+                Ir ao painel
+              </button>
+            </div>
+          </div>
+        ) : (
         <div className="relative h-[109.2mm] w-[154.44mm] sm:h-[142.8mm] sm:w-[201.96mm] md:h-[210mm] md:w-[297mm]">
           <main className="certificate-page absolute left-0 top-0 h-[210mm] w-[297mm] origin-top-left overflow-hidden bg-[#f8f4ea] shadow-[0_45px_90px_rgba(0,0,0,0.34)] scale-[0.52] print:shadow-none sm:scale-[0.68] md:scale-100">
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.048] grayscale">
@@ -293,6 +308,7 @@ const CertificatePage = () => {
             </section>
           </main>
         </div>
+        )}
       </div>
     </div>
   )
