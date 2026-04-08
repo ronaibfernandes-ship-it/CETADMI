@@ -236,8 +236,8 @@ const CertificatePage = () => {
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75">Use o codigo real emitido no painel administrativo. Os novos certificados usam um codigo curto, como <span className="font-bold text-white">C8462F19</span>.</p>
           </div>
         ) : (
-        <div className="relative h-[109.2mm] w-[154.44mm] sm:h-[142.8mm] sm:w-[201.96mm] md:h-[210mm] md:w-[297mm]">
-          <main className="certificate-page absolute left-0 top-0 h-[210mm] w-[297mm] origin-top-left overflow-hidden bg-[#f8f4ea] shadow-[0_45px_90px_rgba(0,0,0,0.34)] scale-[0.52] print:shadow-none sm:scale-[0.68] md:scale-100">
+        <div className="relative h-[100.8mm] w-[142.56mm] sm:h-[132.3mm] sm:w-[187.11mm] md:h-[199.5mm] md:w-[282.15mm] lg:h-[210mm] lg:w-[297mm]">
+          <main className="certificate-page absolute left-0 top-0 h-[210mm] w-[297mm] origin-top-left overflow-hidden bg-[#f8f4ea] shadow-[0_45px_90px_rgba(0,0,0,0.34)] scale-[0.48] print:shadow-none sm:scale-[0.63] md:scale-[0.95] lg:scale-100">
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.048] grayscale">
               <img src="/logo-cetadmi.png" alt="Marca d'agua CETADMI" className="w-[130mm]" />
             </div>
