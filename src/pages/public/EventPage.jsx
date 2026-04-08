@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Calendar, MapPin, CheckCircle, ArrowRight, Loader2, AlertCircle, ImageOff, Mic2, BookOpenText, ShieldCheck, WalletCards, MessageCircleHeart } from 'lucide-react';
 import { eventService } from '../../services/eventService';
-import { institutionalContent } from '../../config/institution';
+import { useInstitutionContent } from '../../hooks/useInstitutionContent';
 
 const toSafeDate = (value, options = {}) => {
   if (!value) return null;
@@ -24,6 +24,7 @@ const toSafeDate = (value, options = {}) => {
 const formatPrice = (value) => `R$ ${(Number(value) || 0).toFixed(2)}`;
 
 const EventPage = () => {
+  const { content: institutionalContent } = useInstitutionContent();
   const { slug } = useParams();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);

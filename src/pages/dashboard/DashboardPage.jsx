@@ -28,12 +28,14 @@ import {
   Printer
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
+import { institutionService } from '../../services/institutionService'
 import { useAuth } from '../../contexts/AuthContext'
 import EventForm from '../../components/dashboard/EventForm'
 import StudentList from '../../components/dashboard/StudentList'
-import { institutionalContent } from '../../config/institution'
+import { useInstitutionContent } from '../../hooks/useInstitutionContent'
 
 const DashboardPage = () => {
+  const { content: institutionalContent, setContent: setInstitutionalContent } = useInstitutionContent()
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -53,6 +55,8 @@ const DashboardPage = () => {
   const [adminError, setAdminError] = useState(null)
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteLoading, setInviteLoading] = useState(false)
+  const [settingsLoading, setSettingsLoading] = useState(false)
+  const [institutionForm, setInstitutionForm] = useState(null)
   
   const { signOut, user, adminRole } = useAuth()
 
@@ -97,6 +101,14 @@ const DashboardPage = () => {
     }
   }, [view])
 
+  useEffect(() => {
+    setInstitutionForm({
+      ...institutionalContent,
+      statsText: institutionalContent.stats.map((item) => `${item.label}: ${item.value}`).join('\n'),
+      featuredCoursesText: institutionalContent.featuredCourses.join('\n'),
+    })
+  }, [institutionalContent])
+
   const showToast = (message) => {
     setToast(message)
     setTimeout(() => setToast(null), 3000)
@@ -129,6 +141,33 @@ const DashboardPage = () => {
     }
 
     window.open(eventService.buildCertificateUrl(window.location.origin, event), '_blank', 'noopener,noreferrer')
+  }
+
+  const handleInstitutionFieldChange = (field, value) => {
+    setInstitutionForm((current) => ({
+      ...current,
+      [field]: value,
+    }))
+  }
+
+  const handleSaveInstitutionSettings = async () => {
+    if (!institutionForm) return
+
+    try {
+      setSettingsLoading(true)
+      const payload = {
+        ...institutionForm,
+        stats: institutionService.normalizeStatsInput(institutionForm.statsText),
+        featuredCourses: institutionService.normalizeCoursesInput(institutionForm.featuredCoursesText),
+      }
+      const saved = await institutionService.updateInstitutionSettings(payload)
+      setInstitutionalContent(saved)
+      showToast('Configuracoes institucionais salvas com sucesso.')
+    } catch {
+      setError('Nao foi possivel salvar as configuracoes institucionais agora.')
+    } finally {
+      setSettingsLoading(false)
+    }
   }
 
   const handleCreateNew = () => {
@@ -726,34 +765,91 @@ const DashboardPage = () => {
                      <p className="text-[10px] text-slate-400 font-black tracking-widest uppercase mt-2">Conteudo base reaproveitado do ecossistema CETADMI</p>
                    </div>
 
-                   <div className="space-y-8">
-                     <div className="rounded-[2rem] border border-slate-100 bg-slate-50 p-6 space-y-4">
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Instituicao</p>
-                          <p className="mt-2 text-lg font-bold text-brand-navy">{institutionalContent.fullName}</p>
+                    <div className="space-y-8">
+                      <div className="rounded-[2rem] border border-slate-100 bg-slate-50 p-6 space-y-6">
+                        <div className="grid gap-4 md:grid-cols-2">
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Nome institucional</span>
+                            <input value={institutionForm?.fullName || ''} onChange={(e) => handleInstitutionFieldChange('fullName', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Nome legado</span>
+                            <input value={institutionForm?.legacyName || ''} onChange={(e) => handleInstitutionFieldChange('legacyName', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
                         </div>
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Missao</p>
-                          <p className="mt-2 text-sm leading-relaxed text-slate-600">{institutionalContent.mission}</p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Linha Doutrinaria</p>
-                          <p className="mt-2 text-sm leading-relaxed text-slate-600">{institutionalContent.doctrinalLine}</p>
-                        </div>
-                      </div>
 
-                      <div className="grid gap-4 md:grid-cols-2">
-                        <div className="rounded-2xl border border-slate-100 bg-white p-5">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">WhatsApp oficial</p>
-                          <p className="mt-2 text-sm font-bold text-brand-navy">{institutionalContent.supportWhatsapp}</p>
-                          <p className="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Atendimento</p>
-                          <p className="mt-2 text-sm text-slate-600">{institutionalContent.supportHours}</p>
+                        <label className="space-y-2">
+                          <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Missao</span>
+                          <textarea value={institutionForm?.mission || ''} onChange={(e) => handleInstitutionFieldChange('mission', e.target.value)} rows={4} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-relaxed text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                        </label>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Linha doutrinaria</span>
+                            <textarea value={institutionForm?.doctrinalLine || ''} onChange={(e) => handleInstitutionFieldChange('doctrinalLine', e.target.value)} rows={4} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-relaxed text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Publico e audiencia</span>
+                            <textarea value={institutionForm?.audience || ''} onChange={(e) => handleInstitutionFieldChange('audience', e.target.value)} rows={4} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-relaxed text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
                         </div>
-                        <div className="rounded-2xl border border-slate-100 bg-white p-5">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Contato por e-mail</p>
-                          <p className="mt-2 text-sm font-bold text-brand-navy break-words">{institutionalContent.supportEmail}</p>
-                          <p className="mt-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Categoria destaque</p>
-                          <p className="mt-2 text-sm text-slate-600">{institutionalContent.categoryHighlight}</p>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">WhatsApp oficial</span>
+                            <input value={institutionForm?.supportWhatsapp || ''} onChange={(e) => handleInstitutionFieldChange('supportWhatsapp', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">E-mail oficial</span>
+                            <input value={institutionForm?.supportEmail || ''} onChange={(e) => handleInstitutionFieldChange('supportEmail', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                        </div>
+
+                        <div className="grid gap-4 md:grid-cols-3">
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Horario</span>
+                            <input value={institutionForm?.supportHours || ''} onChange={(e) => handleInstitutionFieldChange('supportHours', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Categoria destaque</span>
+                            <input value={institutionForm?.categoryHighlight || ''} onChange={(e) => handleInstitutionFieldChange('categoryHighlight', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Lideranca</span>
+                            <input value={institutionForm?.leadership || ''} onChange={(e) => handleInstitutionFieldChange('leadership', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                        </div>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Diretor no certificado</span>
+                            <input value={institutionForm?.certificateDirectorName || ''} onChange={(e) => handleInstitutionFieldChange('certificateDirectorName', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Cargo no certificado</span>
+                            <input value={institutionForm?.certificateDirectorRole || ''} onChange={(e) => handleInstitutionFieldChange('certificateDirectorRole', e.target.value)} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm font-semibold text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                        </div>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Metricas (uma por linha: Label: Valor)</span>
+                            <textarea value={institutionForm?.statsText || ''} onChange={(e) => handleInstitutionFieldChange('statsText', e.target.value)} rows={6} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-relaxed text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                          <label className="space-y-2">
+                            <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400">Cursos em destaque (um por linha)</span>
+                            <textarea value={institutionForm?.featuredCoursesText || ''} onChange={(e) => handleInstitutionFieldChange('featuredCoursesText', e.target.value)} rows={6} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-sm leading-relaxed text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20" />
+                          </label>
+                        </div>
+
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <div className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-5 py-4 text-sm text-brand-navy">
+                            Este bloco agora persiste no Supabase e alimenta portal, painel e certificados.
+                          </div>
+                          <button type="button" onClick={handleSaveInstitutionSettings} disabled={settingsLoading || !institutionForm} className="inline-flex items-center justify-center gap-3 rounded-2xl bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20">
+                            {settingsLoading ? <Loader2 size={16} className="animate-spin" /> : <Settings size={16} aria-hidden="true" />}
+                            Salvar configuracoes
+                          </button>
                         </div>
                       </div>
 

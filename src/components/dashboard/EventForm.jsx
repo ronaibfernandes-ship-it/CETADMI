@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { X, Save, Upload, Plus, Trash2, Loader2, AlertCircle, Mic2, Clock3, Sparkles } from 'lucide-react'
 import { eventService } from '../../services/eventService'
-import { institutionalContent } from '../../config/institution'
+import { defaultInstitutionalContent } from '../../config/institution'
+import { useInstitutionContent } from '../../hooks/useInstitutionContent'
 
 const toLocalDateTimeInput = (value) => {
   if (!value) return ''
@@ -32,7 +33,7 @@ const createEmptyFormData = () => ({
 const createSpeaker = () => ({ id: crypto.randomUUID(), name: '', role: '', image: '' })
 const createProgramItem = () => ({ id: crypto.randomUUID(), time: '', title: '', desc: '' })
 
-const premiumSymposiumTemplate = {
+const buildPremiumSymposiumTemplate = (institutionalContent = defaultInstitutionalContent) => ({
   subtitle: 'Capacitacao biblica, teologica e ministerial com compromisso doutrinario e excelencia academica',
   location: 'Sede CETADMI',
   description: `O 6º Simposio da EBD e um encontro especial promovido pelo ${institutionalContent.shortName}, instituicao dedicada a capacitacao e ao aperfeicoamento de obreiros, lideres, professores e alunos comprometidos com a formacao crista.
@@ -87,9 +88,11 @@ Nosso proposito e capacitar homens e mulheres para servirem com excelencia no mi
       desc: 'Conclusao oficial com direcionamento espiritual e comissionamento dos participantes.',
     },
   ],
-}
+})
 
 const EventForm = ({ event, onClose }) => {
+  const { content: institutionalContent } = useInstitutionContent()
+  const premiumSymposiumTemplate = buildPremiumSymposiumTemplate(institutionalContent)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)

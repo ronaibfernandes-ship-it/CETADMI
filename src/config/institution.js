@@ -1,4 +1,4 @@
-export const institutionalContent = {
+export const defaultInstitutionalContent = {
   shortName: 'CETADMI',
   fullName: 'Centro Educacional e Teologico para capacitacao e aperfeicoamento',
   legacyName: 'Colegio Teologico CETADMI',
@@ -26,3 +26,14 @@ export const institutionalContent = {
     'Homiletica',
   ],
 }
+
+export const institutionalContent = defaultInstitutionalContent
+
+export const mergeInstitutionalContent = (overrides = {}) => ({
+  ...defaultInstitutionalContent,
+  ...overrides,
+  stats: Array.isArray(overrides.stats) && overrides.stats.length > 0 ? overrides.stats : defaultInstitutionalContent.stats,
+  featuredCourses: Array.isArray(overrides.featuredCourses) && overrides.featuredCourses.length > 0
+    ? overrides.featuredCourses
+    : defaultInstitutionalContent.featuredCourses,
+})

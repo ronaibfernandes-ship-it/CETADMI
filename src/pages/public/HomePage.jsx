@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, BookOpenText, Calendar, CheckCircle, Loader2, Mail, MapPin, MessageCircleHeart, ShieldCheck, Star } from 'lucide-react'
 import { eventService } from '../../services/eventService'
-import { institutionalContent } from '../../config/institution'
+import { useInstitutionContent } from '../../hooks/useInstitutionContent'
 
 const toSafeDate = (value) => {
   if (!value) return null
@@ -18,6 +18,7 @@ const toSafeDate = (value) => {
 const formatPrice = (value) => `R$ ${(Number(value) || 0).toFixed(2)}`
 
 const HomePage = () => {
+  const { content: institutionalContent } = useInstitutionContent()
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)

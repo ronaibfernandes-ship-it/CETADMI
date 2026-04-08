@@ -19,6 +19,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/evento" element={<Navigate to="/" replace />} />
           <Route path="/certificado" element={<CertificatePage />} />
+          <Route path="/certificado/:code" element={<CertificatePage />} />
 
           {/* Rota Pública do Evento */}
           <Route path="/evento/:slug" element={<EventPage />} />
