@@ -12,8 +12,7 @@ import {
   MessageSquare,
   Clock,
   ArrowRight,
-  X,
-  Award
+  X
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
 import { useAuth } from '../../contexts/AuthContext'
@@ -77,7 +76,6 @@ const StudentList = ({ event, onBack }) => {
   const [statusFilter, setStatusFilter] = useState('all')
   const [pendingAction, setPendingAction] = useState(null)
   const [actionLoading, setActionLoading] = useState(false)
-  const [certificateCode, setCertificateCode] = useState('')
 
   const fetchRegistrations = async () => {
     try {
@@ -136,30 +134,6 @@ const StudentList = ({ event, onBack }) => {
 
   const handleExport = () => {
     eventService.exportRegistrationsToCSV(registrations, event.title)
-  }
-
-  const handleOpenCertificate = (registration) => {
-    window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
-  }
-
-  const handleValidateCertificate = (event) => {
-    event.preventDefault()
-    if (!certificateCode.trim()) return
-
-    const normalizedCode = certificateCode.trim().toUpperCase()
-    const matchingRegistration = normalizedRegistrations.find((registration) => String(registration.id).replace(/-/g, '').slice(0, 8).toUpperCase() === normalizedCode)
-
-    if (!matchingRegistration) {
-      setError('Nenhum inscrito desta lista foi encontrado com esse codigo.')
-      return
-    }
-
-    window.open(eventService.buildCertificateUrl(window.location.origin, event, matchingRegistration), '_blank', 'noopener,noreferrer')
-  }
-
-  const handleIssueCertificate = (registration) => {
-    showToast('Abrindo certificado padrao preenchido.')
-    window.open(eventService.buildCertificateUrl(window.location.origin, event, registration), '_blank', 'noopener,noreferrer')
   }
 
   const normalizeRegistration = (registration) => ({
@@ -236,22 +210,6 @@ const StudentList = ({ event, onBack }) => {
         </div>
 
         <div className="flex w-full flex-col gap-3 md:w-auto md:min-w-[420px]">
-          <form onSubmit={handleValidateCertificate} className="flex flex-col gap-3 md:flex-row">
-            <div className="relative flex-1">
-              <Award className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-cetadmi-navy/40" />
-              <input
-                type="text"
-                value={certificateCode}
-                onChange={(e) => setCertificateCode(e.target.value)}
-                placeholder="VALIDAR CERTIFICADO..."
-                className="w-full bg-white brutalist-border p-4 pl-12 text-xs font-bold uppercase tracking-wider focus:outline-none focus:shadow-[4px_4px_0px_0px_theme(colors.cetadmi.navy)]"
-              />
-            </div>
-            <button type="submit" className="brutalist-button px-6 py-3 text-xs">
-              VALIDAR
-            </button>
-          </form>
-
           <button 
             onClick={handleExport}
             disabled={registrations.length === 0}
@@ -342,10 +300,7 @@ const StudentList = ({ event, onBack }) => {
                   </td>
                 </tr>
               ) : (
-                filteredRegistrations.map((reg) => {
-                  const shortCertificateCode = String(reg.id).replace(/-/g, '').slice(0, 8).toUpperCase()
-
-                  return (
+                filteredRegistrations.map((reg) => (
                   <tr key={reg.id} className="hover:bg-cetadmi-cream/30 transition-colors">
                     <td className="p-4 border-r border-cetadmi-navy/5 max-w-[250px]">
                       <div className="font-serif font-bold text-lg text-cetadmi-navy leading-tight line-clamp-2" title={reg.full_name}>
@@ -403,11 +358,6 @@ const StudentList = ({ event, onBack }) => {
                              CONF. EM {new Date(reg.paid_at).toLocaleDateString()}
                           </div>
                         )}
-                        {reg.status === 'paid' && (
-                          <div className="text-[9px] font-bold uppercase tracking-tighter text-right text-cetadmi-blue">
-                            CERT. {shortCertificateCode}
-                          </div>
-                        )}
                         {reg.status === 'pending_payment' && reg.expires_at && (
                           <div className="flex items-center justify-end gap-1 text-[9px] font-bold text-amber-700 uppercase tracking-tighter">
                              <Clock className="w-2 h-2" /> EXPIRA {new Date(reg.expires_at).toLocaleDateString()}
@@ -447,23 +397,13 @@ const StudentList = ({ event, onBack }) => {
                           </button>
                         )}
 
-                        {reg.status === 'paid' && (
-                          <button
-                            type="button"
-                            onClick={() => handleOpenCertificate(reg)}
-                            className="w-full text-left p-1.5 text-[9px] font-black uppercase tracking-widest bg-cetadmi-navy text-cetadmi-cream hover:bg-cetadmi-blue transition-colors flex items-center gap-2"
-                          >
-                            <Award className="w-3 h-3" /> Gerar Certificado
-                          </button>
-                        )}
-                         
                         {(reg.status === 'cancelled' || reg.status === 'expired') && (
                           <span className="text-[9px] font-black opacity-20 uppercase italic text-center py-2">Inscrição Inativa</span>
                         )}
                       </div>
                     </td>
                   </tr>
-                )})
+                ))
               )}
             </tbody>
           </table>

@@ -8,7 +8,6 @@ import LoginPage from './pages/auth/LoginPage'
 import DashboardPage from './pages/dashboard/DashboardPage'
 import EventPage from './pages/public/EventPage'
 import HomePage from './pages/public/HomePage'
-import CertificatePage from './pages/public/CertificatePage'
 
 function App() {
   return (
@@ -18,8 +17,6 @@ function App() {
           {/* Portal Publico */}
           <Route path="/" element={<HomePage />} />
           <Route path="/evento" element={<Navigate to="/" replace />} />
-          <Route path="/certificado" element={<CertificatePage />} />
-          <Route path="/certificado/:code" element={<CertificatePage />} />
 
           {/* Rota Pública do Evento */}
           <Route path="/evento/:slug" element={<EventPage />} />

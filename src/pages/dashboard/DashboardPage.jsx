@@ -25,7 +25,6 @@ import {
   UsersRound,
   Image as ImageIcon,
   Sparkles,
-  Printer,
   Award
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
@@ -131,17 +130,6 @@ const DashboardPage = () => {
     const fullUrl = `${window.location.origin}/evento/${eventService.normalizeSlug(event.slug)}`
     const message = `Olá! Convido você a se inscrever no evento *${event.title}* do CETADMI. Inscreva-se aqui: ${fullUrl}`
     window.open(eventService.buildWhatsAppUrl('', message), '_blank')
-  }
-
-  const handleOpenCertificate = (event = null) => {
-    const baseUrl = `${window.location.origin}/certificado`
-
-    if (!event) {
-      window.open(baseUrl, '_blank', 'noopener,noreferrer')
-      return
-    }
-
-    window.open(eventService.buildCertificateUrl(window.location.origin, event), '_blank', 'noopener,noreferrer')
   }
 
   const handleInstitutionFieldChange = (field, value) => {
@@ -582,13 +570,6 @@ const DashboardPage = () => {
                                  </button>
                                  <button
                                    type="button"
-                                   onClick={(e) => { e.stopPropagation(); handleOpenCertificate(event) }}
-                                   className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
-                                  >
-                                   Certificado
-                                 </button>
-                                 <button
-                                   type="button"
                                    onClick={() => handleOpenStudents(event)}
                                    className="rounded-2xl border border-brand-navy/10 bg-brand-cream px-4 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                                  >
@@ -880,27 +861,8 @@ const DashboardPage = () => {
                         Este bloco exibe informacoes institucionais extraidas do site publico para manter consistencia entre eventos, atendimento e identidade do portal.
                       </div>
 
-                      <div className="rounded-[2rem] border border-slate-100 bg-white p-6 space-y-4">
-                        <div className="flex items-start gap-4">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-cream text-brand-navy">
-                            <Printer size={20} aria-hidden="true" />
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Certificado institucional</p>
-                            <p className="mt-2 text-sm leading-relaxed text-slate-600">Abra o modelo premium de certificado ja integrado ao portal e personalize por URL ou edicao manual antes de gerar o PDF final.</p>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleOpenCertificate()}
-                          className="inline-flex items-center justify-center gap-3 rounded-2xl bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
-                        >
-                          <Printer size={16} aria-hidden="true" />
-                          Abrir modelo de certificado
-                        </button>
-                      </div>
-                   </div>
-               </div>
+                    </div>
+                </div>
             </div>
           )}
         </div>
