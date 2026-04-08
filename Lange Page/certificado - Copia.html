@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificado - CETADMI</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --navy: #0A192F;
+    --gold: #C5A059;
+    --paper: #FCFBF7;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.certificate {
+    width: 1123px;
+    height: 794px;
+    background: var(--paper);
+    padding: 30px;
+    box-shadow: 0 0 80px rgba(0,0,0,0.7);
+}
+
+.outer {
+    border: 20px solid var(--navy);
+    height: 100%;
+    padding: 4px;
+}
+
+.inner {
+    border: 3px double var(--gold);
+    height: 100%;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
+
+.corner {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border: 5px solid var(--gold);
+}
+
+.tl { top:-10px; left:-10px; border-right:0; border-bottom:0;}
+.tr { top:-10px; right:-10px; border-left:0; border-bottom:0;}
+.bl { bottom:-10px; left:-10px; border-right:0; border-top:0;}
+.br { bottom:-10px; right:-10px; border-left:0; border-top:0;}
+
+.serif { font-family: 'Playfair Display', serif; }
+.script { font-family: 'Great Vibes', cursive; }
+
+.watermark {
+    position: absolute;
+    width: 520px;
+    opacity: 0.03;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+.seal {
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    border:4px solid var(--gold);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:white;
+}
+
+.sig-line {
+    border-top:2px solid var(--navy);
+    width:250px;
+    padding-top:10px;
+}
+
+@media print {
+    body { background:none; }
+    .certificate { box-shadow:none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="certificate">
+<div class="outer">
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div class="inner">
+
+<img src="logo-cetadmi.png" class="watermark">
+
+<!-- LOGO -->
+<img src="logo-cetadmi.png" class="h-24 mx-auto mb-4">
+
+<p class="text-[11px] uppercase tracking-[0.35em] text-slate-500 mb-6">
+Centro de Treinamento e Aperfeiçoamento Doutrinário
+</p>
+
+<!-- TÍTULO -->
+<h1 class="serif text-6xl text-[#0A192F] mb-6">
+Certificado
+</h1>
+
+<!-- FRASE -->
+<p class="italic text-slate-500 text-lg mb-4">
+Certificamos que
+</p>
+
+<!-- NOME -->
+<h2 class="script text-7xl text-[#0A192F] mb-10">
+Nome do Aluno Aqui
+</h2>
+
+<!-- TEXTO -->
+<p class="text-slate-600 text-lg max-w-3xl mx-auto leading-relaxed mb-14">
+participou com distinção do <strong class="text-[#0A192F]">6º Simpósio de Escola Bíblica Dominical</strong>,
+com a temática <span class="text-[#C5A059] italic">"A Santíssima Trindade"</span>,
+realizado em 11 de abril de 2026, sob a ministração do
+<strong class="text-[#0A192F]">Pr. Douglas Baptista</strong>.
+</p>
+
+<!-- ASSINATURAS -->
+<div class="flex justify-center items-center gap-12">
+
+<div class="sig-line">
+<p class="font-semibold">Pr. Douglas Baptista</p>
+<p class="text-xs text-slate-500">Preletor do Evento</p>
+</div>
+
+<div class="seal">
+<img src="logo-cetadmi.png" class="h-16">
+</div>
+
+<div class="sig-line">
+<p class="font-semibold">Pr. Alex Vieira</p>
+<p class="text-xs text-slate-500">Diretor de Ensino</p>
+</div>
+
+</div>
+
+<!-- RODAPÉ -->
+<div class="absolute bottom-8 left-10 text-xs text-slate-400">
+ID: CET-2026-001<br>
+Emissão: 11 de Abril de 2026
+</div>
+
+</div>
+</div>
+</div>
+
+</body>
+</html>

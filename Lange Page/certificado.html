@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Participacao - 6º Simposio de EBD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0a192f;
+            --navy-soft: #163253;
+            --gold: #b9934b;
+            --gold-soft: rgba(185, 147, 75, 0.22);
+            --paper: #f8f4ea;
+            --ink: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #2b3546, #171d27 60%);
+            color: var(--ink);
+            padding: 24px;
+        }
+
+        .toolbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .toolbar button {
+            border: 0;
+            background: var(--gold);
+            color: white;
+            font: 700 11px/1 'Inter', sans-serif;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 16px 26px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.22);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .toolbar button:hover {
+            transform: translateY(-1px);
+            background: #c7a15a;
+            box-shadow: 0 22px 34px rgba(0, 0, 0, 0.26);
+        }
+
+        .certificate-shell {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: auto;
+            padding-top: 40px;
+        }
+
+        .certificate-page {
+            width: 297mm;
+            height: 210mm;
+            background: linear-gradient(180deg, rgba(255,255,255,0.68), rgba(255,255,255,0.24)), var(--paper);
+            position: relative;
+            box-shadow: 0 45px 90px rgba(0, 0, 0, 0.34);
+            overflow: hidden;
+            transform-origin: top center;
+        }
+
+        .certificate-page::before {
+            content: '';
+            position: absolute;
+            inset: 8mm;
+            border: 3.2mm solid var(--navy);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .certificate-page::after {
+            content: '';
+            position: absolute;
+            inset: 13mm;
+            border: 0.9mm solid rgba(185, 147, 75, 0.9);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            padding: 20mm 24mm 18mm;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .watermark {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .watermark img {
+            width: 130mm;
+            opacity: 0.048;
+            filter: grayscale(1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10mm;
+            text-align: center;
+        }
+
+        .header img {
+            width: 19mm;
+            height: 19mm;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .eyebrow {
+            margin: 0;
+            font-size: 8.5pt;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: rgba(10, 25, 47, 0.55);
+            font-weight: 700;
+        }
+
+        .issuer {
+            margin: 5px 0 0;
+            color: var(--navy);
+            font-family: 'Playfair Display', serif;
+            font-size: 15pt;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .sub-eyebrow {
+            margin: 8px 0 0;
+            font-size: 7.5pt;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(10, 25, 47, 0.44);
+            font-weight: 700;
+        }
+
+        .divider {
+            width: 62mm;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 10mm auto 8mm;
+        }
+
+        .main-title {
+            margin: 0;
+            text-align: center;
+            color: var(--navy);
+            font-family: 'Playfair Display', serif;
+            font-size: 30pt;
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .support-title {
+            margin: 5px 0 0;
+            text-align: center;
+            color: rgba(10, 25, 47, 0.55);
+            font-size: 8pt;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .body {
+            margin: 12mm auto 0;
+            max-width: 226mm;
+            text-align: center;
+        }
+
+        .body p {
+            margin: 0;
+            font-size: 13pt;
+            line-height: 1.72;
+            color: var(--ink);
+            font-weight: 400;
+        }
+
+        .body .intro {
+            color: rgba(10, 25, 47, 0.72);
+            font-size: 12pt;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .recipient {
+            margin: 10mm auto 9mm;
+            padding: 0 10mm 4mm;
+            border-bottom: 0.5mm solid rgba(185, 147, 75, 0.45);
+            min-width: 150mm;
+            max-width: 210mm;
+            text-align: center;
+            color: var(--navy);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(18pt, 3.1vw, 29pt);
+            font-weight: 700;
+            letter-spacing: 0.015em;
+            line-height: 1.18;
+            outline: none;
+            text-wrap: balance;
+            overflow-wrap: anywhere;
+        }
+
+        .recipient.compact {
+            letter-spacing: 0.008em;
+        }
+
+        .recipient.tight {
+            letter-spacing: 0;
+            line-height: 1.08;
+        }
+
+        .recipient:focus {
+            border-bottom-color: var(--gold);
+        }
+
+        .highlight {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .theme {
+            color: #8b6a2a;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .meta-line {
+            margin-top: 11mm;
+            margin-bottom: 8mm;
+            text-align: center;
+            color: rgba(10, 25, 47, 0.68);
+            font-size: 10.5pt;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 6mm;
+            display: grid;
+            grid-template-columns: 1fr 30mm 1fr;
+            align-items: end;
+            gap: 12mm;
+        }
+
+        .signature-block {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 0.35mm solid rgba(10, 25, 47, 0.72);
+            padding-top: 4mm;
+            min-height: 18mm;
+        }
+
+        .signature-name {
+            margin: 0;
+            color: var(--navy);
+            font-size: 9.6pt;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .signature-role {
+            margin: 4px 0 0;
+            color: rgba(10, 25, 47, 0.58);
+            font-size: 7.1pt;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .seal-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 2mm;
+        }
+
+        .seal {
+            width: 26mm;
+            height: 26mm;
+            border-radius: 50%;
+            border: 0.45mm solid rgba(185, 147, 75, 0.55);
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: inset 0 0 0 0.5mm rgba(10, 25, 47, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seal img {
+            width: 15.5mm;
+            height: 15.5mm;
+            object-fit: contain;
+        }
+
+        .helper {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 20;
+            max-width: 360px;
+            background: rgba(10, 25, 47, 0.92);
+            color: rgba(255, 255, 255, 0.78);
+            padding: 14px 16px;
+            border-radius: 18px;
+            font-size: 11px;
+            line-height: 1.6;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+        }
+
+        .helper strong {
+            color: white;
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        @media (max-width: 1200px) {
+            body {
+                padding: 16px;
+            }
+
+            .certificate-page {
+                transform: scale(calc((100vw - 32px) / 1123));
+                margin-bottom: calc(-1 * 794px * (1 - ((100vw - 32px) / 1123)));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toolbar {
+                left: 12px;
+                right: 12px;
+                top: 12px;
+            }
+
+            .toolbar button {
+                width: 100%;
+            }
+
+            .certificate-page {
+                transform: scale(calc((100vw - 24px) / 1123));
+                margin-bottom: calc(-1 * 794px * (1 - ((100vw - 24px) / 1123)));
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .toolbar {
+                display: none;
+            }
+
+            .helper {
+                display: none;
+            }
+
+            .certificate-shell {
+                overflow: visible;
+                padding: 0;
+            }
+
+            .certificate-page {
+                box-shadow: none;
+                transform: none !important;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <button type="button" onclick="window.print()">Gerar PDF Final</button>
+    </div>
+
+    <div class="certificate-shell">
+        <main class="certificate-page">
+            <div class="watermark">
+                <img src="logo-cetadmi.png" alt="Marca d'agua CETADMI">
+            </div>
+
+            <section class="content">
+                <header>
+                    <div class="header">
+                        <img src="logo-cetadmi.png" alt="Logo CETADMI">
+                        <div>
+                            <p class="eyebrow">Centro Educacional e Teologico</p>
+                            <p class="issuer">CETADMI</p>
+                            <p class="sub-eyebrow">Certificado de Participacao e Distincao Ministerial</p>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <h1 class="main-title">Certificado</h1>
+                    <p class="support-title">Documento Institucional de Formacao</p>
+                </header>
+
+                <section class="body">
+                    <p class="intro">O Centro Educacional e Teologico CETADMI certifica que</p>
+
+                    <div class="recipient" id="recipient" contenteditable="true" spellcheck="false">Nome do Aluno Aqui</div>
+
+                    <p id="certificate-body">
+                        participou com aproveitamento do <span class="highlight" id="event-name">6º Simposio de EBD</span>,
+                        com a tematica <span class="theme" id="event-theme">&quot;A Santissima Trindade&quot;</span>,
+                        realizado em <span class="highlight" id="event-date">11 de abril de 2026</span>,
+                        sob a prelecao do <span class="highlight" id="speaker-name">Pr. Douglas Baptista</span>,
+                        em reconhecimento ao compromisso com a capacitacao biblica,
+                        teologica e ministerial promovida pelo CETADMI.
+                    </p>
+
+                    <p class="meta-line" id="meta-location-date">Belem - PA, 11 de abril de 2026</p>
+                </section>
+
+                <footer class="footer">
+                    <div class="signature-block">
+                        <div class="signature-line">
+                            <p class="signature-name" id="signature-speaker">Pr. Douglas Baptista</p>
+                            <p class="signature-role">Preletor do Evento</p>
+                        </div>
+                    </div>
+
+                    <div class="seal-wrap">
+                        <div class="seal">
+                            <img src="logo-cetadmi.png" alt="Selo CETADMI">
+                        </div>
+                    </div>
+
+                    <div class="signature-block">
+                        <div class="signature-line">
+                            <p class="signature-name" id="signature-director">Pr. Alex Vieira</p>
+                            <p class="signature-role">Diretor de Ensino<br>CETADMI</p>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+
+        </main>
+    </div>
+
+    <div class="helper">
+        <strong>Uso rapido:</strong><br>
+        `?nome=Maria%20Silva&evento=6%C2%BA%20Simposio%20de%20EBD&tema=A%20Santissima%20Trindade`
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search)
+
+        const applyText = (id, value, formatter) => {
+            if (!value) return
+            const element = document.getElementById(id)
+            if (!element) return
+            element.textContent = formatter ? formatter(value) : value
+        }
+
+        const quoteTheme = (value) => `"${value}"`
+
+        const fitRecipientText = () => {
+            const recipient = document.getElementById('recipient')
+            if (!recipient) return
+
+            const normalizedText = recipient.textContent.replace(/\s+/g, ' ').trim()
+            recipient.style.fontSize = '29pt'
+            recipient.classList.remove('compact', 'tight')
+
+            if (normalizedText.length > 32) {
+                recipient.classList.add('compact')
+            }
+
+            if (normalizedText.length > 42) {
+                recipient.classList.add('tight')
+            }
+
+            while (recipient.scrollWidth > recipient.clientWidth && parseFloat(recipient.style.fontSize) > 18) {
+                recipient.style.fontSize = `${parseFloat(recipient.style.fontSize) - 1}pt`
+            }
+
+            if (normalizedText.length > 42 || recipient.scrollHeight > recipient.clientHeight * 1.8) {
+                recipient.style.lineHeight = '1.08'
+            } else {
+                recipient.style.lineHeight = '1.18'
+            }
+        }
+
+        applyText('recipient', params.get('nome'))
+        applyText('event-name', params.get('evento'))
+        applyText('event-theme', params.get('tema'), quoteTheme)
+        applyText('event-date', params.get('data'))
+        applyText('speaker-name', params.get('preletor'))
+        applyText('signature-director', params.get('diretor'))
+        applyText('meta-location-date', params.get('cidadeData'))
+
+        applyText('signature-speaker', params.get('preletor'))
+
+        const recipient = document.getElementById('recipient')
+        if (recipient) {
+            recipient.addEventListener('input', fitRecipientText)
+        }
+
+        fitRecipientText()
+    </script>
+</body>
+</html>

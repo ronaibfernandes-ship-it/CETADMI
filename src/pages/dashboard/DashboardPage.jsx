@@ -24,7 +24,8 @@ import {
   Menu,
   UsersRound,
   Image as ImageIcon,
-  Sparkles
+  Sparkles,
+  Printer
 } from 'lucide-react'
 import { eventService } from '../../services/eventService'
 import { useAuth } from '../../contexts/AuthContext'
@@ -117,6 +118,23 @@ const DashboardPage = () => {
     const fullUrl = `${window.location.origin}/evento/${eventService.normalizeSlug(event.slug)}`
     const message = `Olá! Convido você a se inscrever no evento *${event.title}* do CETADMI. Inscreva-se aqui: ${fullUrl}`
     window.open(eventService.buildWhatsAppUrl('', message), '_blank')
+  }
+
+  const handleOpenCertificate = (event = null) => {
+    const baseUrl = `${window.location.origin}/certificado`
+
+    if (!event) {
+      window.open(baseUrl, '_blank', 'noopener,noreferrer')
+      return
+    }
+
+    const params = new URLSearchParams({
+      evento: event.title || 'Evento CETADMI',
+      data: event.event_date ? new Date(event.event_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '',
+      cidadeData: `${event.location || 'Belem - PA'}, ${event.event_date ? new Date(event.event_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : 'data a definir'}`,
+    })
+
+    window.open(`${baseUrl}?${params.toString()}`, '_blank', 'noopener,noreferrer')
   }
 
   const handleCreateNew = () => {
@@ -500,9 +518,9 @@ const DashboardPage = () => {
                                </div>
                             </div>
 
-                            <div className="flex gap-3 pt-6 border-t border-slate-50 mt-auto">
-                               <button 
-                                   onClick={(e) => { e.stopPropagation(); handleCopyLink(event.slug); }}
+                             <div className="flex gap-3 pt-6 border-t border-slate-50 mt-auto">
+                                <button 
+                                    onClick={(e) => { e.stopPropagation(); handleCopyLink(event.slug); }}
                                    aria-label={`Copiar link do evento ${event.title}`}
                                    className="flex-1 flex items-center justify-center gap-2 rounded-2xl border border-slate-100 bg-slate-50 py-3 text-[10px] font-bold uppercase tracking-widest text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                                  >
@@ -513,11 +531,18 @@ const DashboardPage = () => {
                                    aria-label={`Compartilhar evento ${event.title} no WhatsApp`}
                                    className="flex-1 flex items-center justify-center gap-2 rounded-2xl bg-green-600 py-3 text-[10px] font-bold uppercase tracking-widest text-white shadow-lg shadow-green-100 transition-colors hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300"
                                  >
-                                   <MessageCircle size={16} aria-hidden="true" /> WhatsApp
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleOpenStudents(event)}
+                                    <MessageCircle size={16} aria-hidden="true" /> WhatsApp
+                                 </button>
+                                 <button
+                                   type="button"
+                                   onClick={(e) => { e.stopPropagation(); handleOpenCertificate(event) }}
+                                   className="flex-1 rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
+                                 >
+                                   Certificado
+                                 </button>
+                                 <button
+                                   type="button"
+                                   onClick={() => handleOpenStudents(event)}
                                   className="flex-1 rounded-2xl border border-brand-navy/10 bg-brand-cream px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-brand-navy transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
                                 >
                                   Inscritos
@@ -749,6 +774,26 @@ const DashboardPage = () => {
 
                       <div className="rounded-2xl border border-brand-gold/20 bg-brand-gold/10 px-5 py-4 text-sm text-brand-navy">
                         Este bloco exibe informacoes institucionais extraidas do site publico para manter consistencia entre eventos, atendimento e identidade do portal.
+                      </div>
+
+                      <div className="rounded-[2rem] border border-slate-100 bg-white p-6 space-y-4">
+                        <div className="flex items-start gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-cream text-brand-navy">
+                            <Printer size={20} aria-hidden="true" />
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Certificado institucional</p>
+                            <p className="mt-2 text-sm leading-relaxed text-slate-600">Abra o modelo premium de certificado ja integrado ao portal e personalize por URL ou edicao manual antes de gerar o PDF final.</p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenCertificate()}
+                          className="inline-flex items-center justify-center gap-3 rounded-2xl bg-brand-navy px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-brand-gold hover:text-brand-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-navy/20"
+                        >
+                          <Printer size={16} aria-hidden="true" />
+                          Abrir modelo de certificado
+                        </button>
                       </div>
                    </div>
                </div>
