@@ -201,12 +201,12 @@ const CertificatePage = () => {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#2b3546,_#171d27_60%)] px-4 py-6 text-slate-700 print:bg-white print:p-0">
-      <div className="mx-auto mb-4 max-w-5xl rounded-[1.75rem] border border-white/10 bg-white/10 p-4 text-white backdrop-blur print:hidden">
+      <div className={`mx-auto max-w-5xl rounded-[1.75rem] border border-white/10 bg-white/10 text-white backdrop-blur print:hidden ${isPublicCertificate ? 'mb-4 p-4' : 'mb-3 p-3'}`}>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/70">Validacao e emissao</p>
-            <h1 className="mt-2 text-2xl font-serif font-black text-white">Certificado CETADMI</h1>
-            <p className="mt-2 text-sm text-white/70">Use um codigo emitido pelo sistema ou abra o modelo manual para personalizacao pontual.</p>
+            <h1 className={`font-serif font-black text-white ${isPublicCertificate ? 'mt-2 text-2xl' : 'mt-1 text-xl'}`}>Certificado CETADMI</h1>
+            <p className={`text-white/70 ${isPublicCertificate ? 'mt-2 text-sm' : 'mt-1 text-xs md:text-sm'}`}>Use um codigo emitido pelo sistema ou abra o modelo manual para personalizacao pontual.</p>
           </div>
           <form
             onSubmit={(event) => {
@@ -215,7 +215,7 @@ const CertificatePage = () => {
                 navigate(`/certificado/${lookupCode.trim().toUpperCase()}`)
               }
             }}
-            className="flex w-full flex-col gap-3 md:max-w-xl md:flex-row"
+            className={`flex w-full flex-col gap-3 md:flex-row ${isPublicCertificate ? 'md:max-w-xl' : 'md:max-w-2xl'}`}
           >
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -224,13 +224,13 @@ const CertificatePage = () => {
                 value={lookupCode}
                 onChange={(event) => setLookupCode(event.target.value)}
                 placeholder="Codigo do certificado..."
-                className="w-full rounded-2xl border border-white/10 bg-white/95 py-4 pl-12 pr-4 text-sm font-semibold uppercase tracking-[0.12em] text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                className={`w-full rounded-2xl border border-white/10 bg-white/95 pl-12 pr-4 text-sm font-semibold uppercase tracking-[0.12em] text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${isPublicCertificate ? 'py-4' : 'py-3.5'}`}
               />
             </div>
-            <button type="submit" className="inline-flex items-center justify-center gap-3 rounded-2xl bg-[#b9934b] px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c7a15a]">
+            <button type="submit" className={`inline-flex items-center justify-center gap-3 rounded-2xl bg-[#b9934b] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#c7a15a] ${isPublicCertificate ? 'py-4' : 'py-3.5'}`}>
               Validar
             </button>
-            <Link to="/certificado" className="inline-flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/15">
+            <Link to="/certificado" className={`inline-flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-6 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/15 ${isPublicCertificate ? 'py-4' : 'py-3.5'}`}>
               Modelo manual
             </Link>
           </form>
