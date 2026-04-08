@@ -329,29 +329,29 @@ const CertificatePage = () => {
                 <p className="mb-[8mm] mt-[11mm] text-center text-[10.5pt] font-semibold uppercase tracking-[0.08em] text-[#0a192fae]">{certificateData.cidadeData}</p>
               </section>
 
-              <footer className="mt-auto grid grid-cols-[1fr_30mm_1fr] items-end gap-[12mm] pt-[6mm]">
+              <footer className="mt-auto mx-auto mb-[3mm] grid w-full max-w-[220mm] grid-cols-[1fr_26mm_1fr] items-end gap-[10mm] pt-[4mm]">
                 <div className="text-center">
-                  <div className="min-h-[18mm] border-t border-[#0a192fb8] pt-[4mm]">
+                  <div className="min-h-[16mm] border-t border-[#0a192fb8] pt-[3.5mm]">
                     <p className="m-0 text-[9.6pt] font-bold uppercase tracking-[0.08em] text-[#0a192f]">{certificateData.preletor}</p>
                     <p className="m-0 mt-1 text-[7.1pt] font-semibold uppercase tracking-[0.1em] text-[#0a192f94]">Preletor do Evento</p>
                   </div>
                 </div>
 
-                <div className="flex justify-center pb-[2mm]">
-                  <div className="flex h-[26mm] w-[26mm] items-center justify-center rounded-full border border-[#b9934b8c] bg-white/60 shadow-[inset_0_0_0_0.5mm_rgba(10,25,47,0.05)]">
-                    <img src="/logo-cetadmi.png" alt="Selo CETADMI" className="h-[15.5mm] w-[15.5mm] object-contain" />
+                <div className="flex justify-center pb-[1.5mm]">
+                  <div className="flex h-[24mm] w-[24mm] items-center justify-center rounded-full border border-[#b9934b8c] bg-white/60 shadow-[inset_0_0_0_0.5mm_rgba(10,25,47,0.05)]">
+                    <img src="/logo-cetadmi.png" alt="Selo CETADMI" className="h-[14mm] w-[14mm] object-contain" />
                   </div>
                 </div>
 
                 <div className="text-center">
-                  <div className="min-h-[18mm] border-t border-[#0a192fb8] pt-[4mm]">
+                  <div className="min-h-[16mm] border-t border-[#0a192fb8] pt-[3.5mm]">
                     <p className="m-0 text-[9.6pt] font-bold uppercase tracking-[0.08em] text-[#0a192f]">{certificateData.diretor}</p>
                     <p className="m-0 mt-1 text-[7.1pt] font-semibold uppercase tracking-[0.1em] text-[#0a192f94]">{certificateData.diretorCargo}<br />CETADMI</p>
                   </div>
                 </div>
               </footer>
 
-              <div className="mt-[7mm] flex items-center justify-between text-[7.2pt] font-semibold uppercase tracking-[0.14em] text-[#0a192f8f]">
+              <div className="mt-[5mm] flex items-center justify-between text-[7.2pt] font-semibold uppercase tracking-[0.14em] text-[#0a192f8f]">
                 <span>Registro: {certificateData.registro}</span>
                 <span>Emissao: {certificateData.emissao}</span>
               </div>
