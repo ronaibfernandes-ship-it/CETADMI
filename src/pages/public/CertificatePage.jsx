@@ -245,7 +245,7 @@ const CertificatePage = () => {
             <div className="pointer-events-none absolute inset-[8mm] border-[3.2mm] border-[#0a192f]" />
             <div className="pointer-events-none absolute inset-[13mm] border-[0.9mm] border-[#b9934be6]" />
 
-            <section className="relative z-10 flex h-full flex-col px-[24mm] pb-[18mm] pt-[20mm]">
+            <section className="relative z-10 flex h-full flex-col px-[24mm] pb-[24mm] pt-[20mm]">
               <header>
                 <div className="flex items-center justify-center gap-[10mm] text-center">
                   <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="h-[19mm] w-[19mm] object-contain" />
@@ -283,7 +283,7 @@ const CertificatePage = () => {
                 <p className="mb-[8mm] mt-[11mm] text-center text-[10.5pt] font-semibold uppercase tracking-[0.08em] text-[#0a192fae]">{certificateData.cidadeData}</p>
               </section>
 
-              <footer className="mt-auto mx-auto mb-[3mm] grid w-full max-w-[220mm] grid-cols-[1fr_26mm_1fr] items-end gap-[10mm] pt-[4mm]">
+              <footer className="mt-auto mx-auto mb-[1mm] grid w-full max-w-[220mm] grid-cols-[1fr_26mm_1fr] items-end gap-[10mm] pt-[4mm]">
                 <div className="text-center">
                   <div className="min-h-[16mm] border-t border-[#0a192fb8] pt-[3.5mm]">
                     <p className="m-0 text-[9.6pt] font-bold uppercase tracking-[0.08em] text-[#0a192f]">{certificateData.preletor}</p>
@@ -305,7 +305,7 @@ const CertificatePage = () => {
                 </div>
               </footer>
 
-              <div className="mt-[5mm] flex items-center justify-between text-[7.2pt] font-semibold uppercase tracking-[0.14em] text-[#0a192f8f]">
+              <div className="mt-[3mm] flex items-center justify-between text-[7.2pt] font-semibold uppercase tracking-[0.14em] text-[#0a192f8f]">
                 <span>Registro: {certificateData.registro}</span>
                 <span>Emissao: {certificateData.emissao}</span>
               </div>
