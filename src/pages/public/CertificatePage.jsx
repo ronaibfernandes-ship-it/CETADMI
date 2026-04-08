@@ -16,31 +16,81 @@ const certificateDefaults = {
   emissao: '11 de abril de 2026',
 }
 
+const englishMonths = {
+  january: 'janeiro',
+  february: 'fevereiro',
+  march: 'marco',
+  april: 'abril',
+  may: 'maio',
+  june: 'junho',
+  july: 'julho',
+  august: 'agosto',
+  september: 'setembro',
+  october: 'outubro',
+  november: 'novembro',
+  december: 'dezembro',
+}
+
+const normalizeCertificateName = (value) => {
+  const smallWords = new Set(['da', 'de', 'do', 'das', 'dos', 'e'])
+
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word, index) => {
+      if (!word) return word
+      if (index > 0 && smallWords.has(word)) return word
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    })
+    .join(' ')
+}
+
+const normalizeCertificateTheme = (value) => {
+  const theme = String(value || '').trim()
+  if (!theme) return certificateDefaults.tema
+  if (theme.length <= 56) return theme
+
+  if (/formacao biblica|teologica|pedagogica/i.test(theme)) {
+    return 'Formacao Biblica e Ministerial'
+  }
+
+  const shortened = theme.split(/[.:;-]/)[0].trim()
+  return shortened && shortened.length <= 56 ? shortened : theme.slice(0, 53).trimEnd() + '...'
+}
+
+const normalizeDateLabel = (value) => {
+  const raw = String(value || '').trim()
+  if (!raw) return ''
+
+  return raw.replace(/\b([A-Za-z]+)\b/g, (match) => englishMonths[match.toLowerCase()] || match.toLowerCase())
+}
+
 const buildCertificateData = (searchParams, issuedCertificate) => {
   if (issuedCertificate) {
     return {
-      nome: issuedCertificate.recipient_name || certificateDefaults.nome,
+      nome: normalizeCertificateName(issuedCertificate.recipient_name || certificateDefaults.nome),
       evento: issuedCertificate.event_title || certificateDefaults.evento,
-      tema: issuedCertificate.event_subtitle || certificateDefaults.tema,
-      data: issuedCertificate.event_date_label || certificateDefaults.data,
+      tema: normalizeCertificateTheme(issuedCertificate.event_subtitle || certificateDefaults.tema),
+      data: normalizeDateLabel(issuedCertificate.event_date_label || certificateDefaults.data),
       preletor: issuedCertificate.speaker_name || certificateDefaults.preletor,
       diretor: issuedCertificate.director_name || certificateDefaults.diretor,
       diretorCargo: issuedCertificate.director_role || certificateDefaults.diretorCargo,
-      cidadeData: issuedCertificate.location_label || certificateDefaults.cidadeData,
+      cidadeData: normalizeDateLabel(issuedCertificate.location_label || certificateDefaults.cidadeData),
       registro: issuedCertificate.code || certificateDefaults.registro,
       emissao: issuedCertificate.issued_at ? new Date(issuedCertificate.issued_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : certificateDefaults.emissao,
     }
   }
 
   return {
-    nome: searchParams.get('nome') || certificateDefaults.nome,
+    nome: normalizeCertificateName(searchParams.get('nome') || certificateDefaults.nome),
     evento: searchParams.get('evento') || certificateDefaults.evento,
-    tema: searchParams.get('tema') || certificateDefaults.tema,
-    data: searchParams.get('data') || certificateDefaults.data,
+    tema: normalizeCertificateTheme(searchParams.get('tema') || certificateDefaults.tema),
+    data: normalizeDateLabel(searchParams.get('data') || certificateDefaults.data),
     preletor: searchParams.get('preletor') || certificateDefaults.preletor,
     diretor: searchParams.get('diretor') || certificateDefaults.diretor,
     diretorCargo: searchParams.get('diretorCargo') || certificateDefaults.diretorCargo,
-    cidadeData: searchParams.get('cidadeData') || certificateDefaults.cidadeData,
+    cidadeData: normalizeDateLabel(searchParams.get('cidadeData') || certificateDefaults.cidadeData),
     registro: searchParams.get('registro') || certificateDefaults.registro,
     emissao: searchParams.get('emissao') || certificateDefaults.emissao,
   }
