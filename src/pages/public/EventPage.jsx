@@ -176,7 +176,9 @@ const EventPage = () => {
       <header className="border-b border-white/10 bg-brand-navy text-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-10">
           <Link to="/" className="flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40">
-            <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="64" height="64" className="h-12 w-12 object-contain" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border-[3px] border-brand-gold bg-white shadow-[0_14px_35px_rgba(0,0,0,0.24)]">
+              <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="64" height="64" className="h-8 w-8 object-contain" />
+            </div>
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Portal Publico</p>
               <p className="text-xl font-serif font-black uppercase tracking-tight">CETADMI</p>
@@ -250,15 +252,38 @@ const EventPage = () => {
               </div>
             </div>
 
-            <div className="mt-8 grid gap-4 lg:max-w-4xl lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)]">
+            <div className="mt-8 grid gap-4 lg:max-w-4xl lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
               <div className="rounded-[1.75rem] border border-white/10 bg-white/10 px-5 py-5 backdrop-blur-sm shadow-2xl shadow-brand-navy/15">
                 <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Sobre o CETADMI</p>
                 <p className="mt-3 text-sm leading-relaxed text-white/80">{institutionalContent.mission}</p>
               </div>
               <div className="rounded-[1.75rem] border border-white/10 bg-brand-gold/10 px-5 py-5 backdrop-blur-sm shadow-2xl shadow-brand-navy/15">
-                <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Atendimento oficial</p>
-                <p className="mt-3 text-sm font-bold text-white break-words">{event.whatsapp_number || institutionalContent.supportWhatsapp}</p>
-                <p className="mt-2 text-xs text-white/65">Suporte para inscricao, comprovante e confirmacao.</p>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand-gold bg-white/95 shadow-inner">
+                    <img src="/logo-cetadmi.png" alt="Selo CETADMI" className="h-6 w-6 object-contain" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-gold">Atendimento oficial</p>
+                    <p className="mt-1 text-xs text-white/65">Suporte para inscricao, comprovante e confirmacao.</p>
+                  </div>
+                </div>
+                <div className="mt-5 space-y-3 text-sm text-white/80">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">WhatsApp</span>
+                    <span className="text-right font-semibold break-words">{event.whatsapp_number || institutionalContent.supportWhatsapp}</span>
+                  </div>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">E-mail</span>
+                    <span className="text-right font-semibold break-words">{institutionalContent.supportEmail}</span>
+                  </div>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Horario</span>
+                    <span className="text-right font-semibold">{institutionalContent.supportHours}</span>
+                  </div>
+                </div>
+                <a href={eventService.buildWhatsAppUrl(event.whatsapp_number || institutionalContent.supportWhatsapp, `Olá! Gostaria de suporte sobre o evento ${event.title}.`)} target="_blank" rel="noreferrer" className="mt-5 inline-flex w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3 text-[10px] font-black uppercase tracking-[0.18em] text-brand-navy transition-colors hover:bg-brand-gold">
+                  Falar com a equipe
+                </a>
               </div>
             </div>
           </div>
@@ -513,12 +538,16 @@ const EventPage = () => {
                             {selectedOption ? formatPrice(selectedOption.price) : lowestPrice !== null ? `A partir de ${formatPrice(lowestPrice)}` : 'A confirmar'}
                           </p>
                         </div>
-                       <div className="rounded-2xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
-                         <div className="flex items-center gap-3 text-brand-navy">
-                           <MessageCircleHeart className="h-5 w-5" aria-hidden="true" />
-                           <span className="text-[10px] font-black uppercase tracking-[0.25em]">Atendimento</span>
-                         </div>
-                          <p className="mt-3 text-sm font-bold text-brand-navy break-words">{hasValidOrganizationWhatsApp ? event.whatsapp_number : institutionalContent.supportWhatsapp}</p>
+                        <div className="rounded-2xl border border-slate-100 bg-white px-4 py-4 shadow-sm">
+                          <div className="flex items-center gap-3 text-brand-navy">
+                            <MessageCircleHeart className="h-5 w-5" aria-hidden="true" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.25em]">Atendimento</span>
+                          </div>
+                           <div className="mt-3 space-y-1 text-sm text-slate-600">
+                             <p className="font-bold text-brand-navy break-words">{hasValidOrganizationWhatsApp ? event.whatsapp_number : institutionalContent.supportWhatsapp}</p>
+                             <p className="break-words">{institutionalContent.supportEmail}</p>
+                             <p>{institutionalContent.supportHours}</p>
+                           </div>
                         </div>
                       </div>
                    </div>
@@ -614,17 +643,25 @@ const EventPage = () => {
 
       {/* FOOTER */}
       <footer className="bg-white py-16 border-t border-slate-200 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none select-none">
-           <img src="/logo-cetadmi.png" alt="" className="w-96 h-96 object-contain" />
-        </div>
         <div className="relative z-10">
-            <img src="/logo-cetadmi.png" alt="Logo" className="w-16 h-16 mx-auto mb-6 opacity-30 grayscale" />
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-[3px] border-brand-gold bg-white shadow-[0_14px_35px_rgba(10,25,47,0.12)]">
+              <img src="/logo-cetadmi.png" alt="Logo CETADMI" className="h-10 w-10 object-contain" />
+            </div>
             <h4 className="text-xl font-serif font-black text-brand-navy tracking-widest uppercase mb-4">CETADMI</h4>
             <p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-slate-500">{institutionalContent.mission}</p>
-            <div className="mb-8 grid gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
-              <span>{institutionalContent.supportHours}</span>
-              <span>{institutionalContent.supportWhatsapp}</span>
-              <span>{institutionalContent.supportEmail}</span>
+            <div className="mb-8 grid gap-3 text-sm text-slate-500 sm:grid-cols-3 sm:text-left">
+              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">WhatsApp</p>
+                <p className="mt-2 font-semibold text-brand-navy break-words">{institutionalContent.supportWhatsapp}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">E-mail</p>
+                <p className="mt-2 font-semibold text-brand-navy break-words">{institutionalContent.supportEmail}</p>
+              </div>
+              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Atendimento</p>
+                <p className="mt-2 font-semibold text-brand-navy">{institutionalContent.supportHours}</p>
+              </div>
             </div>
             <div className="flex justify-center gap-4 mb-8">
                 <span className="w-4 h-1 bg-brand-gold rounded-full"></span>

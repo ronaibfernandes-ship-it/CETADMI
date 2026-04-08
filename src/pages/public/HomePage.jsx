@@ -44,7 +44,9 @@ const HomePage = () => {
       <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-10">
             <div className="flex items-center gap-4">
-            <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="72" height="72" className="h-14 w-14 object-contain" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-brand-gold bg-white shadow-[0_14px_35px_rgba(10,25,47,0.18)]">
+              <img src="/logo-cetadmi.png" alt="Logo CETADMI" width="72" height="72" className="h-9 w-9 object-contain" />
+            </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold">Portal Publico</p>
               <h1 className="text-2xl font-serif font-black uppercase tracking-tight text-brand-navy">CETADMI</h1>
@@ -106,10 +108,21 @@ const HomePage = () => {
                 </div>
               </div>
 
-              <div className="mt-8 rounded-[1.5rem] border border-brand-gold/20 bg-brand-gold/10 px-5 py-5 text-brand-gold">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em]">Contato oficial</p>
-                <p className="mt-3 text-sm font-semibold text-white">{institutionalContent.supportWhatsapp}</p>
-                <p className="mt-2 text-sm text-white/70">{institutionalContent.supportHours}</p>
+              <div className="mt-8 rounded-[1.75rem] border border-brand-gold/20 bg-brand-gold/10 px-5 py-5 text-brand-gold shadow-[0_18px_35px_rgba(10,25,47,0.16)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand-gold bg-white/95 shadow-inner">
+                    <img src="/logo-cetadmi.png" alt="Selo CETADMI" className="h-6 w-6 object-contain" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em]">Atendimento oficial</p>
+                    <p className="mt-1 text-sm text-white/70">Suporte institucional do CETADMI</p>
+                  </div>
+                </div>
+                <div className="mt-5 space-y-3 text-sm">
+                  <p className="font-semibold text-white">{institutionalContent.supportWhatsapp}</p>
+                  <p className="text-white/70">{institutionalContent.supportEmail}</p>
+                  <p className="text-white/70">{institutionalContent.supportHours}</p>
+                </div>
               </div>
             </aside>
           </div>
