@@ -97,6 +97,20 @@ const buildCertificateData = (searchParams, issuedCertificate) => {
   }
 }
 
+const buildAuditData = (certificateData, code, origin) => {
+  const auditCode = (code || certificateData.registro || `CET-${new Date().getFullYear()}-TEMP`).toUpperCase()
+  const verifyUrl = `${origin}/certificado/${encodeURIComponent(auditCode)}`
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=128x128&data=${encodeURIComponent(verifyUrl)}`
+
+  return {
+    auditCode,
+    verifyUrl,
+    verifyUrlLabel: verifyUrl.replace(/^https?:\/\//, ''),
+    qrUrl,
+    issueDateTime: new Date().toLocaleDateString('pt-BR') + ' as ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+  }
+}
+
 const CertificatePage = () => {
   const [searchParams] = useSearchParams()
   const { code } = useParams()
@@ -197,6 +211,7 @@ const CertificatePage = () => {
   }, [recipientName])
 
   const isPublicCertificate = Boolean(code)
+  const auditData = useMemo(() => buildAuditData(certificateData, code, window.location.origin), [certificateData, code])
 
   return (
     <div className="certificate-page-root min-h-screen px-4 py-6 text-slate-700 print:bg-white print:p-0">
@@ -302,6 +317,18 @@ const CertificatePage = () => {
                   </div>
                 </div>
               </footer>
+
+              <div className="certificate-audit-section">
+                <div className="certificate-qr-code">
+                  <img src={auditData.qrUrl} alt={`QR Code para validar o certificado ${auditData.auditCode}`} />
+                </div>
+                <div className="certificate-audit-text">
+                  <p className="certificate-audit-title">DOCUMENTO AUDITAVEL</p>
+                  <p>Autenticidade: <span className="certificate-audit-code">{auditData.auditCode}</span></p>
+                  <p>Verifique em: <strong>{auditData.verifyUrlLabel}</strong></p>
+                  <p>Emitido em: <strong>{auditData.issueDateTime}</strong></p>
+                </div>
+              </div>
             </section>
           </main>
         </div>
