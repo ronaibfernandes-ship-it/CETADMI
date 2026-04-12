@@ -1,498 +1,1443 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conheca a direcao de ensino da CETADMI com o Pr. Alex Vieira e acesse a plataforma de cursos e inscricoes.">
-    <title>Pr. Alex Vieira | Diretor de Ensino CETADMI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --navy: #0A192F;
-            --gold: #C5A059;
-            --gold-text: #8A6A2F;
-            --offwhite: #F8FAFC;
-        }
-        html { scroll-padding-top: 7rem; }
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: rgba(10, 25, 47, 0.12);
-            background:
-                radial-gradient(circle at top left, rgba(197, 160, 89, 0.08), transparent 28%),
-                radial-gradient(circle at 85% 15%, rgba(10, 25, 47, 0.06), transparent 26%),
-                linear-gradient(180deg, #ffffff 0%, #fbfbff 38%, #f7f8fc 100%);
-        }
-        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
-        
-        .bg-navy { background-color: var(--navy); }
-        .text-navy { color: var(--navy); }
-        .bg-gold { background-color: var(--gold); }
-        .text-gold { color: var(--gold); }
-        .text-gold-strong { color: var(--gold-text); }
-        .border-gold { border-color: var(--gold); }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CETADMI | Formacao teologica com rigor biblico, clareza doutrinaria e aplicacao ministerial sob a direcao do Pr. Alex Vieira." />
+  <meta name="theme-color" content="#12385b" />
+  <title>CETADMI | Formacao Teologica com Rigor e Direcao</title>
 
-        .skip-link {
-            position: absolute;
-            left: 1rem;
-            top: -3rem;
-            background: var(--navy);
-            color: white;
-            padding: 0.75rem 1rem;
-            z-index: 100;
-            border-radius: 0.25rem;
-            transition: top 0.2s ease;
-        }
-        .skip-link:focus {
-            top: 1rem;
-        }
+  <style>
+    :root {
+      --navy-950: #0b2239;
+      --navy-900: #12385b;
+      --navy-800: #1a4a74;
+      --navy-700: #245b8a;
+      --gold-500: #b8924f;
+      --gold-400: #c7a664;
+      --gold-100: #f2e8d4;
+      --cream-50: #fbf7ef;
+      --cream-100: #f4efe4;
+      --white: #ffffff;
+      --ink: #18324d;
+      --muted-light: #dbe6f0;
+      --muted: #9bb0c6;
+      --muted-dark: #5c7188;
+      --line-light: rgba(255, 255, 255, 0.1);
+      --line-dark: rgba(18, 56, 91, 0.12);
+      --shadow-soft: 0 18px 42px rgba(8, 20, 35, 0.14);
+      --shadow-strong: 0 24px 60px rgba(5, 17, 31, 0.22);
+      --radius-lg: 28px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+      --container: 1160px;
+      --header-h: 74px;
+    }
 
-        section[id] {
-            scroll-margin-top: 7rem;
-        }
-        
-        /* EFEITO DE SELO PREMIUM (O segredo do destaque) */
-        .premium-seal {
-            background: white;
-            border: 4px solid var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .premium-seal:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.4);
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .photo-container {
-            position: relative;
-            border-radius: 40px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px -12px rgba(10, 25, 47, 0.3);
-        }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 16px);
+    }
 
-        .photo-container::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: inherit;
-            pointer-events: none;
-        }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at top right, rgba(199, 166, 100, 0.12), transparent 24%),
+        radial-gradient(circle at left top, rgba(255, 255, 255, 0.05), transparent 18%),
+        linear-gradient(180deg, #102e4a 0%, #12385b 42%, #153f64 100%);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
 
-        .glass-overlay {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.82));
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-        .btn-premium {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-        .btn-premium:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(10, 25, 47, 0.4);
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        .hero-sheen {
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(197, 160, 89, 0.2), transparent 24%),
-                radial-gradient(circle at 78% 28%, rgba(255, 255, 255, 0.92), transparent 18%),
-                linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
-            pointer-events: none;
-        }
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
 
-        .soft-panel {
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            box-shadow: 0 20px 45px -24px rgba(15, 23, 42, 0.28);
-            backdrop-filter: blur(12px);
-        }
+    section[id] {
+      scroll-margin-top: calc(var(--header-h) + 16px);
+    }
 
-        .premium-lockup {
-            background: rgba(255, 255, 255, 0.96);
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 16px 34px rgba(10, 25, 47, 0.14);
-            backdrop-filter: blur(14px);
-        }
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 100;
+      background: var(--gold-500);
+      color: var(--navy-950);
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      font-weight: 700;
+    }
 
-        .lift-card {
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.35s ease;
-        }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+    }
 
-        .lift-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 24px 48px -28px rgba(15, 23, 42, 0.34);
-        }
+    .container {
+      width: min(var(--container), calc(100% - 1.25rem));
+      margin-inline: auto;
+    }
 
-        .section-glow {
-            position: absolute;
-            border-radius: 999px;
-            filter: blur(60px);
-            opacity: 0.5;
-            pointer-events: none;
-        }
+    .section {
+      padding: 3.75rem 0;
+      position: relative;
+    }
 
-        .image-accent-grid {
-            background-image:
-                linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
-            background-size: 28px 28px;
-        }
+    .section-light {
+      background: linear-gradient(180deg, var(--cream-50) 0%, var(--cream-100) 100%);
+      color: var(--ink);
+      border-top: 1px solid var(--line-dark);
+      border-bottom: 1px solid var(--line-dark);
+    }
 
-        .stat-chip {
-            background: rgba(255,255,255,0.78);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-            box-shadow: 0 16px 30px -24px rgba(15, 23, 42, 0.35);
-            backdrop-filter: blur(10px);
-        }
+    .section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(92%, 1160px);
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      pointer-events: none;
+    }
 
-        .quote-panel {
-            background: linear-gradient(180deg, rgba(248,250,252,0.9), rgba(255,255,255,1));
-            box-shadow: 0 30px 60px -35px rgba(10, 25, 47, 0.28);
-        }
+    .section-light::before {
+      background: linear-gradient(90deg, transparent, rgba(18,56,91,0.12), transparent);
+    }
 
-        a:focus-visible {
-            outline: 3px solid rgba(197, 160, 89, 0.45);
-            outline-offset: 3px;
-        }
+    .section-head {
+      display: grid;
+      gap: 0.85rem;
+      margin-bottom: 1.6rem;
+    }
 
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
+    .section-head h2 {
+      max-width: 14ch;
+    }
 
-        @media (prefers-reduced-motion: reduce) {
-            html:focus-within {
-                scroll-behavior: auto;
-            }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      width: fit-content;
+      min-height: 1.85rem;
+      padding: 0.42rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(184, 146, 79, 0.24);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--gold-100);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
 
-            *, *::before, *::after {
-                animation: none !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
+    .section-light .eyebrow {
+      background: rgba(184, 146, 79, 0.08);
+      color: var(--gold-500);
+      border-color: rgba(184, 146, 79, 0.18);
+    }
 
-        @media (max-width: 768px) {
-            .hero-name {
-                font-size: clamp(2.75rem, 12vw, 4.5rem);
-                line-height: 1;
-            }
+    .eyebrow::before {
+      content: "";
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      flex: none;
+    }
 
-            .hero-cta {
-                width: 100%;
-                justify-content: center;
-            }
+    h1, h2, h3 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: -0.04em;
+    }
 
-            .hero-badge-card {
-                position: static;
-                margin-top: 1.5rem;
-                margin-left: auto;
-                margin-right: auto;
-            }
+    h1 {
+      font-size: clamp(2.2rem, 9vw, 5.55rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
 
-            .hero-photo-seal {
-                width: 5rem;
-                height: 5rem;
-                top: -1rem;
-                right: 0.5rem;
-            }
+    h2 {
+      font-size: clamp(1.78rem, 6.4vw, 3.85rem);
+      line-height: 1.04;
+    }
 
-            .hero-photo-seal img {
-                height: 3rem;
-                width: 3rem;
-            }
+    h3 {
+      font-size: clamp(1.22rem, 4vw, 1.82rem);
+      line-height: 1.16;
+    }
 
-            .feature-image-card {
-                height: auto;
-                min-height: 34rem;
-            }
+    p {
+      margin: 0;
+    }
 
-            .feature-image-overlay {
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
-                max-width: none;
-                padding: 1.5rem;
-            }
-        }
-    </style>
+    .lead {
+      font-size: 1rem;
+      line-height: 1.82;
+      color: var(--muted-light);
+      max-width: 39rem;
+    }
+
+    .section-light .lead,
+    .section-light .copy,
+    .section-light .meta,
+    .section-light .card p {
+      color: var(--muted-dark);
+    }
+
+    .copy {
+      color: var(--muted-light);
+      line-height: 1.78;
+      font-size: 0.97rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.92rem;
+    }
+
+    .header-utility {
+      display: none;
+      background: var(--navy-950);
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .header-utility-inner {
+      min-height: 2.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--muted-light);
+      font-size: 0.86rem;
+    }
+
+    .header-utility a {
+      color: var(--gold-100);
+      font-weight: 700;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      min-height: var(--header-h);
+      border-bottom: 1px solid var(--line-light);
+      background: rgba(18, 56, 91, 0.84);
+      backdrop-filter: blur(16px) saturate(130%);
+      -webkit-backdrop-filter: blur(16px) saturate(130%);
+      box-shadow: 0 12px 30px rgba(5, 17, 31, 0.12);
+    }
+
+    .nav {
+      min-height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      flex: none;
+    }
+
+    .brand-text {
+      display: grid;
+      gap: 0.12rem;
+      min-width: 0;
+    }
+
+    .brand-text strong {
+      color: var(--white);
+      font-size: 0.92rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .brand-text span {
+      color: var(--muted-light);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 1.4rem;
+      color: var(--muted-light);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .menu-toggle {
+      width: 2.8rem;
+      height: 2.8rem;
+      border: 1px solid var(--line-light);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--white);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      flex: none;
+    }
+
+    .mobile-menu {
+      display: none;
+      padding-bottom: 0.85rem;
+    }
+
+    .mobile-menu.open {
+      display: block;
+    }
+
+    .mobile-menu-panel {
+      padding: 0.7rem;
+      border: 1px solid var(--line-light);
+      border-radius: var(--radius-md);
+      background: rgba(18, 56, 91, 0.92);
+      backdrop-filter: blur(18px) saturate(135%);
+      -webkit-backdrop-filter: blur(18px) saturate(135%);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mobile-menu-panel a {
+      display: block;
+      padding: 0.92rem 0.95rem;
+      border-radius: 14px;
+      color: var(--muted-light);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .mobile-menu-panel a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--white);
+    }
+
+    .mobile-menu-panel .menu-cta {
+      margin-top: 0.45rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 1rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      font-size: 0.94rem;
+      text-align: center;
+      transition: 0.2s ease;
+      line-height: 1.25;
+      box-shadow: 0 10px 24px rgba(5, 17, 31, 0.08);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      color: var(--navy-950);
+      box-shadow: 0 14px 30px rgba(184, 146, 79, 0.18), inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, #d0b175, var(--gold-500));
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255,255,255,0.14);
+      color: var(--white);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 1.2rem 0 3.4rem;
+      border-bottom: 1px solid var(--line-light);
+      background:
+        radial-gradient(circle at top right, rgba(184, 146, 79, 0.16), transparent 28%),
+        radial-gradient(circle at left center, rgba(255, 255, 255, 0.05), transparent 22%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -8% -18% auto;
+      width: 18rem;
+      height: 18rem;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(199,166,100,0.12), transparent 66%);
+      pointer-events: none;
+      filter: blur(8px);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 1.15rem;
+      align-items: start;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 0.95rem;
+      order: 2;
+    }
+
+    .hero-copy .lead {
+      max-width: 38rem;
+    }
+
+    .hero-actions {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.1rem;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
+    }
+
+    .cta-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      width: fit-content;
+      min-height: 46px;
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      background: rgba(184, 146, 79, 0.12);
+      border: 1px solid rgba(184, 146, 79, 0.24);
+      color: var(--gold-100);
+      font-size: 0.82rem;
+      font-weight: 800;
+      line-height: 1.4;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .cta-inline::before {
+      content: "";
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      flex: none;
+    }
+
+    .hero-info {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.35rem;
+    }
+
+    .info-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.88rem 0.92rem;
+      border-radius: 16px;
+      border: 1px solid var(--line-light);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .info-chip::before {
+      content: "";
+      width: 0.55rem;
+      height: 0.55rem;
+      margin-top: 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      flex: none;
+    }
+
+    .hero-visual {
+      display: grid;
+      gap: 0.8rem;
+      order: 1;
+    }
+
+    .hero-portrait {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line-light);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow-strong);
+    }
+
+    .hero-portrait img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .hero-caption {
+      padding: 1rem;
+      border-top: 1px solid var(--line-light);
+      background: rgba(11, 34, 57, 0.78);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+
+    .hero-caption strong {
+      display: block;
+      margin-bottom: 0.22rem;
+      color: var(--white);
+      font-size: 1rem;
+    }
+
+    .hero-caption span {
+      color: var(--gold-100);
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+    }
+
+    .hero-caption p {
+      margin-top: 0.55rem;
+      color: var(--muted-light);
+      line-height: 1.68;
+      font-size: 0.92rem;
+    }
+
+    .stat-row {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      padding: 1rem;
+      border-radius: 18px;
+      border: 1px solid var(--line-light);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px) saturate(125%);
+      -webkit-backdrop-filter: blur(10px) saturate(125%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--gold-100);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .stat-card p {
+      color: var(--muted-light);
+      line-height: 1.68;
+      font-size: 0.93rem;
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .benefit-strip {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1.1rem;
+    }
+
+    .benefit-pill {
+      padding: 0.95rem 1rem;
+      border-radius: 18px;
+      border: 1px solid var(--line-light);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted-light);
+      font-size: 0.93rem;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .section-light .benefit-pill {
+      border-color: var(--line-dark);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted-dark);
+    }
+
+    .card {
+      padding: 1.1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line-light);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .section-light .card {
+      background: rgba(255, 255, 255, 0.74);
+      border-color: var(--line-dark);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
+    }
+
+    .card-icon {
+      width: 2.7rem;
+      height: 2.7rem;
+      margin-bottom: 0.9rem;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(184,146,79,0.16), rgba(184,146,79,0.08));
+      color: var(--gold-100);
+      border: 1px solid rgba(184, 146, 79, 0.22);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .section-light .card-icon {
+      color: var(--gold-500);
+      background: rgba(184, 146, 79, 0.1);
+    }
+
+    .card h3 {
+      margin-bottom: 0.6rem;
+    }
+
+    .card p {
+      color: var(--muted-light);
+      line-height: 1.72;
+      font-size: 0.94rem;
+    }
+
+    .split-grid {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .method-panel,
+    .proof-panel,
+    .cta-panel,
+    .contact-panel {
+      padding: 1.15rem;
+      border-radius: 24px;
+      border: 1px solid var(--line-light);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(128%);
+      -webkit-backdrop-filter: blur(14px) saturate(128%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), var(--shadow-soft);
+    }
+
+    .method-list,
+    .contact-list {
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .method-list li,
+    .contact-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      color: var(--muted-light);
+      line-height: 1.68;
+      font-size: 0.94rem;
+    }
+
+    .section-light .method-list li,
+    .section-light .contact-list li {
+      color: var(--muted-dark);
+    }
+
+    .method-list li::before,
+    .contact-list li::before {
+      content: "";
+      width: 0.55rem;
+      height: 0.55rem;
+      margin-top: 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      flex: none;
+    }
+
+    .proof-photo {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line-light);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .proof-photo img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .testimonial {
+      padding: 1.15rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line-dark);
+      background: rgba(255,255,255,0.74);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px) saturate(118%);
+      -webkit-backdrop-filter: blur(12px) saturate(118%);
+    }
+
+    .testimonial p {
+      color: var(--muted-dark);
+      line-height: 1.75;
+      font-size: 0.94rem;
+    }
+
+    .testimonial-footer {
+      margin-top: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .avatar {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      color: var(--navy-950);
+      font-weight: 800;
+      flex: none;
+      font-size: 0.88rem;
+    }
+
+    .testimonial-footer strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 0.12rem;
+      font-size: 0.96rem;
+    }
+
+    .testimonial-footer span {
+      color: var(--muted-dark);
+      font-size: 0.88rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .mid-cta {
+      margin-top: 1.5rem;
+      padding: 1.2rem;
+      border-radius: 24px;
+      border: 1px solid rgba(184, 146, 79, 0.22);
+      background: linear-gradient(135deg, rgba(184,146,79,0.18), rgba(255,255,255,0.06));
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px) saturate(125%);
+      -webkit-backdrop-filter: blur(14px) saturate(125%);
+    }
+
+    .mid-cta p {
+      margin-top: 0.55rem;
+      color: var(--muted-light);
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+
+    .section-light .mid-cta p {
+      color: var(--muted-dark);
+    }
+
+    .mid-cta-actions {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .contact-panel.light {
+      background: rgba(255, 255, 255, 0.76);
+      border-color: var(--line-dark);
+      color: var(--ink);
+      backdrop-filter: blur(14px) saturate(118%);
+      -webkit-backdrop-filter: blur(14px) saturate(118%);
+    }
+
+    .contact-panel.light .copy,
+    .contact-panel.light .meta,
+    .contact-panel.light li {
+      color: var(--muted-dark);
+    }
+
+    .field {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .field label {
+      font-weight: 700;
+      color: inherit;
+      font-size: 0.92rem;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(18, 56, 91, 0.14);
+      background: rgba(255,255,255,0.96);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 8rem;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .menu-toggle:focus-visible,
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--gold-500);
+      outline-offset: 3px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line-light);
+      background: linear-gradient(180deg, rgba(11,34,57,0.96), rgba(8,25,41,0.98));
+      padding: 2rem 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 1.35rem;
+    }
+
+    .footer p,
+    .footer a,
+    .footer li {
+      color: var(--muted-light);
+      line-height: 1.72;
+      font-size: 0.92rem;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 0.38rem;
+    }
+
+    .footer-bottom {
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line-light);
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .content-visibility {
+      content-visibility: auto;
+      contain-intrinsic-size: 900px;
+    }
+
+    @media (min-width: 640px) {
+      .container {
+        width: min(var(--container), calc(100% - 2rem));
+      }
+
+      .section {
+        padding: 5.25rem 0;
+      }
+
+      .hero {
+        padding: 1.8rem 0 4.2rem;
+      }
+
+      .hero-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .hero-portrait img {
+        height: 520px;
+      }
+
+      .stat-row,
+      .card-grid,
+      .benefit-strip,
+      .testimonial-grid,
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .mid-cta-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 900px) {
+      .header-utility {
+        display: block;
+      }
+
+      .nav-links {
+        display: inline-flex;
+      }
+
+      .menu-toggle,
+      .mobile-menu {
+        display: none !important;
+      }
+
+      .hero-grid,
+      .split-grid,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.4rem;
+        align-items: center;
+      }
+
+      .hero-copy {
+        order: 1;
+      }
+
+      .hero-visual {
+        order: 2;
+      }
+
+      .hero {
+        padding: 2.8rem 0 5.2rem;
+      }
+
+      .hero-grid {
+        gap: 2rem;
+      }
+
+      .hero-copy {
+        gap: 1.25rem;
+      }
+
+      .hero-actions {
+        max-width: 31rem;
+      }
+
+      .hero-portrait img {
+        height: 690px;
+      }
+
+      .card-grid.three,
+      .testimonial-grid,
+      .footer-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card-grid.four {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1120px) {
+      .footer-grid {
+        grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
-<body class="bg-[#FBFBFF] text-slate-900 antialiased">
-    <a href="#conteudo" class="skip-link">Pular para o conteudo</a>
+<body>
+  <a href="#conteudo" class="skip-link">Pular para o conteudo</a>
 
-    <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-xl border-b border-white/70 shadow-[0_10px_40px_-30px_rgba(15,23,42,0.55)]" aria-label="Navegacao principal">
-        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="premium-lockup rounded-full p-3">
-                    <img src="logo-cetadmi-lange.png" alt="Logo CETADMI" width="174" height="56" class="h-12 w-auto object-contain" fetchpriority="high" decoding="async">
-                </div>
-                <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
-                <span class="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-bold hidden sm:block leading-tight">Direção de <br>Ensino</span>
-            </div>
-            <div class="flex items-center gap-6 md:gap-10 text-[11px] font-bold uppercase tracking-widest text-slate-500">
-                <a href="#sobre" class="hidden md:block transition-colors hover:text-gold">Sobre</a>
-                <a href="#atuacao" class="hidden md:block transition-colors hover:text-gold">Atuação</a>
-                <a href="#pilares" class="hidden md:block transition-colors hover:text-gold">Pilares</a>
-                <a href="https://cetadmi.vercel.app/" class="bg-navy text-white px-6 py-3 rounded-sm hover:bg-slate-800 transition-colors shadow-md btn-premium">Inscrições</a>
-            </div>
+  <div class="header-utility">
+    <div class="container header-utility-inner">
+      <span>Formacao teologica, eventos e ensino biblico com direcao e clareza.</span>
+      <a href="https://cetadmi.vercel.app/evento/6-simposio-da-ebd">Ver evento em destaque</a>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container nav">
+      <a href="#topo" class="brand" aria-label="CETADMI">
+        <img src="logo-cetadmi.png" alt="Logo CETADMI" width="540" height="541" />
+        <div class="brand-text">
+          <strong>CETADMI</strong>
+          <span>Direcao de Ensino</span>
         </div>
-    </nav>
+      </a>
 
-    <main id="conteudo">
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#visao">Visao</a>
+        <a href="#metodo">Metodo</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#institucional">Institucional</a>
+        <a href="#contato">Contato</a>
+      </nav>
 
-    <!-- HERO SECTION -->
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div class="hero-sheen"></div>
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-slate-100/80 -z-10 skew-x-12 translate-x-20"></div>
-        <div class="section-glow w-72 h-72 -top-10 left-0" style="background: rgba(197, 160, 89, 0.2);"></div>
-        <div class="section-glow w-96 h-96 top-16 right-8" style="background: rgba(10, 25, 47, 0.1);"></div>
-        
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-            <div class="z-10 order-2 lg:order-1">
-                <div class="inline-flex items-center gap-3 mb-6 rounded-full border border-slate-200/80 bg-white/70 px-4 py-2 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.45)] backdrop-blur-md">
-                    <span class="h-px w-8 bg-gold"></span>
-                    <span class="text-gold-strong font-bold tracking-[0.3em] uppercase text-xs">Referência em Ensino</span>
-                </div>
-                <h1 class="hero-name text-6xl lg:text-8xl text-navy leading-[1.1] mb-8">
-                    Pr. Alex Vieira
-                </h1>
-                <p class="text-xl text-slate-600 leading-relaxed mb-12 max-w-lg font-light">
-                    <strong class="text-navy font-semibold">Diretor de Ensino da CETADMI.</strong> <br>
-                    Liderando a formação teológica com excelência, zelo e compromisso inegociável com a sã doutrina.
-                </p>
-                <div class="flex flex-wrap gap-5">
-                    <a href="https://cetadmi.eadplataforma.app/" class="hero-cta bg-navy text-white px-10 py-5 rounded-sm font-bold hover:bg-slate-800 transition-colors flex items-center gap-3 group btn-premium shadow-xl">
-                        Conhecer Cursos 
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
-                    <a href="https://cetadmi.vercel.app/" class="hero-cta bg-white text-navy border border-slate-200 px-10 py-5 rounded-sm font-bold hover:border-gold transition-colors btn-premium shadow-sm text-center">
-                        Plataforma de Inscrição
-                    </a>
-                </div>
-                <div class="mt-10 grid gap-4 sm:grid-cols-3 max-w-3xl">
-                    <div class="stat-chip rounded-2xl px-5 py-4">
-                        <p class="text-[11px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Ensino</p>
-                        <p class="text-navy font-semibold">Curadoria doutrinária com clareza e consistência.</p>
-                    </div>
-                    <div class="stat-chip rounded-2xl px-5 py-4">
-                        <p class="text-[11px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Liderança</p>
-                        <p class="text-navy font-semibold">Formação voltada para serviço, caráter e direção.</p>
-                    </div>
-                    <div class="stat-chip rounded-2xl px-5 py-4">
-                        <p class="text-[11px] uppercase tracking-[0.22em] text-slate-400 font-bold mb-2">Propósito</p>
-                        <p class="text-navy font-semibold">Profundidade bíblica aplicada ao ministério real.</p>
-                    </div>
-                </div>
+      <div class="nav-actions">
+        <a href="https://cetadmi.eadplataforma.app/courses" class="btn btn-primary" style="display:none" id="desktopCta">Ver cursos</a>
+        <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path id="menuIcon" d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="container mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-panel">
+        <a href="#visao">Visao</a>
+        <a href="#metodo">Metodo</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#institucional">Institucional</a>
+        <a href="#contato">Contato</a>
+        <a href="https://cetadmi.eadplataforma.app/courses" class="btn btn-primary menu-cta">Ver cursos</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="topo">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Formacao teologica com rigor biblico</span>
+          <h1>Prepare-se para ensinar, liderar e servir com mais firmeza na Palavra.</h1>
+          <p class="lead">A CETADMI oferece uma formacao teologica clara, responsavel e aplicada ao ministerio para quem nao quer apenas estudar, mas crescer com fundamento biblico e coerencia doutrinaria.</p>
+
+          <div class="cta-inline">Acesso imediato ao catalogo de cursos e ao ecossistema institucional.</div>
+
+          <div class="hero-actions">
+            <a href="https://cetadmi.eadplataforma.app/courses" class="btn btn-primary">Quero iniciar minha formacao</a>
+            <a href="https://cetadmi.vercel.app/" class="btn btn-secondary">Conhecer a instituicao</a>
+          </div>
+
+          <div class="hero-info">
+            <div class="info-chip">
+              <div>
+                <strong style="display:block; margin-bottom:0.25rem; color:var(--white); font-size:0.96rem;">Beneficio direto para o aluno</strong>
+                <span class="meta">Aprenda com clareza, fortaleça sua base doutrinaria e desenvolva seguranca para ensinar melhor.</span>
+              </div>
             </div>
-
-            <div class="relative order-1 lg:order-2">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-navy rounded-full opacity-5 blur-3xl"></div>
-                <div class="absolute inset-8 rounded-[3rem] border border-white/50 bg-white/25 backdrop-blur-[2px] -z-10"></div>
-                <div class="absolute -right-6 top-10 h-40 w-40 rounded-[2rem] border border-white/40 image-accent-grid opacity-60"></div>
-                
-                <!-- FOTO RETRATO PNG -->
-                <img src="alex-retrato-lange.png" alt="Pr. Alex Vieira" width="1200" height="1500" class="relative z-10 w-full h-auto float-animation drop-shadow-2xl" fetchpriority="high" decoding="async">
-                
-                <!-- SELO DE QUALIDADE NO HERO -->
-                <div class="hero-photo-seal absolute -top-10 right-0 premium-seal w-24 h-24 z-20 float-animation" style="animation-delay: 1s;">
-                    <img src="logo-cetadmi-lange.png" alt="" width="64" height="64" class="h-16 w-16 object-contain" decoding="async">
-                </div>
-
-                <div class="hero-badge-card absolute -bottom-6 -left-6 premium-lockup p-6 z-20 max-w-[240px] border-l-8 border-gold rounded-2xl">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-bold mb-2">Liderança CETADMI</p>
-                    <p class="text-lg text-navy font-bold leading-tight">Diretor de Ensino</p>
-                </div>
+            <div class="info-chip">
+              <div>
+                <strong style="display:block; margin-bottom:0.25rem; color:var(--white); font-size:0.96rem;">Decisao simples para agir hoje</strong>
+                <span class="meta">Acesse os cursos agora, conheca o portal institucional e avance para a proxima etapa da sua vocacao.</span>
+              </div>
             </div>
+          </div>
         </div>
+
+        <div class="hero-visual">
+          <div class="hero-portrait">
+            <img src="alex-retrato.webp" alt="Pr. Alex Vieira" width="1024" height="1024" />
+            <div class="hero-caption">
+              <span>Diretor de Ensino CETADMI</span>
+              <strong>Pr. Alex Vieira</strong>
+              <p>Formacao teologica com coerencia doutrinaria, orientacao academica e foco ministerial para uma igreja fortalecida pela verdade da Palavra.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container stat-row">
+        <article class="stat-card">
+          <strong>Clareza no ensino</strong>
+          <p>Conteudos organizados para ajudar o aluno a compreender melhor, ensinar melhor e servir com mais seguranca.</p>
+        </article>
+        <article class="stat-card">
+          <strong>Aplicacao ministerial</strong>
+          <p>Formacao pensada para o contexto real da igreja, da Escola Biblica e do trabalho cristao cotidiano.</p>
+        </article>
+        <article class="stat-card">
+          <strong>Comece sem demora</strong>
+          <p>Portal institucional, eventos e catalogo de cursos conectados para facilitar sua decisao e seu proximo passo.</p>
+        </article>
+      </div>
     </section>
 
-    <!-- SEÇÃO SOBRE -->
-    <section id="sobre" class="py-24 bg-white/80">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <div class="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 mb-8 shadow-[0_12px_32px_-26px_rgba(15,23,42,0.4)]">
-                <span class="h-px w-8 bg-gold"></span>
-                <span class="text-gold-strong font-bold tracking-[0.24em] uppercase text-xs">Essência da Direção</span>
-            </div>
-            <h2 class="text-4xl lg:text-5xl text-navy mb-10">Compromisso com a Verdade</h2>
-            <p class="text-xl text-slate-600 leading-relaxed font-light">
-                A gestão do <span class="text-navy font-semibold">Pr. Alex Vieira</span> na CETADMI é pautada na convicção de que o ensino bíblico deve unir profundidade acadêmica e fervor espiritual. Sua missão é capacitar obreiros e líderes, assegurando que a formação teológica seja a base para um ministério frutífero e fiel.
-            </p>
+    <section class="section section-light content-visibility" id="visao">
+      <div class="container about-grid split-grid" style="align-items:start;">
+        <div class="section-head" style="margin-bottom:0;">
+          <span class="eyebrow">A visao CETADMI</span>
+          <h2>O ensino teologico precisa servir ao altar, a igreja e a missao.</h2>
         </div>
+
+        <div style="display:grid; gap:0.9rem;">
+          <p class="copy">A CETADMI trabalha para unir conhecimento biblico, clareza doutrinaria e maturidade espiritual. O objetivo nao e apenas transmitir informacao, mas formar pessoas capazes de ensinar melhor, responder melhor e servir com mais consistencia.</p>
+          <p class="copy">Sob a direcao do Pr. Alex Vieira, a proposta e oferecer uma trilha de estudo firme, reverente e aplicavel, respeitando o compromisso com as Escrituras e com a edificacao da igreja.</p>
+        </div>
+      </div>
+
+      <div class="container" style="margin-top:1.6rem;">
+        <div class="card-grid four">
+          <article class="card">
+            <div class="card-icon">01</div>
+            <h3>Ensino biblico</h3>
+            <p>Centralidade das Escrituras em cada disciplina, modulo e processo formativo.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">02</div>
+            <h3>Sa doutrina</h3>
+            <p>Clareza no conteudo para evitar superficialidade e fortalecer a fe com fundamento.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">03</div>
+            <h3>Maturidade</h3>
+            <p>Preparacao que ajuda o aluno a sustentar o ministerio com equilibrio e constancia.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">04</div>
+            <h3>Servico</h3>
+            <p>Formacao conectada ao cuidado da igreja, ao ensino e a vida ministerial pratica.</p>
+          </article>
+        </div>
+
+        <div class="benefit-strip">
+          <div class="benefit-pill">Fortaleça sua leitura biblica com mais ordem e entendimento.</div>
+          <div class="benefit-pill">Ganhe seguranca para ensinar, responder e servir com mais clareza.</div>
+          <div class="benefit-pill">Estude em uma plataforma simples, objetiva e pronta para sua jornada.</div>
+          <div class="benefit-pill">Avance hoje para uma formacao que une doutrina, metodo e aplicacao.</div>
+        </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO ATUAÇÃO -->
-    <section id="atuacao" class="py-24 bg-slate-50 relative overflow-hidden">
-        <div class="section-glow w-80 h-80 top-10 -right-12" style="background: rgba(197, 160, 89, 0.15);"></div>
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
-                <div class="grid grid-cols-1 gap-8 order-2 lg:order-1">
-                    <div class="group lift-card bg-white/85 p-10 rounded-2xl shadow-lg border border-white border-l-0 border-gold transition-[border-width,box-shadow,transform] duration-300 hover:border-l-4">
-                        <h3 class="text-2xl text-navy mb-4 font-bold">Rigor Teológico</h3>
-                        <p class="text-slate-600 leading-relaxed">Supervisão de cada módulo curricular para garantir total alinhamento com as Escrituras.</p>
-                    </div>
-                    <div class="group lift-card bg-white/85 p-10 rounded-2xl shadow-lg border border-white border-l-0 border-gold transition-[border-width,box-shadow,transform] duration-300 hover:border-l-4">
-                        <h3 class="text-2xl text-navy mb-4 font-bold">Formação de Líderes</h3>
-                        <p class="text-slate-600 leading-relaxed">Desenvolvimento de metodologias de ensino focadas na prática ministerial e liderança.</p>
-                    </div>
-                    <div class="group lift-card bg-white/85 p-10 rounded-2xl shadow-lg border border-white border-l-0 border-gold transition-[border-width,box-shadow,transform] duration-300 hover:border-l-4">
-                        <h3 class="text-2xl text-navy mb-4 font-bold">Excelência Acadêmica</h3>
-                        <p class="text-slate-600 leading-relaxed">Integração entre a visão institucional da CETADMI e a entrega pedagógica de alto nível.</p>
-                    </div>
-                </div>
-                <div class="order-1 lg:order-2">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="h-px w-8 bg-gold"></span>
-                    <span class="text-gold-strong font-bold tracking-widest uppercase text-xs">Direção de Ensino</span>
-                </div>
-                    <h2 class="text-5xl text-navy leading-tight mb-8">Zelo Pedagógico e <br>Visão Ministerial</h2>
-                    <p class="text-lg text-slate-600 leading-relaxed mb-10 font-light">
-                        A Direção de Ensino atua como a guardiã da qualidade do conteúdo. O objetivo é prover ferramentas que não apenas informem, mas transformem a vida do aluno através da Palavra de Deus.
-                    </p>
-                    <div class="h-1 w-24 bg-gold"></div>
-                </div>
-            </div>
+    <section class="section content-visibility" id="metodo">
+      <div class="container split-grid">
+        <div class="method-panel">
+          <div class="section-head" style="margin-bottom:0;">
+            <span class="eyebrow">Metodo formativo</span>
+            <h2>Uma trilha clara para sair da curiosidade e chegar a conviccao.</h2>
+          </div>
         </div>
+
+        <div class="method-panel">
+          <p class="copy">A jornada de estudo e estruturada para conduzir o aluno por fundamentos, leitura aplicada e preparo para servir com mais seguranca no ensino e no ministerio.</p>
+          <ul class="method-list">
+            <li>Base doutrinaria para evitar um aprendizado fragmentado e sem eixo biblico.</li>
+            <li>Leitura aplicada com contexto, interpretacao e compromisso com a verdade.</li>
+            <li>Formacao para o servico, orientada a professores, obreiros e lideres.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO AUTORIDADE VISUAL -->
-    <section class="py-24 bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="relative group">
-                <div class="absolute -inset-8 rounded-[3rem] bg-gradient-to-r from-[#f4efe3] via-white to-slate-100 opacity-80 blur-2xl"></div>
-                <div class="feature-image-card photo-container h-[650px]">
-                    <img src="alex-simposio-lange.jpg" class="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105" alt="Pr. Alex Vieira no 3º Simpósio de EBD" width="1600" height="1067" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/70 via-[#0A192F]/25 to-white/5"></div>
-                    <div class="absolute right-10 top-10 hidden md:block h-24 w-24 rounded-[1.75rem] border border-white/25 bg-white/10 backdrop-blur-md"></div>
-                    <div class="feature-image-overlay absolute bottom-12 left-12 max-w-xl glass-overlay p-10 rounded-3xl transform transition-transform duration-500 group-hover:-translate-y-2">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="bg-gold text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest">Experiência e Prática</span>
-                        </div>
-                        <h2 class="text-3xl lg:text-4xl text-navy mb-6 leading-tight font-bold">
-                            Presença Ativa na Formação <br>do Corpo de Cristo
-                        </h2>
-                        <p class="text-slate-700 text-lg leading-relaxed font-medium">
-                            A atuação do Pr. Alex Vieira é marcada pelo envolvimento direto em eventos de alta relevância, como o <strong class="text-navy">3º Simpósio de EBD</strong>, onde a troca de conhecimentos e a formação de obreiros são a prioridade máxima.
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <section class="section section-light content-visibility" id="cursos">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Cursos em destaque</span>
+          <h2>Trilhas reais da plataforma CETADMI para aprofundar conhecimento e vocacao.</h2>
+          <p>Conteudos organizados para fortalecer leitura biblica, doutrina e capacidade de ensino com uma experiencia simples, objetiva e acessivel.</p>
         </div>
+
+        <div class="card-grid four">
+          <a href="https://cetadmi.eadplataforma.app/curso/bibliologia-679a340647ceb" class="card">
+            <div class="card-icon">120h</div>
+            <h3>Bibliologia</h3>
+            <p>Fundamentos para compreender a autoridade, a confianca e a centralidade das Escrituras.</p>
+          </a>
+          <a href="https://cetadmi.eadplataforma.app/curso/soteriologia-67ae0fafe730c" class="card">
+            <div class="card-icon">120h</div>
+            <h3>Soteriologia</h3>
+            <p>Doutrina da salvacao com clareza biblica, ordem teologica e aplicacao ministerial.</p>
+          </a>
+          <a href="https://cetadmi.eadplataforma.app/curso/cristologia-67bbab921f850" class="card">
+            <div class="card-icon">120h</div>
+            <h3>Cristologia</h3>
+            <p>Estudo da pessoa e da obra de Cristo como centro da fe e da proclamacao do evangelho.</p>
+          </a>
+          <a href="https://cetadmi.eadplataforma.app/curso/homiletica-683f0f9c1560b" class="card">
+            <div class="card-icon">20h</div>
+            <h3>Homiletica</h3>
+            <p>Curso estrategico para quem deseja comunicar a Palavra com ordem, reverencia e clareza.</p>
+          </a>
+        </div>
+
+        <div style="margin-top:1.15rem; display:flex; justify-content:center;">
+          <a href="https://cetadmi.eadplataforma.app/courses" class="btn btn-primary" style="min-width:min(100%, 340px);">Garantir acesso ao catalogo completo</a>
+        </div>
+
+        <div class="mid-cta">
+          <span class="eyebrow">Momento de avancar</span>
+          <h3 style="margin-top:0.7rem;">Nao adie uma formacao que pode fortalecer seu ensino e seu ministerio.</h3>
+          <p>Se voce deseja crescer com base biblica, clareza doutrinaria e aplicacao real, este e o melhor momento para entrar no catalogo e escolher sua proxima trilha.</p>
+          <div class="mid-cta-actions">
+            <a href="https://cetadmi.eadplataforma.app/courses" class="btn btn-primary">Entrar no catalogo agora</a>
+            <a href="https://cetadmi.vercel.app/evento/6-simposio-da-ebd" class="btn btn-secondary">Ver evento e conhecer mais</a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- PILARES -->
-    <section id="pilares" class="py-24 bg-navy text-white relative overflow-hidden">
-        <div class="section-glow bg-white/10 w-96 h-96 -top-24 -left-24"></div>
-        <div class="section-glow w-80 h-80 bottom-0 right-0" style="background: rgba(197, 160, 89, 0.1);"></div>
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="text-4xl lg:text-5xl mb-6">Pilares da Direção</h2>
-                <p class="text-slate-400 font-light text-lg max-w-2xl mx-auto">Os fundamentos que regem a educação na CETADMI.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="group lift-card rounded-3xl border border-slate-800 bg-white/5 p-12 transition-colors duration-500 hover:border-gold hover:bg-white/10">
-                    <div class="text-gold text-4xl font-bold mb-8 inline-block">01</div>
-                    <h3 class="text-2xl mb-6 font-bold">Missão</h3>
-                    <p class="text-slate-400 font-light leading-relaxed">Equipar a igreja através de um ensino bíblico sólido e relevante para os dias atuais.</p>
-                </div>
-                <div class="group lift-card rounded-3xl border border-slate-800 bg-white/5 p-12 transition-colors duration-500 hover:border-gold hover:bg-white/10">
-                    <div class="text-gold text-4xl font-bold mb-8 inline-block">02</div>
-                    <h3 class="text-2xl mb-6 font-bold">Visão</h3>
-                    <p class="text-slate-400 font-light leading-relaxed">Ser a principal referência em formação teológica ministerial no ambiente digital.</p>
-                </div>
-                <div class="group lift-card rounded-3xl border border-slate-800 bg-white/5 p-12 transition-colors duration-500 hover:border-gold hover:bg-white/10">
-                    <div class="text-gold text-4xl font-bold mb-8 inline-block">03</div>
-                    <h3 class="text-2xl mb-6 font-bold">Compromisso</h3>
-                    <p class="text-slate-400 font-light leading-relaxed">Fidelidade absoluta às Escrituras e busca incessante pela excelência no ensino.</p>
-                </div>
-            </div>
+    <section class="section content-visibility" id="institucional">
+      <div class="container split-grid">
+        <div class="proof-photo">
+          <img src="alex-simposio.webp" alt="Pr. Alex Vieira em simposio da EBD" width="2048" height="921" />
         </div>
+
+        <div class="proof-panel">
+          <div class="section-head" style="margin-bottom:0;">
+            <span class="eyebrow">Presenca institucional</span>
+            <h2>Formacao conectada a eventos, ensino e vida ministerial real.</h2>
+          </div>
+
+          <p class="copy" style="margin-top:0.95rem;">A CETADMI nao se resume a uma plataforma. Ela se expressa em direcao de ensino, eventos, encontros e iniciativas voltadas ao fortalecimento da Escola Biblica e da igreja.</p>
+          <ul class="method-list">
+            <li>Participacao em eventos e simposios ligados ao ensino biblico.</li>
+            <li>Identidade institucional clara, centrada em formacao, doutrina e servico.</li>
+            <li>Jornada integrada entre portal institucional, evento e ambiente de cursos.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- MENSAGEM -->
-    <section class="py-24 bg-white">
-        <div class="max-w-3xl mx-auto px-6 text-center">
-            <div class="mb-10 inline-block relative">
-                <img src="alex-retrato-lange.png" class="w-28 h-28 rounded-full border-4 border-white shadow-2xl object-cover mx-auto" alt="Pr. Alex Vieira" width="112" height="112" loading="lazy" decoding="async">
-                <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gold text-white p-2 rounded-full shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19C19.5523 16 20 15.5523 20 15V9C20 8.44772 19.5523 8 19 8H15C14.4477 8 14 8.44772 14 9V12C14 12.5523 13.5523 13 13 13H11C10.4477 13 10 12.5523 10 12V9C10 7.89543 10.8954 7 12 7H16C17.1046 7 18 7.89543 18 9V15C18 16.1046 17.1046 17 16 17H14.017V21Z" />
-                    </svg>
-                </div>
-            </div>
-            <div class="quote-panel rounded-[2rem] border border-slate-100 px-8 py-12 md:px-14 shadow-[0_24px_50px_rgba(10,25,47,0.08)]">
-                <h2 class="text-3xl text-navy mb-10 font-bold">Mensagem do Diretor</h2>
-                <blockquote class="text-3xl text-slate-700 italic font-light leading-relaxed mb-10">
-                    "O ensino bíblico não visa apenas a acumulação de conhecimento, mas a formação de um caráter cristão sólido. Nosso compromisso na CETADMI é caminhar lado a lado com cada aluno."
-                </blockquote>
-                <p class="text-navy font-bold uppercase tracking-widest text-sm">Pr. Alex Vieira</p>
-            </div>
+    <section class="section section-light content-visibility" id="depoimentos">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Percepcao e impacto</span>
+          <h2>Uma proposta de ensino pensada para fortalecer a igreja com seriedade.</h2>
+          <p>Clareza, organizacao e fidelidade biblica sao os pilares que tornam a formacao mais proveitosa para quem ensina, aprende e serve.</p>
         </div>
+
+        <div class="testimonial-grid">
+          <article class="testimonial">
+            <p>"A proposta da CETADMI transmite ordem, respeito ao conteudo biblico e senso de responsabilidade com quem deseja ensinar melhor."</p>
+            <div class="testimonial-footer">
+              <div class="avatar">EB</div>
+              <div>
+                <strong>Escola Biblica</strong>
+                <span>Foco em fundamento e clareza</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial">
+            <p>"A jornada formativa e objetiva, mas sem superficialidade. Isso gera mais seguranca para o aluno e mais valor para a igreja."</p>
+            <div class="testimonial-footer">
+              <div class="avatar">FM</div>
+              <div>
+                <strong>Formacao Ministerial</strong>
+                <span>Aplicacao real ao servico cristao</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testimonial">
+            <p>"A identidade institucional comunica reverencia, direcao e compromisso com a Palavra, sem excesso visual e com boa experiencia de leitura."</p>
+            <div class="testimonial-footer">
+              <div class="avatar">IT</div>
+              <div>
+                <strong>Identidade Teologica</strong>
+                <span>Ensino com maturidade e ordem</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- CTA FINAL -->
-    <section class="py-24 bg-slate-100 border-t border-slate-200">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <div class="relative overflow-hidden rounded-[2.5rem] border border-white bg-gradient-to-br from-white via-[#faf8f3] to-slate-100 px-8 py-14 shadow-[0_35px_80px_-45px_rgba(15,23,42,0.42)] md:px-14">
-                <div class="section-glow w-64 h-64 -top-16 -left-10" style="background: rgba(197, 160, 89, 0.2);"></div>
-                <div class="section-glow w-72 h-72 -bottom-16 right-0" style="background: rgba(10, 25, 47, 0.1);"></div>
-                <h2 class="text-5xl text-navy mb-8 leading-tight relative">Inicie sua Jornada de <br>Formação Ministerial</h2>
-                <p class="text-xl text-slate-600 mb-12 font-light relative">
-                    Una-se aos líderes que estão elevando seu nível de conhecimento sob a direção da CETADMI.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-6 relative">
-                    <a href="https://cetadmi.eadplataforma.app/" class="bg-navy text-white px-12 py-5 rounded-sm font-bold hover:bg-slate-800 transition-colors btn-premium shadow-xl">
-                        Ver Cursos Disponíveis
-                    </a>
-                    <a href="https://cetadmi.vercel.app/" class="bg-gold text-white px-12 py-5 rounded-sm font-bold hover:bg-yellow-600 transition-colors btn-premium shadow-xl">
-                        Fazer Inscrição Agora
-                    </a>
-                </div>
-            </div>
+    <section class="section content-visibility" id="contato">
+      <div class="container contact-grid">
+        <div class="cta-panel">
+          <div class="section-head" style="margin-bottom:0;">
+            <span class="eyebrow">Proximo passo</span>
+            <h2>Sua vocacao merece uma preparacao seria, clara e pronta para gerar fruto.</h2>
+          </div>
+
+          <p class="copy" style="margin-top:0.95rem;">Se voce busca formacao teologica com fundamento biblico, responsabilidade no ensino e aplicacao ministerial real, avance agora para o catalogo e escolha o curso que vai fortalecer sua caminhada.</p>
+
+          <div class="hero-actions" style="margin-top:1rem;">
+            <a href="https://cetadmi.eadplataforma.app/courses" class="btn btn-primary">Escolher meu curso agora</a>
+            <a href="https://cetadmi.vercel.app/" class="btn btn-secondary">Falar com a instituicao</a>
+          </div>
         </div>
+
+        <div class="contact-panel light">
+          <div class="section-head" style="margin-bottom:0;">
+            <span class="eyebrow">Contato</span>
+            <h2>Fale com a CETADMI</h2>
+          </div>
+
+          <ul class="contact-list">
+            <li>Portal institucional para inscricoes, informacoes e eventos.</li>
+            <li>Catalogo de cursos com acesso direto a trilhas ativas na plataforma.</li>
+            <li>Evento em destaque conectado ao ecossistema de ensino da instituicao.</li>
+          </ul>
+
+          <div style="margin-top:0.95rem; display:grid; gap:0.8rem;">
+            <a href="https://cetadmi.vercel.app/" class="btn btn-primary">Abrir portal institucional</a>
+            <a href="https://cetadmi.vercel.app/evento/6-simposio-da-ebd" class="btn btn-secondary" style="color:var(--ink); border-color:rgba(18,56,91,0.14); background:rgba(18,56,91,0.04);">Ver evento em destaque</a>
+          </div>
+        </div>
+      </div>
     </section>
+  </main>
 
-    </main>
+  <footer class="footer content-visibility">
+    <div class="container footer-grid">
+      <div>
+        <a href="#topo" class="brand" style="margin-bottom:1rem; display:inline-flex;">
+          <img src="logo-cetadmi.png" alt="Logo CETADMI" width="540" height="541" />
+          <div class="brand-text">
+            <strong>CETADMI</strong>
+            <span>Direcao de Ensino</span>
+          </div>
+        </a>
+        <p>Centro de Treinamento e Aperfeicoamento Doutrinario com foco em formacao biblica, clareza teologica e preparo ministerial.</p>
+      </div>
 
-    <!-- FOOTER PADRONIZADO COM SELO DE DESTAQUE -->
-    <footer class="bg-navy text-white py-20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-12 border-b border-slate-800 pb-16">
-                <div class="text-center md:text-left flex flex-col md:flex-row items-center gap-8">
-                    <!-- LOGO COM EFEITO DE SELO NO RODAPÉ -->
-                    <div class="premium-seal w-28 h-28 flex-shrink-0">
-                        <img src="logo-cetadmi-lange.png" alt="Logo CETADMI" width="80" height="80" class="h-20 w-20 object-contain" loading="lazy" decoding="async">
-                    </div>
-                    <div>
-                        <div class="text-3xl font-bold tracking-tighter mb-3">CETADMI</div>
-                        <p class="text-slate-400 text-sm uppercase tracking-widest font-medium">Centro de Treinamento e Aperfeiçoamento Doutrinário</p>
-                    </div>
-                </div>
-                <div class="flex gap-10 text-xs font-bold uppercase tracking-widest text-slate-400">
-                    <a href="https://cetadmi.eadplataforma.app/" class="hover:text-white transition-colors">Portal Institucional</a>
-                    <a href="https://cetadmi.vercel.app/" class="hover:text-white transition-colors">Portal de Inscrições</a>
-                </div>
-            </div>
-            <div class="pt-10 text-center text-slate-500 text-[10px] uppercase tracking-[0.3em]">
-                &copy; 2026 CETADMI. Excellence in Biblical Education.
-            </div>
+      <div>
+        <strong style="display:block; margin-bottom:0.7rem; color:var(--white);">Navegacao</strong>
+        <div class="footer-links">
+          <a href="#visao">Visao</a>
+          <a href="#metodo">Metodo</a>
+          <a href="#cursos">Cursos</a>
         </div>
-    </footer>
+      </div>
 
+      <div>
+        <strong style="display:block; margin-bottom:0.7rem; color:var(--white);">Ecossistema</strong>
+        <div class="footer-links">
+          <a href="https://cetadmi.vercel.app/">Portal institucional</a>
+          <a href="https://cetadmi.vercel.app/evento/6-simposio-da-ebd">Evento</a>
+          <a href="https://cetadmi.eadplataforma.app/courses">Catalogo</a>
+        </div>
+      </div>
+
+      <div>
+        <strong style="display:block; margin-bottom:0.7rem; color:var(--white);">Acesso rapido</strong>
+        <div class="footer-links">
+          <a href="#contato">Contato</a>
+          <a href="https://cetadmi.eadplataforma.app/courses">Ver cursos</a>
+          <a href="#topo">Voltar ao topo</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      &copy; 2026 CETADMI. Formacao teologica com rigor, clareza e compromisso com a Palavra.
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+    const desktopCta = document.getElementById('desktopCta');
+
+    function syncDesktopCta() {
+      if (!desktopCta) return;
+      desktopCta.style.display = window.innerWidth >= 900 ? 'inline-flex' : 'none';
+    }
+
+    function setMenu(open) {
+      if (!menuToggle || !mobileMenu || !menuIcon) return;
+      mobileMenu.classList.toggle('open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      menuIcon.setAttribute('d', open ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16');
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    syncDesktopCta();
+    setMenu(false);
+
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const open = menuToggle.getAttribute('aria-expanded') === 'true';
+        setMenu(!open);
+      });
+    }
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => setMenu(false));
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setMenu(false);
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      syncDesktopCta();
+      if (window.innerWidth >= 900) {
+        setMenu(false);
+      }
+    });
+  </script>
 </body>
 </html>
