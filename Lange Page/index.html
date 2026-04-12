@@ -85,12 +85,6 @@
     
     .float-animation { animation: float 6s ease-in-out infinite; }
     @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-
-    /* Ajustes Mobile Específicos */
-    @media (max-width: 768px) {
-      .feature-visual { min-height: 430px; }
-      .feature-overlay { margin: -1.5rem 1rem 1rem; position: relative; max-width: none; left: auto; right: auto; bottom: auto; }
-    }
   </style>
 </head>
 
@@ -124,7 +118,7 @@
       </button>
     </div>
 
-    <div id="mobile-menu" class="hidden absolute top-0 left-0 w-full h-screen bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 text-lg font-bold uppercase tracking-widest text-navy z-10">
+    <div id="mobile-menu" class="hidden fixed inset-0 w-full h-screen bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 text-lg font-bold uppercase tracking-widest text-navy z-10">
       <a href="#sobre" class="mobile-link hover:text-gold transition-colors">Sobre</a>
       <a href="#atuacao" class="mobile-link hover:text-gold transition-colors">Atuação</a>
       <a href="#pilares" class="mobile-link hover:text-gold transition-colors">Pilares</a>
@@ -233,26 +227,33 @@
 
     <section class="py-20 lg:py-24 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
-        <div class="relative rounded-[2rem] bg-white overflow-hidden shadow-2xl feature-card">
-          <div class="relative min-h-[400px] lg:min-h-[600px] bg-slate-200">
+        
+        <div class="relative rounded-[2rem] bg-white overflow-hidden shadow-2xl flex flex-col lg:block border border-slate-100">
+          
+          <div class="relative w-full h-[380px] sm:h-[450px] lg:h-[600px] shrink-0">
             <picture>
-              <img src="alex-simposio.jpg" class="absolute inset-0 w-full h-full object-cover object-center" alt="Pr. Alex Vieira palestrando no 3º Simpósio de EBD" loading="lazy" />
+              <img src="alex-simposio.jpg" class="absolute inset-0 w-full h-full object-cover object-top lg:object-center" alt="Pr. Alex Vieira palestrando no 3º Simpósio de EBD" loading="lazy" />
             </picture>
-            <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent lg:from-navy/90 lg:via-navy/40 lg:to-transparent"></div>
           </div>
 
-          <div class="feature-overlay absolute bottom-4 left-4 right-4 lg:bottom-10 lg:left-10 bg-white/95 border border-white/50 p-6 lg:p-10 rounded-xl shadow-xl lg:max-w-xl">
+          <div class="relative z-10 bg-white/95 backdrop-blur-md p-6 sm:p-8 lg:p-10 lg:absolute lg:bottom-10 lg:left-10 lg:max-w-xl lg:border lg:border-white/50 lg:rounded-xl shadow-[0_-10px_30px_rgba(0,0,0,0.1)] lg:shadow-2xl rounded-t-[2rem] lg:rounded-t-xl -mt-12 lg:mt-0">
+            
             <div class="inline-block bg-gold text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-widest mb-4">
               Experiência e Prática
             </div>
-            <h2 class="text-2xl lg:text-4xl font-serif text-navy mb-4 font-bold leading-tight">
-              Presença Ativa na Formação do Corpo de Cristo
+            
+            <h2 class="text-3xl lg:text-4xl font-serif text-navy mb-4 font-bold leading-tight">
+              Presença Ativa na <br class="hidden lg:block">Formação do Corpo de Cristo
             </h2>
-            <p class="text-slate-700 font-medium">
+            
+            <p class="text-slate-700 font-medium leading-relaxed">
               A atuação do Pr. Alex Vieira é marcada pelo envolvimento direto em eventos de alta relevância, como o <strong class="text-navy">3º Simpósio de EBD</strong>, onde a troca de conhecimentos e a formação de obreiros são a prioridade máxima.
             </p>
+
           </div>
         </div>
+
       </div>
     </section>
 
